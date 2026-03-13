@@ -1,0 +1,51 @@
+name: Sync Standard Library Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Docs Repository
+        uses: actions/checkout@v4
+        with:
+          path: 'docs-repo'
+
+      - name: Checkout Website Repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'z-libs/zenc-lang.org'
+          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
+          path: 'website'
+
+      - name: Sync Files to Website Repo
+        run: |
+          rsync -avz --delete --exclude='_index.md' docs-repo/std/ website/docs.zenc-lang.org/content/std/
+          
+          if [ -f "website/docs.zenc-lang.org/content/std/README.md" ]; then
+            mv website/docs.zenc-lang.org/content/std/README.md website/docs.zenc-lang.org/content/std/_index.md
+          fi
+          
+          for file in website/docs.zenc-lang.org/content/std/*.md; do
+            if ! head -n 1 "$file" | grep -q "^+++"; then
+              TITLE=$(grep -m 1 "^# " "$file" | sed 's/^# //; s/"/\\"/g' || echo "Documentation")
+              TEMP=$(mktemp)
+              echo "+++" > "$TEMP"
+              echo "title = \"$TITLE\"" >> "$TEMP"
+              echo "+++" >> "$TEMP"
+              echo "" >> "$TEMP"
+              cat "$file" >> "$TEMP"
+              mv "$TEMP" "$file"
+            fi
+          done
+
+      - name: Commit and Push to Website Repo
+        run: |
+          cd website
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs.zenc-lang.org/content/std/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: auto-sync stdlib documentation from Zen-C-Docs repo" && git push)
