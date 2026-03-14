@@ -1,6 +1,13 @@
 # std/fs
 
-The `fs` module provides functionality for interacting with the file system, including file I/O and directory operations.
+The `std/fs` module provides a comprehensive API for interacting with the file system, including file I/O, directory manipulation, and metadata retrieval.
+
+## Overview
+
+- **Safe Handles**: The `File` struct provides a safe wrapper around raw file handles.
+- **RAII**: File handles are automatically closed when they go out of scope via the `Drop` trait.
+- **Error Handling**: Uses `Result<T>` for all operations that can fail, providing descriptive error messages.
+- **Convenience**: Includes static methods for common tasks like reading or writing an entire file in one call.
 
 ## Usage
 
@@ -8,21 +15,19 @@ The `fs` module provides functionality for interacting with the file system, inc
 import "std/fs.zc"
 
 fn main() {
-    // Reading a file
-    let res = File::open("example.txt", "r");
-    if (res.is_ok()) {
-        let file = res.unwrap();
-        let content = file.read_to_string();
-        if (content.is_ok()) {
-            let s = content.unwrap();
-            println "{s.c_str()}";
-        }
-        file.close();
+    // Basic file reading using RAII
+    match File::read_all("config.txt") {
+        Ok(content) => println "Config: {content}",
+        Err(e) => println "Error reading config: {e}"
     }
-
-    // Static utilities
-    if (File::exists("data")) {
-        println "Data directory exists";
+    
+    // Explicit file handle with automatic closure
+    match File::open("data.log", "a") {
+        Ok(file) => {
+            file.write_string("Log entry\n");
+            // file is closed automatically here
+        }
+        Err(e) => println "Failed to open log: {e}"
     }
 }
 ```
@@ -62,26 +67,38 @@ struct DirEntry {
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **open** | `File::open(path: char*, mode: char*) -> Result<File>` | Opens a file with the specified mode (e.g., "r", "w"). |
-| **close** | `close(self)` | Closes the file handle. |
+| **open** | `File::open(path: char*, mode: char*) -> Result<File>` | Opens a file at `path` with `mode`. |
+| **close** | `close(self)` | Explicitly closes the file handle. |
 
 ### Read / Write
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **read_to_string** | `read_to_string(self) -> Result<String>` | Reads the entire file content into a String. |
-| **read_all** | `File::read_all(path: char*) -> Result<String>` | Static utility to read a file in one go. |
-| **read_lines** | `File::read_lines(path: char*) -> Result<Vec<String>>` | Static utility to read a file into lines. |
+| **read_to_string** | `read_to_string(self) -> Result<String>` | Reads the entire file into a `String`. |
+| **read_all** | `File::read_all(path: char*) -> Result<String>` | Static utility to read a file completely. |
+| **read_lines** | `File::read_lines(path: char*) -> Result<Vec<String>>` | Static utility to read a file into a vector of lines. |
 | **write_string** | `write_string(self, content: char*) -> Result<bool>` | Writes a string to the file. |
-| **write_lines** | `File::write_lines(path: char*, lines: Vec<String>*) -> Result<bool>` | Static utility to write lines to a file. |
+| **write_lines** | `File::write_lines(path: char*, lines: Vec<String>*) -> Result<bool>` | Static utility to write a vector of lines to a file. |
 
-### Static Utilities
+### Path Utilities
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **exists** | `File::exists(path: char*) -> bool` | Checks if a path exists. |
-| **metadata** | `File::metadata(path: char*) -> Result<Metadata>` | Retrieves metadata for a path. |
+| **exists** | `File::exists(path: char*) -> bool` | Returns true if the path exists. |
+| **current_dir** | `File::current_dir() -> Result<String>` | Returns the absolute path of the current working directory. |
+| **metadata** | `File::metadata(path: char*) -> Result<Metadata>` | Retrieves metadata for the specified path. |
+
+### File & Directory Ops
+
+| Method | Signature | Description |
+| :--- | :--- | :--- |
 | **create_dir** | `File::create_dir(path: char*) -> Result<bool>` | Creates a new directory. |
-| **remove_file** | `File::remove_file(path: char*) -> Result<bool>` | Deletes a file. |
-| **remove_dir** | `File::remove_dir(path: char*) -> Result<bool>` | Deletes a directory. |
-| **read_dir** | `File::read_dir(path: char*) -> Result<Vec<DirEntry>>` | Reads directory contents. |
+| **remove_file** | `File::remove_file(path: char*) -> Result<bool>` | Deletes the specified file. |
+| **remove_dir** | `File::remove_dir(path: char*) -> Result<bool>` | Deletes the specified directory (must be empty). |
+| **read_dir** | `File::read_dir(path: char*) -> Result<Vec<DirEntry>>` | Returns a list of entries in a directory. |
+
+## Memory Management
+
+| Method | Signature | Description |
+| :--- | :--- | :--- |
+| **Trait** | `impl Drop for File` | Automatically closes the file handle when out of scope. |

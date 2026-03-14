@@ -1,6 +1,13 @@
 # std/complex
 
-The `std/complex.zc` library provides the `Complex` struct and essential mathematical operations for working with complex numbers in Zen C.
+The `std/complex` library provides the `Complex` struct and essential mathematical operations for working with complex numbers in Zen-C.
+
+## Overview
+
+- **Value Type**: Simple struct with `real` and `imag` components.
+- **Operator support**: Supports `+`, `-`, `*`, `/`, `==`, and `!=` via operator overloading.
+- **Properties**: Provides methods for calculating magnitude and phase.
+- **Interpolation**: Can be directly used in f-strings and print statements.
 
 ## Usage
 
@@ -8,8 +15,14 @@ The `std/complex.zc` library provides the `Complex` struct and essential mathema
 import "std/complex.zc"
 
 fn main() {
-    let c = Complex::new(3.0, 4.0);
-    println "Value: {c}"; // Value: 3.000000 + 4.000000i
+    let c1 = Complex::new(3.0, 4.0);
+    let c2 = Complex::new(1.0, 2.0);
+    
+    let sum = c1 + c2;
+    let prod = c1 * c2;
+    
+    println "Sum: {sum}";       // Sum: 4.000000 + 6.000000i
+    println "Magnitude: {c1.magnitude()}";
 }
 ```
 
@@ -28,18 +41,16 @@ struct Complex {
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **new** | `Complex::new(real: double, imag: double) -> Complex` | Creates a new complex number. |
+| **new** | `Complex::new(r: double, i: double) -> Complex` | Creates a new complex number with real component `r` and imaginary component `i`. |
 
 ### Access & Query
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **magnitude** | `magnitude(self) -> double` | Returns the magnitude (absolute value): `sqrt(real^2 + imag^2)`. |
-| **phase** | `phase(self) -> double` | Returns the phase (angle) in radians: `atan2(imag, real)`. |
+| **magnitude** | `magnitude(self) -> double` | Returns the magnitude (absolute value) of the complex number. |
+| **phase** | `phase(self) -> double` | Returns the phase (angle) in radians. |
 
-### Operators
-
-Zen C supports operator overloading natively for `Complex` through the following methods:
+## Operators
 
 | Operator | Method | Description |
 | :--- | :--- | :--- |
@@ -48,5 +59,5 @@ Zen C supports operator overloading natively for `Complex` through the following
 | `*` | **mul** | Multiplies two complex numbers. |
 | `/` | **div** | Divides one complex number by another. |
 | `==` | **eq** | Checks if two complex numbers are strictly equal. |
-| `!=` | **neq** | Checks if two complex numbers are NOT strictly equal. |
-| `{}` | **to_string** | Allows for direct string interpolation. |
+| `!=` | **neq** | Checks if two complex numbers are not equal. |
+| `{}` | **to_string** | Enables direct string interpolation. |

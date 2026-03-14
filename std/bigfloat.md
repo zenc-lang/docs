@@ -1,6 +1,13 @@
 # std/bigfloat
 
-`BigFloat` provides arbitrary-precision decimal floating-point arithmetic for Zen-C. It is implemented as a scaled `BigInt`, allowing for high-precision calculations.
+`BigFloat` provides arbitrary-precision decimal floating-point arithmetic for Zen-C. It is implemented as a scaled `BigInt`, allowing for high-precision calculations without binary rounding errors.
+
+## Overview
+
+- **Arbitrary Precision**: Supports decimal numbers of any size, limited only by memory.
+- **Scaled Representation**: Uses a `BigInt` magnitude and an integer `scale` to represent decimal values.
+- **Precision Control**: Easily align scales for precise addition and subtraction.
+- **RAII**: Memory for the underlying magnitude is automatically managed via the `Drop` trait.
 
 ## Usage
 

@@ -1,6 +1,13 @@
 # std/bits
 
-The `std/bits` module provides low-level bitwise operations implemented via compiler intrinsics.
+The `std/bits` module provides low-level bitwise operations, including rotations, population counts, and bit reversals.
+
+## Overview
+
+- **Cross-platform**: Correctly implements bitwise operations across different architectures.
+- **Efficient**: Uses optimized bit manipulation algorithms.
+- **Comprehensive**: Supports 8, 16, 32, 64, and 128-bit unsigned integers.
+- **Endianness Utilities**: Includes functions for reversing byte order (endianness swapping).
 
 ## Usage
 
@@ -9,7 +16,15 @@ import "std/bits.zc"
 
 fn main() {
     let a: u32 = 0x80000001;
-    let rotated = Bits::rotl32(a, 1); 
+    
+    // Rotate 32-bit integer left by 1
+    let rotated = Bits::rotl32(a, 1); // 0x00000003
+    
+    // Count set bits (population count)
+    let count = Bits::popcount32(0b1011); // 3
+    
+    // Reverse byte order (bswap)
+    let swapped = Bits::bswap32(0x12345678); // 0x78563412
 }
 ```
 
@@ -19,41 +34,25 @@ fn main() {
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **rotl8** | `Bits::rotl8(n: u8, c: u8) -> u8` | Rotates `n` left by `c` bits. |
-| **rotr8** | `Bits::rotr8(n: u8, c: u8) -> u8` | Rotates `n` right by `c` bits. |
-| **rotl16** | `Bits::rotl16(n: u16, c: u16) -> u16` | Rotates `n` left by `c` bits. |
-| **rotr16** | `Bits::rotr16(n: u16, c: u16) -> u16` | Rotates `n` right by `c` bits. |
-| **rotl32** | `Bits::rotl32(n: u32, c: u32) -> u32` | Rotates `n` left by `c` bits. |
-| **rotr32** | `Bits::rotr32(n: u32, c: u32) -> u32` | Rotates `n` right by `c` bits. |
-| **rotl64** | `Bits::rotl64(n: u64, c: u64) -> u64` | Rotates `n` left by `c` bits. |
-| **rotr64** | `Bits::rotr64(n: u64, c: u64) -> u64` | Rotates `n` right by `c` bits. |
-| **rotl128** | `Bits::rotl128(n: u128, c: u128) -> u128` | Rotates `n` left by `c` bits. |
-| **rotr128** | `Bits::rotr128(n: u128, c: u128) -> u128` | Rotates `n` right by `c` bits. |
+| **rotl[N]** | `Bits::rotl[N](n: u[N], c: u[N]) -> u[N]` | Rotates `n` left by `c` bits (N=8, 16, 32, 64, 128). |
+| **rotr[N]** | `Bits::rotr[N](n: u[N], c: u[N]) -> u[N]` | Rotates `n` right by `c` bits (N=8, 16, 32, 64, 128). |
 
 ### Population Count
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **popcount8** | `Bits::popcount8(n: u8) -> u8` | Returns number of 1s in `n`. |
-| **popcount16** | `Bits::popcount16(n: u16) -> u16` | Returns number of 1s in `n`. |
-| **popcount32** | `Bits::popcount32(n: u32) -> u32` | Returns number of 1s in `n`. |
-| **popcount64** | `Bits::popcount64(n: u64) -> u64` | Returns number of 1s in `n`. |
-| **popcount128** | `Bits::popcount128(n: u128) -> u128` | Returns number of 1s in `n`. |
+| **popcount[N]** | `Bits::popcount[N](n: u[N]) -> u[N]` | Returns the number of set bits (1s) in `n` (N=8, 16, 32, 64, 128). |
 
 ### Count Leading/Trailing Zeros
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **clz8** | `Bits::clz8(n: u8) -> u8` | Returns leading zero bits. |
-| **ctz8** | `Bits::ctz8(n: u8) -> u8` | Returns trailing zero bits. |
-| **clz64** | `Bits::clz64(n: u64) -> u64` | Returns leading zero bits in `u64`. |
-| **ctz64** | `Bits::ctz64(n: u64) -> u64` | Returns trailing zero bits in `u64`. |
+| **clz[N]** | `Bits::clz[N](n: u[N]) -> u[N]` | Returns the number of leading zero bits (N=8, 16, 32, 64, 128). |
+| **ctz[N]** | `Bits::ctz[N](n: u[N]) -> u[N]` | Returns the number of trailing zero bits (N=8, 16, 32, 64, 128). |
 
 ### Byte Swap & Bit Reversal
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **bswap16** | `Bits::bswap16(n: u16) -> u16` | Reverses byte order. |
-| **bswap32** | `Bits::bswap32(n: u32) -> u32` | Reverses byte order in `u32`. |
-| **reverse_bits8** | `Bits::reverse_bits8(n: u8) -> u8` | Reverses bit order. |
-| **reverse_bits32** | `Bits::reverse_bits32(n: u32) -> u32` | Reverses bit order in `u32`. |
+| **bswap[N]** | `Bits::bswap[N](n: u[N]) -> u[N]` | Reverses the byte order of `n` (N=16, 32, 64, 128). |
+| **reverse_bits[N]** | `Bits::reverse_bits[N](n: u[N]) -> u[N]` | Reverses the bit order of `n` (N=8, 16, 32, 64, 128). |

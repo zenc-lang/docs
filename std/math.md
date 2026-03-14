@@ -1,6 +1,13 @@
 # std/math
 
-The `Math` module provides a core set of standard mathematical constants and functions wrapped around the POSIX `<math.h>` standard library.
+The `Math` module provides a core set of standard mathematical constants and functions. It acts as a Zen-C wrapper around the standard floating-point mathematical operations.
+
+## Overview
+
+- **Static Methods**: All methods are called on the `Math` struct directly.
+- **Precision**: Uses `double` for high-precision floating-point arithmetic.
+- **Comprehensive**: Covers trigonometry, exponentials, logarithms, and rounding.
+- **Efficient**: Directly wraps optimized C library functions.
 
 ## Usage
 
@@ -16,12 +23,12 @@ fn main() {
 
 ## Constants
 
-All constants are functions returning a `double`.
+All constants are static functions returning a `double`.
 
 | Constant | Description |
 | :--- | :--- |
-| **Math::PI()** | Archimedes' constant. |
-| **Math::E()** | Euler's number. |
+| **Math::PI()** | Archimedes' constant (approximately 3.14159). |
+| **Math::E()** | Euler's number (approximately 2.71828). |
 
 ## Methods
 

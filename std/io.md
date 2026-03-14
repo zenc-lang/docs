@@ -1,6 +1,13 @@
 # std/io
 
-The `std/io` module provides standard input/output functionality, including printing to stdout and reading from stdin.
+The `std/io` module provides standard input/output functionality, including formatted printing to stdout and robust reading from stdin. 
+
+## Overview
+
+- **Formatted Output**: Provides `print` and `println` with support for C-style format specifiers (`%s`, `%d`, etc.).
+- **String Formatting**: Multiple options for formatting into static, user-provided, or heap-allocated buffers.
+- **Unicode Aware**: Includes `read_rune` for reading individual UTF-8 characters from stdin.
+- **Conversion Utilities**: Simple methods for converting integers and runes to strings.
 
 ## Usage
 
@@ -8,15 +15,16 @@ The `std/io` module provides standard input/output functionality, including prin
 import "std/io.zc"
 
 fn main() {
-    // Printing
-    io.println("Hello %s", "World");
+    // Basic printing
+    println("Hello, %s!", "Zen-C");
     
-    // Formatting strings
-    autofree let s = io.format_new("Value: %d", 42);
+    // Reading a line of input
+    print("Enter your name: ");
+    autofree let name = readln();
     
-    // Reading input
-    io.print("Enter name: ");
-    autofree let name = io.readln();
+    if name != NULL {
+        println("Greeting, %s", name);
+    }
 }
 ```
 
@@ -26,20 +34,28 @@ fn main() {
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **print** | `io::print(fmt: char*, ...) -> int` | Prints formatted output to stdout. |
-| **println** | `io::println(fmt: char*, ...) -> int` | Prints formatted output to stdout with a newline. |
-
-### Formatting
-
-| Method | Signature | Description |
-| :--- | :--- | :--- |
-| **format** | `io::format(fmt: char*, ...) -> char*` | Formats string into a static buffer. **Not thread-safe**. |
-| **format_into** | `io::format_into(buf: char*, size: usize, fmt: char*, ...) -> int` | Formats string into a user-provided buffer. |
-| **format_new** | `io::format_new(fmt: char*, ...) -> char*` | Formats string into a newly allocated buffer (caller must free). |
+| **print** | `print(fmt: char*, ...) -> int` | Prints formatted output to stdout. |
+| **println** | `println(fmt: char*, ...) -> int` | Prints formatted output to stdout followed by a newline. |
 
 ### Input
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| **readln** | `io::readln() -> char*` | Reads a line from stdin (caller must free). |
-| **read_rune** | `io::read_rune() -> rune` | Reads a single UTF-8 character from stdin. |
+| **readln** | `readln() -> char*` | Reads a line from stdin. Returns a heap-allocated string (caller must free). |
+| **read_rune** | `read_rune() -> rune` | Reads a single UTF-8 character (rune) from stdin. |
+
+### Formatting
+
+| Method | Signature | Description |
+| :--- | :--- | :--- |
+| **format** | `format(fmt: char*, ...) -> char*` | Formats into a internal static buffer. **Warning**: Not thread-safe. |
+| **format_into** | `format_into(buf: char*, size: usize, fmt: char*, ...) -> int` | Formats into a user-provided buffer of specific size. |
+| **format_new** | `format_new(fmt: char*, ...) -> char*` | Formats into a new heap-allocated buffer. Caller must free. |
+
+### Conversion
+
+| Method | Signature | Description |
+| :--- | :--- | :--- |
+| **itos** | `itos(n: int) -> char*` | Converts `n` to a string in a static buffer. |
+| **itos_new** | `itos_new(n: int) -> char*` | Converts `n` to a heap-allocated string. |
+| **utos** | `utos(n: uint) -> char*` | Converts unsigned `n` to a string in a static buffer. |
