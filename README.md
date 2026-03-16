@@ -28,8 +28,8 @@ Deep dives into the compiler's internals and tooling protocols.
 
 ## Related Resources
 
-- **[Zen-C Repository](https://github.com/z-libs/Zen-C)**: The core compiler source code.
-- **[Awesome-Zen-C](https://github.com/z-libs/Awesome-Zen-C)**: A collection of examples and Rosetta Code implementations.
+- **[zenc](https://github.com/zenc-lang/zenc)**: The core compiler source code.
+- **[awesome-zenc](https://github.com/zenc-lang/awesome-zenc)**: A collection of examples and Rosetta Code implementations.
 
 ## Contributing to Docs
 

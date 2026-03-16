@@ -18,9 +18,9 @@ It communicates over standard input/output (stdio).
 
 For Visual Studio Code, use the official Zen C extension:
 
-- **Repository**: [z-libs/zenc-vscode](https://github.com/z-libs/zenc-vscode)
+- **Repository**: [zenc-lang/vscode-zenc](https://github.com/zenc-lang/vscode-zenc)
 
-Install the extension directly from the **[Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=z-libs.zenc)**.
+Install the extension directly from the **[Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=zenc-lang.zenc)**.
 
 Alternatively, you can build the `.vsix` from source.
 
