@@ -4,7 +4,7 @@ title = "Repeat"
 
 # Repeat
 
-=== Standard Closures ===
+### Standard Closures
 
 ```zc
 // The procedure accepts a standard closure and an integer
@@ -29,7 +29,7 @@ Hello from closure!
 Hello from closure!
 ```
 
-=== State-Capturing Closures ===
+### State-Capturing Closures
 
 ```zc
 // Reusing the 'times' procedure defined above
@@ -52,7 +52,7 @@ Iteration 4
 Iteration 5
 ```
 
-=== Raw Function Pointers ===
+### Raw Function Pointers
 
 ```zc
 // The procedure accepts a raw C-style function pointer

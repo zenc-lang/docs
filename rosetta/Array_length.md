@@ -6,7 +6,8 @@ title = "Array length"
 
 Zen C provides different ways to determine the number of elements depending on whether you are using raw fixed-size arrays or standard library vectors.
 
-=== Using Raw Arrays ===
+### Using Raw Arrays
+
 For raw C-style arrays, the number of elements is determined using the classic <code>sizeof</code> technique, dividing the total byte size of the array by the byte size of a single element.
 
 ```zc
@@ -26,7 +27,8 @@ fn main() {
 Raw array length: 2
 ```
 
-=== Using the Standard Library ===
+### Using the Standard Library
+
 When using the <code>Vec<T></code> type from the standard library, determining the number of elements is as simple as calling the <code>.length()</code> method.
 
 ```zc

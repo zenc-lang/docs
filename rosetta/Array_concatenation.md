@@ -6,7 +6,8 @@ title = "Array concatenation"
 
 Zen C is a systems language that provides both low-level memory control and high-level standard library abstractions. Here are two idiomatic ways to concatenate collections.
 
-=== Using Raw Arrays ===
+### Using Raw Arrays
+
 For fixed-size C-style arrays, concatenation is typically done by allocating a new array and using fast memory block copying via <code>memcpy</code>.
 
 ```zc
@@ -38,7 +39,8 @@ fn main() {
 Concatenated array: [1, 2, 3, 4, 5]
 ```
 
-=== Using the Standard Library ===
+### Using the Standard Library
+
 For a more modern, ergonomic approach, Zen C's standard library provides a generic <code>Vec<T></code> type. Vectors support operator overloading, allowing them to be concatenated directly using the <code>+</code> operator.
 
 ```zc

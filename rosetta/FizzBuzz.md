@@ -6,7 +6,8 @@ title = "FizzBuzz"
 
 Zen C offers multiple ways to solve FizzBuzz. Here are two approaches: one using standard <code>if/else</code> statements and another using the <code>match</code> control flow feature.
 
-=== Using if/else ===
+### Using if/else
+
 This approach demonstrates Zen C's inclusive range loops (<code>..=</code>), basic modulo arithmetic, and implicit string interpolation.
 
 ```zc
@@ -25,7 +26,8 @@ fn main() {
 }
 ```
 
-=== Using match ===
+### Using match
+
 This implementation utilizes the <code>match</code> statement, which serves as a powerful alternative to <code>switch</code>. It supports multiple value matching on a single branch using commas, and includes a catch-all wildcard (<code>_</code>).
 
 ```zc

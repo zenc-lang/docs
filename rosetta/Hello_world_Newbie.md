@@ -7,11 +7,13 @@ title = "Hello world/Newbie"
 Zen C is a modern systems programming language that compiles to human-readable GNU C/C.<br>
 Docs and the like can be found on it's [https://github.com/zenc-lang/zenc github] page. <br>
 
-===Supported Platforms and Backends===
+### Supported Platforms and Backends
+
 The Zen C compiler, <code>zc</code>, has support for Windows, macOS and Linux. As it is a transpiler (a source-to-source compiler), it acts as a front-end, requiring a back-end. Some of the available backends are <code>gcc</code>, <code>clang</code>, <code>tcc</code>, <code>zig cc</code>. The list is not exhaustive. By default, <code>gcc</code> will be used, but you can specify the back-end with the <code>--cc</code> flag.
 
-===Installation===
-====Compile from source====
+### Installation
+
+#### Compile from source
 
 ```zc
 git clone https://github.com/zenc-lang/zenc.git
@@ -23,7 +25,7 @@ sudo make install
 
 If you are on Windows you can build using the provided batch script, <code>build.bat</code>.
 
-===Example===
+### Example
 
 ```zc
 fn main() {

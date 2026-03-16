@@ -4,7 +4,7 @@ title = "Binary search"
 
 # Binary search
 
-=== Iterative ===
+### Iterative
 
 ```zc
 fn binary_search_iterative(arr: int*, value: int, low: int, high: int) -> int {
@@ -51,7 +51,7 @@ Value 5 not found.
 Value 20 found at index 9.
 ```
 
-=== Recursive ===
+### Recursive
 
 ```zc
 fn binary_search_recursive(arr: int*, value: int, low: int, high: int) -> int {
