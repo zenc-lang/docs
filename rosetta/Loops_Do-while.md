@@ -4,8 +4,6 @@ title = "Loops/Do-while"
 
 # Loops/Do-while
 
-Although not documented as part of Zen C itself, C's do / while loop still works.
-
 ```zc
 fn main() {
     let v = 0;
@@ -24,19 +22,6 @@ fn main() {
 4
 5
 6
-```
-
-Alternatively, we can simulate it by using Zen C's 'loop' statement (an infinite loop) with an explicit break at the end of the block.
-The output is, of course, the same as before.
-
-```zc
-fn main() {
-    let v = 0;
-    loop {
-        println "{++v}";
-        if !(v % 6) { break; }
-    }
-}
 ```
 
 ---
