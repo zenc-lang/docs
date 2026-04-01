@@ -65,6 +65,36 @@ def convert_alerts(content):
     pattern = r'>\s*\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]\s*\n((?:>.*\n?)+)'
     return re.sub(pattern, replace_alert, content)
 
+def fix_links(content, lang):
+    # Mapping of local anchors to their cross-page destinations
+    # Pattern: old_anchor -> (target_file_base, new_anchor_slug)
+    link_targets = {
+        "move-semantics--copy-safety": ("08-memory-management", "resource-semantics-move-by-default"),
+        "resource-semantics-move-by-default": ("08-memory-management", "resource-semantics-move-by-default"),
+        "semântica-de-recursos-move-por-padrão": ("08-memory-management", "semantica-de-recursos-move-by-default"),
+        "semantiche-di-movimento--copia-sicura": ("08-memory-management", "semantiche-delle-risorse-move-by-default"),
+        "semantiche-delle-risorse": ("08-memory-management", "semantiche-delle-risorse-move-by-default"),
+        "ressourcen-semantik-move-by-default": ("08-memory-management", "ressourcen-semantik-move-by-default"),
+        "semántica-de-recursos-movimiento-por-defecto": ("08-memory-management", "semantica-de-recursos-movimiento-por-defecto"),
+        "семантика-ресурсов-move-по-умолчанию": ("08-memory-management", "semantika-resursov-move-po-umolchaniiu"),
+        "资源语义-默认移动": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
+        "資源語義-默認移動": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
+    }
+    
+    def replacer(match):
+        text = match.group(1)
+        anchor = match.group(2).lstrip('#')
+        target = link_targets.get(anchor)
+        if target:
+            target_base, new_anchor = target
+            # Construct Zola link: (@/tour/file.lang.md#anchor)
+            ext = f".{lang}.md" if lang != "en" else ".md"
+            return f"[{text}](@/tour/{target_base}{ext}#{new_anchor})"
+        return match.group(0)
+
+    # Match [Link Text](#anchor)
+    return re.sub(r'\[([^\]]+)\]\(#([^\)]+)\)', replacer, content)
+
 def process_file(filename):
     lang = LANG_MAP.get(filename)
     if not lang:
@@ -122,6 +152,7 @@ def process_file(filename):
 
         # Clean up combined_body
         combined_body = convert_alerts(combined_body)
+        combined_body = fix_links(combined_body, lang)
 
         # Build final content with Zola frontmatter
         weight = WEIGHTS.get(target_filename, 100)

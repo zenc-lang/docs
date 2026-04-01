@@ -123,7 +123,7 @@ impl Drop for Risorsa {
 ```
 
 {% alert(type="note") %}
-Se una variabile viene spostata, `drop` NON verrà chiamato sulla variabile originale. Aderisce alle [Semantiche delle Risorse](#semantiche-delle-risorse)
+Se una variabile viene spostata, `drop` NON verrà chiamato sulla variabile originale. Aderisce alle [Semantiche delle Risorse](@/tour/08-memory-management.it.md#semantiche-delle-risorse-move-by-default)
 {% end %}
 
 **Copy** (lett. _copia_)

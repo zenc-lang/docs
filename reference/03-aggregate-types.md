@@ -68,7 +68,7 @@ struct Flags {
 ```
 
 {% alert(type="note") %}
-Structs use [Move Semantics](#move-semantics--copy-safety) by default. Fields can be accessed via `.` even on pointers (Auto-Dereference).
+Structs use [Move Semantics](@/tour/08-memory-management.md#resource-semantics-move-by-default) by default. Fields can be accessed via `.` even on pointers (Auto-Dereference).
 {% end %}
 
 #### Opaque Structs

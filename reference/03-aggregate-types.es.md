@@ -68,7 +68,7 @@ struct Flags {
 ```
 
 {% alert(type="note") %}
-Los structs usan [Semántica de Movimiento](#semántica-de-recursos-movimiento-por-defecto) por defecto. Los campos se pueden acceder mediante `.` incluso en punteros (Auto-Dereferencia).
+Los structs usan [Semántica de Movimiento](@/tour/08-memory-management.es.md#semantica-de-recursos-movimiento-por-defecto) por defecto. Los campos se pueden acceder mediante `.` incluso en punteros (Auto-Dereferencia).
 {% end %}
 
 #### Structs Opacos

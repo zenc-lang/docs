@@ -123,7 +123,7 @@ impl Drop for Resource {
 ```
 
 {% alert(type="important") %}
-**Anmerkung:** Wenn eine Variable verschoben wird, wird `drop` NICHT für die ursprüngliche Variable aufgerufen. Dies folgt der [Ressourcen-Semantik](#ressourcen-semantik-move-by-default).
+**Anmerkung:** Wenn eine Variable verschoben wird, wird `drop` NICHT für die ursprüngliche Variable aufgerufen. Dies folgt der [Ressourcen-Semantik](@/tour/08-memory-management.de.md#ressourcen-semantik-move-by-default).
 {% end %}
 
 **Copy**  

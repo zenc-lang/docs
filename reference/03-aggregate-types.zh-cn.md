@@ -68,7 +68,7 @@ struct Flags {
 ```
 
 {% alert(type="note") %}
-结构体默认使用 [移动语义](#资源语义-默认移动)。即使是指针，也可以通过 `.` 访问字段（自动解引用）。
+结构体默认使用 [移动语义](@/tour/08-memory-management.zh-cn.md#zi-yuan-yu-yi-mo-ren-yi-dong)。即使是指针，也可以通过 `.` 访问字段（自动解引用）。
 {% end %}
 
 #### 不透明结构体

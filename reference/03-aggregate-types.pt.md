@@ -69,7 +69,7 @@ struct Flags {
 ```
 
 {% alert(type="note") %}
-Structs usam [Semântica de Move](#semântica-de-recursos-move-por-padrão) por padrão. Campos podem ser acessados via `.` mesmo em ponteiros (Auto-Dereferência).
+Structs usam [Semântica de Move](@/tour/08-memory-management.pt.md#semantica-de-recursos-move-by-default) por padrão. Campos podem ser acessados via `.` mesmo em ponteiros (Auto-Dereferência).
 {% end %}
 
 #### Structs Opacos

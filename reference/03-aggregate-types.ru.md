@@ -68,7 +68,7 @@ struct Flags {
 ```
 
 {% alert(type="note") %}
-Структуры используют [Move Semantics](#семантика-ресурсов-move-по-умолчанию) по умолчанию. Доступ к полям можно получить через `.` даже на указателях (Auto-Dereference).
+Структуры используют [Move Semantics](@/tour/08-memory-management.ru.md#semantika-resursov-move-po-umolchaniiu) по умолчанию. Доступ к полям можно получить через `.` даже на указателях (Auto-Dereference).
 {% end %}
 
 #### Непрозрачные структуры

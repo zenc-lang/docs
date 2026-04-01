@@ -68,7 +68,7 @@ struct Flags {
 ```
 
 {% alert(type="note") %}
-結構体默認使用 [移動語義](#資源語義-默認移動)。即使是指針，也可以通過 `.` 訪問字段（自動解引用）。
+結構体默認使用 [移動語義](@/tour/08-memory-management.zh-tw.md#zi-yuan-yu-yi-mo-ren-yi-dong)。即使是指針，也可以通過 `.` 訪問字段（自動解引用）。
 {% end %}
 
 #### 不透明結構體

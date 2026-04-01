@@ -123,7 +123,7 @@ impl Drop for Resource {
 ```
 
 {% alert(type="important") %}
-**Note:** If a variable is moved, `drop` is NOT called on the original variable. It adheres to [Resource Semantics](#resource-semantics-move-by-default).
+**Note:** If a variable is moved, `drop` is NOT called on the original variable. It adheres to [Resource Semantics](@/tour/08-memory-management.md#resource-semantics-move-by-default).
 {% end %}
 
 **Copy**

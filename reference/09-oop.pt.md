@@ -122,7 +122,7 @@ impl Drop for Resource {
 }
 ```
 
-> **Nota:** Se uma variável é movida, `drop` NÃO É chamado na variável original. Ela se adere à [Semântica de Recursos](#semântica-de-recursos-move-por-padrão).
+> **Nota:** Se uma variável é movida, `drop` NÃO É chamado na variável original. Ela se adere à [Semântica de Recursos](@/tour/08-memory-management.pt.md#semantica-de-recursos-move-by-default).
 
 **Copy**
 

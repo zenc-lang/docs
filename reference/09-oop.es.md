@@ -123,7 +123,7 @@ impl Drop for Recurso {
 ```
 
 {% alert(type="note") %}
-Si una variable es movida, no se llama a `drop` en la variable original. Se adhiere a la [Semántica de Recursos](#semántica-de-recursos-movimiento-por-defecto).
+Si una variable es movida, no se llama a `drop` en la variable original. Se adhiere a la [Semántica de Recursos](@/tour/08-memory-management.es.md#semantica-de-recursos-movimiento-por-defecto).
 {% end %}
 
 **Copy**

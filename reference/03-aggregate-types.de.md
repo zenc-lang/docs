@@ -68,7 +68,7 @@ struct Flags {
 ```
 
 {% alert(type="important") %}
-Strukturen verwenden standardmäßig die [Move-Semantik](#move-semantics--copy-safety). Felder können auch über `.` auf Zeiger zugegriffen werden (automatische Dereferenzierung).
+Strukturen verwenden standardmäßig die [Move-Semantik](@/tour/08-memory-management.de.md#resource-semantics-move-by-default). Felder können auch über `.` auf Zeiger zugegriffen werden (automatische Dereferenzierung).
 {% end %}
 
 #### Opake Strukturen
