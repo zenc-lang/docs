@@ -28,8 +28,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: zenc-lang/www
-          token: ${{ secrets.WWW_REPO_TOKEN }}
+          token: ${{ secrets.WEBSITE_REPO_TOKEN }}
           path: www
+          fetch-depth: 0
 
       - name: Sync content
         run: |
