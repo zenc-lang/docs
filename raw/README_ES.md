@@ -1518,6 +1518,36 @@ Zen C incluye una biblioteca estándar (`std`) que cubre las funcionalidades ese
 
 ---
 
+### 18. Marco de Pruebas Unitarias
+
+Zen C incluye un marco de pruebas integrado que permite escribir pruebas unitarias directamente en los archivos fuente utilizando la palabra clave `test`.
+
+#### Sintaxis
+Un bloque `test` contiene un nombre descriptivo y un cuerpo de código para ejecutar. Las pruebas no requieren una función `main` para ejecutarse.
+
+```zc
+test "unittest1" {
+    "Esta es una prueba unitaria";
+
+    let a = 3;
+    assert(a > 0, "a debería ser un entero positivo");
+
+    "unittest1 pasado.";
+}
+```
+
+#### Ejecución de Pruebas
+Para ejecutar todas las pruebas en un archivo, usa el comando `run`. El compilador detectará y ejecutará automáticamente todos los bloques `test` de nivel superior.
+
+```bash
+zc run mi_archivo.zc
+```
+
+#### Aserciones
+Usa la función integrada `assert(condición, mensaje)` para verificar las expectativas. Si la condición es falsa, la prueba fallará y se imprimirá el mensaje proporcionado.
+
+---
+
 ## Herramientas
 
 Zen C proporciona un Servidor de Lenguaje y un REPL integrados para mejorar la experiencia de desarrollo.
@@ -1834,35 +1864,6 @@ fn main() {
 > [!NOTE]
 > **Nota:** La interpolación de cadenas de Zen C funciona con objetos de Objective-C (`id`) llamando a `debugDescription` o `description`.
 
-### 18. Marco de Pruebas Unitarias
-
-Zen C incluye un marco de pruebas integrado que permite escribir pruebas unitarias directamente en los archivos fuente utilizando la palabra clave `test`.
-
-#### Sintaxis
-Un bloque `test` contiene un nombre descriptivo y un cuerpo de código para ejecutar. Las pruebas no requieren una función `main` para ejecutarse.
-
-```zc
-test "unittest1" {
-    "Esta es una prueba unitaria";
-
-    let a = 3;
-    assert(a > 0, "a debería ser un entero positivo");
-
-    "unittest1 pasado.";
-}
-```
-
-#### Ejecución de Pruebas
-Para ejecutar todas las pruebas en un archivo, usa el comando `run`. El compilador detectará y ejecutará automáticamente todos los bloques `test` de nivel superior.
-
-```bash
-zc run mi_archivo.zc
-```
-
-#### Aserciones
-Usa la función integrada `assert(condición, mensaje)` para verificar las expectativas. Si la condición es falsa, la prueba fallará y se imprimirá el mensaje proporcionado.
-
----
 
 ## Contribuyendo
 
