@@ -54,6 +54,19 @@ LANG_MAP = {
     "README_ZH_TW.md": "zh-tw",
 }
 
+GROUP_TITLES = {
+    "12-advanced.md": {
+        "en": "12. Advanced & Metaprogramming",
+        "de": "12. Fortgeschrittenes & Metaprogrammierung",
+        "es": "12. Avanzado y Metaprogramación",
+        "it": "12. Avanzate e Metaprogrammazione",
+        "pt": "12. Avançado e Metaprogramação",
+        "ru": "12. Продвинутые темы и метапрограммирование",
+        "zh-cn": "12. 高级与元编程",
+        "zh-tw": "12. 高級與元編程",
+    }
+}
+
 def convert_alerts(content):
     def replace_alert(match):
         alert_type = match.group(1).lower()
@@ -142,8 +155,8 @@ def process_file(filename):
         combined_body = ""
         main_title = parts[0][0] # use first title as main title for now
         
-        if target_filename == "12-advanced.md":
-            main_title = "12. Advanced & Metaprogramming"
+        if target_filename in GROUP_TITLES:
+            main_title = GROUP_TITLES[target_filename].get(lang, parts[0][0])
             # Special case for 12-16 grouping
             for title, body in parts:
                 combined_body += f"\n### {title.split('. ', 1)[1]}\n{body}"

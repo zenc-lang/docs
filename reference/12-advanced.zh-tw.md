@@ -1,9 +1,9 @@
 +++
-title = "12. Advanced & Metaprogramming"
+title = "12. 高級與元編程"
 weight = 12
 +++
 
-# 12. Advanced & Metaprogramming
+# 12. 高級與元編程
 
 
 ### 元編程
