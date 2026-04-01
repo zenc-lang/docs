@@ -743,7 +743,7 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% if lang != "en" %}{% set tour_path = lang ~ "/tour/_index.md" %}{% else %}{% set tour_path =
+                    {% if lang != "en" %}{% set tour_path = "tour/_index." ~ lang ~ ".md" %}{% else %}{% set tour_path =
                     "tour/_index.md" %}{% endif %}
                     {% set tour_section = get_section(path=tour_path) %}
                     {% for page in tour_section.pages %}
@@ -764,7 +764,7 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% if lang != "en" %}{% set std_path = lang ~ "/std/_index.md" %}{% else %}{% set std_path =
+                    {% if lang != "en" %}{% set std_path = "std/_index." ~ lang ~ ".md" %}{% else %}{% set std_path =
                     "std/_index.md" %}{% endif %}
                     {% set std_section = get_section(path=std_path) %}
                     {% for page in std_section.pages | sort(attribute="title") %}
@@ -785,7 +785,7 @@
                     </svg>
                 </div>
                 <div class="sidebar-links">
-                    {% if lang != "en" %}{% set ex_path = lang ~ "/examples/rosetta/_index.md" %}{% else %}{% set
+                    {% if lang != "en" %}{% set ex_path = "examples/rosetta/_index." ~ lang ~ ".md" %}{% else %}{% set
                     ex_path = "examples/rosetta/_index.md" %}{% endif %}
                     {% set rosetta_section = get_section(path=ex_path) %}
                     {% for page in rosetta_section.pages | sort(attribute="title") %}
