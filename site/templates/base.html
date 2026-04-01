@@ -1,66 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang }}" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
-
-    <link rel="stylesheet" href="https://zenc-lang.org/style.css?v=4">
-
-    <script>
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        }
-    </script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ section.title | default(value=page.title) }} — Zen C</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <style>
-        /* LANGUAGE SWITCHER */
+        :root {
+            --bg: #ffffff;
+            --fg: #1e293b;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --border: #e2e8f0;
+            --muted: #64748b;
+            --primary: #000000;
+            --secondary: #475569;
+            --kwd: #d946ef;
+            --fn: #0ea5e9;
+            --typ: #f59e0b;
+            --str: #10b981;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0c0c0b;
+            --fg: #e2e8f0;
+            --surface: #121211;
+            --surface-alt: #1c1c1b;
+            --border: #2d2d2a;
+            --muted: #94a3b8;
+            --primary: #ffffff;
+            --secondary: #cbd5e1;
+            --kwd: #f472b6;
+            --fn: #38bdf8;
+            --typ: #fbbf24;
+            --str: #34d399;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* HEADER */
+        header {
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--primary);
+            letter-spacing: -0.05em;
+        }
+
+        .logo .version {
+            font-size: 0.7rem;
+            opacity: 0.5;
+            margin-left: 0.25rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Language Switcher Buttons */
         .lang-container {
             display: flex;
-            align-items: center;
-            gap: 0.25rem;
+            gap: 0.5rem;
             margin-left: 1rem;
             padding-left: 1rem;
             border-left: 1px solid var(--border);
         }
 
         .lang-button {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--muted);
-            text-decoration: none;
             padding: 4px 6px;
             border-radius: 4px;
-            transition: all 0.2s;
+            font-size: 0.7rem;
+            text-decoration: none;
+            color: var(--muted);
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
             text-transform: uppercase;
+            font-weight: 700;
+            transition: all 0.2s;
         }
 
         .lang-button:hover {
+            border-color: var(--muted);
             color: var(--primary);
-            background: rgba(0, 0, 0, 0.05);
         }
 
         .lang-button.active {
-            color: var(--fg);
-            background: var(--surface-alt);
-            pointer-events: none;
+            background: var(--primary);
+            color: var(--bg);
+            border-color: var(--primary);
         }
 
-        [data-theme="dark"] .lang-button:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* DOCS LAYOUT OVERRIDES */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
+        /* LAYOUT */
         .docs-layout {
             display: grid;
-            grid-template-columns: 280px 1fr;
+            grid-template-columns: 320px 1fr;
             /* Fixed Sidebar + Fluid Content */
             max-width: 1600px;
             margin: 0 auto;
@@ -565,7 +657,7 @@
         }
 
         [data-theme="dark"] .doc-content td:nth-child(2) {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 2);
         }
 
         [data-theme="dark"] .doc-content tr:hover {
@@ -595,9 +687,12 @@
         <div class="container nav-container">
             <div class="logo">Zen C <span class="version">{{ config.extra.version }}</span></div>
             <nav>
-                <a href="https://zenc-lang.org">{{ trans(key="home") }}</a>
-                <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{{ trans(key="docs") }}</a>
-                <a href="https://git.zenc-lang.org">{{ trans(key="git") }}</a>
+                <a href="https://zenc-lang.org">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
+                    %}</a>
+                <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{% if lang == "en" %}Docs{% else %}{{
+                    trans(key="ui-docs") }}{% endif %}</a>
+                <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
+                    %}</a>
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
                     <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2.5">
@@ -632,7 +727,7 @@
         <aside class="sidebar">
 
             <div class="search-container">
-                <input type="text" id="search" class="search-input" placeholder="{{ trans(key=" search-placeholder") }}"
+                <input type="text" id="search" class="search-input" placeholder="{{ trans(key='search-placeholder') }}"
                     autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
@@ -728,9 +823,12 @@
         <div class="footer-col">
             <h4>{{ trans(key="project") }}</h4>
             <div class="footer-links">
-                <a href="https://zenc-lang.org">{{ trans(key="home") }}</a>
-                <a href="{{ get_url(path=" /", lang=lang) }}">{{ trans(key="docs") }}</a>
-                <a href="https://git.zenc-lang.org">{{ trans(key="git") }}</a>
+                <a href="https://zenc-lang.org">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
+                    %}</a>
+                <a href="{{ get_url(path=" /", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs")
+                    }}{% endif %}</a>
+                <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
+                    %}</a>
             </div>
         </div>
         <div class="footer-col" style="grid-column: span 1;">
