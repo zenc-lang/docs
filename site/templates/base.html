@@ -780,33 +780,33 @@
                         {{ lang | upper }}
                     </button>
                     <div class="lang-menu">
-                        {% set c_path = current_path | default(value="/") %}
-                        {% set prefix = "/" ~ lang ~ "/" %}
+                        {% set c_path = current_path | default(value="") %}
+                        {% set c_path_stripped = c_path | trim_start_matches(pat="/") %}
+                        {% set prefix = lang ~ "/" %}
 
-                        {% if c_path | starting_with(pat=prefix) %}
-                        {% set stripped = c_path | trim_start_matches(pat=prefix) %}
-                        {% set clean_path = "/" ~ stripped %}
-                        {% elif c_path == "/" ~ lang %}
-                        {% set clean_path = "/" %}
+                        {% if c_path_stripped | starting_with(pat=prefix) %}
+                        {% set final_path = c_path_stripped | trim_start_matches(pat=prefix) %}
+                        {% elif c_path_stripped == lang %}
+                        {% set final_path = "" %}
                         {% else %}
-                        {% set clean_path = c_path %}
+                        {% set final_path = c_path_stripped %}
                         {% endif %}
 
-                        <a href="{{ get_url(path=clean_path, lang='en') }}"
+                        <a href="/{{ final_path }}"
                             class="lang-option {% if lang == 'en' %}active{% endif %}">English</a>
-                        <a href="{{ get_url(path=clean_path, lang='de') }}"
+                        <a href="/de/{{ final_path }}"
                             class="lang-option {% if lang == 'de' %}active{% endif %}">Deutsch</a>
-                        <a href="{{ get_url(path=clean_path, lang='es') }}"
+                        <a href="/es/{{ final_path }}"
                             class="lang-option {% if lang == 'es' %}active{% endif %}">Español</a>
-                        <a href="{{ get_url(path=clean_path, lang='it') }}"
+                        <a href="/it/{{ final_path }}"
                             class="lang-option {% if lang == 'it' %}active{% endif %}">Italiano</a>
-                        <a href="{{ get_url(path=clean_path, lang='pt') }}"
+                        <a href="/pt/{{ final_path }}"
                             class="lang-option {% if lang == 'pt' %}active{% endif %}">Português</a>
-                        <a href="{{ get_url(path=clean_path, lang='ru') }}"
+                        <a href="/ru/{{ final_path }}"
                             class="lang-option {% if lang == 'ru' %}active{% endif %}">Русский</a>
-                        <a href="{{ get_url(path=clean_path, lang='zh-cn') }}"
+                        <a href="/zh-cn/{{ final_path }}"
                             class="lang-option {% if lang == 'zh-cn' %}active{% endif %}">简体中文</a>
-                        <a href="{{ get_url(path=clean_path, lang='zh-tw') }}"
+                        <a href="/zh-tw/{{ final_path }}"
                             class="lang-option {% if lang == 'zh-tw' %}active{% endif %}">繁體中文</a>
                     </div>
                 </div>
