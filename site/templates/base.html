@@ -118,37 +118,92 @@
             font-weight: 700;
         }
 
-        /* Language Switcher Buttons */
-        .lang-container {
-            display: flex;
-            gap: 0.5rem;
+        /* Language Dropdown */
+        .lang-dropdown {
+            position: relative;
             margin-left: 1rem;
             padding-left: 1rem;
             border-left: 1px solid var(--border);
+            display: flex;
+            align-items: center;
         }
 
-        .lang-button {
-            padding: 4px 6px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            text-decoration: none;
+        .lang-dropdown-btn {
+            background: transparent;
+            border: none;
             color: var(--muted);
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
-            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            transition: all 0.2s;
+            text-transform: uppercase;
+            transition: color 0.2s;
         }
 
-        .lang-button:hover {
-            border-color: var(--muted);
+        .lang-dropdown-btn:hover {
             color: var(--primary);
         }
 
-        .lang-button.active {
-            background: var(--primary);
-            color: var(--bg);
-            border-color: var(--primary);
+        .lang-dropdown-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .lang-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 130px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        .lang-dropdown:hover .lang-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            color: var(--fg);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .lang-option:hover {
+            background: var(--surface-alt);
+            color: var(--primary);
+        }
+
+        .lang-option.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .lang-option.active::after {
+            content: "✓";
+            font-size: 0.8rem;
         }
 
         /* LAYOUT */
@@ -713,13 +768,48 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
                 </button>
-                <div class="lang-container">
-                    {% for lang_code in ["en", "de", "es", "it", "pt", "ru", "zh-cn", "zh-tw"] %}
-                    <a href="{{ get_url(path=current_path | default(value=" /"), lang=lang_code) }}"
-                        class="lang-button {% if lang == lang_code %}active{% endif %}" title="{{ lang_code | upper }}">
-                        {{ lang_code | truncate(length=2, end="") }}
-                    </a>
-                    {% endfor %}
+                <div class="lang-dropdown">
+                    <button class="lang-dropdown-btn" aria-label="Language options">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-globe">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                            <path d="M2 12h20" />
+                        </svg>
+                        {{ lang | upper }}
+                    </button>
+                    <div class="lang-menu">
+                        {% set c_path = current_path | default(value="/") %}
+                        {% set prefix = "/" ~ lang ~ "/" %}
+
+                        {% if c_path | starting_with(pat=prefix) %}
+                        {% set stripped = c_path | trim_start_matches(pat=prefix) %}
+                        {% set clean_path = "/" ~ stripped %}
+                        {% elif c_path == "/" ~ lang %}
+                        {% set clean_path = "/" %}
+                        {% else %}
+                        {% set clean_path = c_path %}
+                        {% endif %}
+
+                        {% set langs = [
+                        ("en", "English"),
+                        ("de", "Deutsch"),
+                        ("es", "Español"),
+                        ("it", "Italiano"),
+                        ("pt", "Português"),
+                        ("ru", "Русский"),
+                        ("zh-cn", "简体中文"),
+                        ("zh-tw", "繁體中文")
+                        ] %}
+
+                        {% for l in langs %}
+                        <a href="{{ get_url(path=clean_path, lang=l.0) }}"
+                            class="lang-option {% if lang == l.0 %}active{% endif %}">
+                            {{ l.1 }}
+                        </a>
+                        {% endfor %}
+                    </div>
                 </div>
             </nav>
         </div>
