@@ -744,9 +744,9 @@
         <div class="container nav-container">
             <div class="logo">Zen C <span class="version">{{ config.extra.version }}</span></div>
             <nav>
-                <a href="https://zenc-lang.org">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
+                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
                     %}</a>
-                <a href="{{ get_url(path=" /", lang=lang) }}" class="active">{% if lang == "en" %}Docs{% else %}{{
+                <a href="{{ get_url(path="/", lang=lang) }}" class="active">{% if lang == "en" %}Docs{% else %}{{
                     trans(key="ui-docs") }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
                     %}</a>
@@ -909,9 +909,9 @@
         <div class="footer-col">
             <h4>{{ trans(key="project") }}</h4>
             <div class="footer-links">
-                <a href="https://zenc-lang.org">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
+                <a href="https://zenc-lang.org{% if lang != 'en' %}/{{ lang }}{% endif %}/">{% if lang == "en" %}Home{% else %}{{ trans(key="ui-home") }}{% endif
                     %}</a>
-                <a href="{{ get_url(path=" /", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs")
+                <a href="{{ get_url(path="/", lang=lang) }}">{% if lang == "en" %}Docs{% else %}{{ trans(key="ui-docs")
                     }}{% endif %}</a>
                 <a href="https://git.zenc-lang.org">{% if lang == "en" %}Git{% else %}{{ trans(key="ui-git") }}{% endif
                     %}</a>
