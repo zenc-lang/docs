@@ -4,6 +4,8 @@ title = "Sub-unit squares"
 
 # Sub-unit squares
 
+{{trans|Wren}}
+
 ```zc
 import "std/vec.zc"
 import "std/math.zc"
@@ -48,7 +50,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 The first 7 sub-unit squares are:
 1
 36

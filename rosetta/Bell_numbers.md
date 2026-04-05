@@ -48,7 +48,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 First 10 rows of the Bell Triangle
 1
 1 2 

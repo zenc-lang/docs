@@ -27,7 +27,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Are these strings numeric?
 
 (null) -> no

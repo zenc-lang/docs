@@ -41,7 +41,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Numbers: 10, 20, 30, 40
 Mean: 25.000000
 Empty mean: 0.000000

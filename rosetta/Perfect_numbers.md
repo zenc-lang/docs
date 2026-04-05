@@ -36,7 +36,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 The first four perfect numbers are:
 6
 28

@@ -36,7 +36,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Original string: Hello
 Concatenated string: Hello World!! Welcome to Zen C!
 ```

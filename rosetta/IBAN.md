@@ -44,7 +44,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 IBAN: GB82 WEST 1234 5698 7654 32
 Valid: Yes
 ```

@@ -23,7 +23,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Raw array length: 2
 ```
 
@@ -48,7 +48,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Vector length: 2
 ```
 

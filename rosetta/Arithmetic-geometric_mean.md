@@ -4,6 +4,8 @@ title = "Arithmetic-geometric mean"
 
 # Arithmetic-geometric mean
 
+{{trans|Go}}
+
 ```zc
 import "std/math.zc"
 
@@ -25,7 +27,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 0.8472130847939792
 ```
 

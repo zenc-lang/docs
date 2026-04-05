@@ -4,6 +4,8 @@ title = "Loops/With multiple ranges"
 
 # Loops/With multiple ranges
 
+{{trans|C}}
+
 ```zc
 import "locale.h"
 
@@ -46,7 +48,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 sum  =  348,173
 prod = -793,618,560
 ```

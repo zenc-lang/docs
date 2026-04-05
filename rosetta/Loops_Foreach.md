@@ -13,7 +13,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 red
 blue
 green

@@ -4,6 +4,7 @@ title = "Numbers which are the cube roots of the product of their proper divisor
 
 # Numbers which are the cube roots of the product of their proper divisors
 
+{{trans|Wren}}
 A translation of the second version.
 
 ```zc
@@ -51,7 +52,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 First 50 numbers which are the cube roots of the products of their proper divisors:
   1  24  30  40  42  54  56  66  70  78 
  88 102 104 105 110 114 128 130 135 136 

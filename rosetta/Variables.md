@@ -57,7 +57,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Inner scope 'a': 50
 Outer scope 'a' remains: 20
 Mutated 'a' via reference: 30

@@ -23,7 +23,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Sum: 14
 Difference: 6
 ```

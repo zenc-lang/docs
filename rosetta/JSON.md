@@ -33,7 +33,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Loaded User: zuhaitz (Active: true)
 Serialized: {"tags":["zen-c","fast"],"timestamp":1710422672,"status":"ok"}
 ```

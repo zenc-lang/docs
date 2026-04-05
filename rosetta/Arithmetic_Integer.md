@@ -44,7 +44,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Enter two integers separated by a space: 2 4
 a + b  = 6
 a - b  = -2

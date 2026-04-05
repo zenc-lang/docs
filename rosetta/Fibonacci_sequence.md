@@ -50,7 +50,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Fibonacci Sequence (0 to 20):
 
 Recursive:

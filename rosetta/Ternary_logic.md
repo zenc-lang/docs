@@ -86,7 +86,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Truth Table (Kleene Logic):
 A B | !A | A&B | A|B | A^B
 ----+----+-----+-----+----

@@ -42,7 +42,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 For the numbers 1 to 10:
   Arithmetic mean = 5.5
   Geometric mean  = 4.52872868811677

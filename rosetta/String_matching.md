@@ -47,7 +47,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Text: The quick brown fox jumps over the lazy dog. The fox is quick.
 Target: fox
 The text starts with 'The quick'.

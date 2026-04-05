@@ -4,6 +4,7 @@ title = "List division"
 
 # List division
 
+{{trans|Wren}}
 Note that Wren's ninth test case has been omitted since you can't create an empty fixed size array in Zen C.
 
 ```zc
@@ -63,7 +64,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 [[94, 94], [13, 77], [35, 10], [51], [27], [60]] 
 [19, 46, 43, 17, 94](https://rosettacode.org/wiki/19, 46, 43, 17, 94) 
 [[93, 88, 40], [88, 30, 68], [84, 25]] 

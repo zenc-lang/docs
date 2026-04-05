@@ -46,7 +46,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Point coordinates: (10, 20)
 After moving: Point coordinates: (15, 15)
 ```

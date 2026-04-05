@@ -45,7 +45,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 'th' occurs 3 times in 'the three truths'
 'abab' occurs 2 times in 'ababababab'
  'a*b' occurs 2 times in 'abaabba*bbaba*bbab'

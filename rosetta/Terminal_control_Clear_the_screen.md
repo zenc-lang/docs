@@ -7,16 +7,8 @@ title = "Terminal control/Clear the screen"
 For terminals which support ANSI escape codes:
 
 ```zc
-
-```
-
-**Output:**
-
-```zc
-def ESC = "\x1b";
-
 fn main() {
-    println "{ESC}[2J";
+    println "\e[2J";
 }
 ```
 

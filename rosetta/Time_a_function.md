@@ -24,7 +24,7 @@ fn main() {
 
 Sample output:
 
-```zc
+```
 Calling 'func' 100 times took 1175 ms.
 ```
 

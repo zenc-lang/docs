@@ -35,7 +35,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Successfully wrote to output.txt
 ```
 

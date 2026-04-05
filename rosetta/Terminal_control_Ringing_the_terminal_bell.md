@@ -6,7 +6,7 @@ title = "Terminal control/Ringing the terminal bell"
 
 ```zc
 fn main() {
-    println "\x07";
+    println "\a";
 }
 ```
 

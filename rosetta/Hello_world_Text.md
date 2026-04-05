@@ -12,7 +12,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Hello world!
 ```
 

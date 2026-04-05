@@ -34,7 +34,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Iterating over ints array:
 1
 2

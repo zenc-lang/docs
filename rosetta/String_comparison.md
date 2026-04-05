@@ -57,7 +57,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 BASIC EQUALITY & INEQUALITY.
 s1 ('apple') == s3 ('apple'): true
 s1 ('apple') != s2 ('banana'): true

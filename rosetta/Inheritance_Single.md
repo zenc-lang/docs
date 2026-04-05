@@ -47,7 +47,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Prince says, woof!
 Lassie says, woof!
 Fluffy says, meow!

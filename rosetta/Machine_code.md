@@ -10,7 +10,7 @@ To comply with modern OS security features like Data Execution Prevention (DEP /
 
 **Assembly equivalent:**
 
-```zc
+```
 89 F8    mov eax, edi
 01 F0    add eax, esi
 C3       ret
@@ -79,7 +79,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Executing machine code (x86_64: mov eax, edi; add eax, esi; ret)
 Arguments: 7, 12
 Result: 19

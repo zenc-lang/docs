@@ -19,7 +19,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Mary had a little lamb
 ```
 

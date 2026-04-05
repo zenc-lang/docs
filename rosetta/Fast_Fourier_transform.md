@@ -103,7 +103,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 => Fast Fourier Transform (FFT)
 Input Signal (len: 8):
     x[0] = 1.000000 + 0.000000i  (Magnitude: 1.000000)

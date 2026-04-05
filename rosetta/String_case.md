@@ -16,7 +16,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 ALPHABETA
 alphabeta
 ```

@@ -4,6 +4,8 @@ title = "Experimental Verification of the NKTg Law in Earth Orbit Based on NASAâ
 
 # Experimental Verification of the NKTg Law in Earth Orbit Based on NASAâ€™s 2025 Earth Dataset
 
+{{trans|Rust}}
+
 ```zc
 def DM_DT = -1.8; // kg/s
 
@@ -97,7 +99,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Experimental Verification of NKTg Law (Earth 2025)
 
 Date            Momentum(p)          NKTg1          NKTg2        v_sim       v_NASA      Error

@@ -17,7 +17,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 SPAM
 SPAM
 SPAM

@@ -24,7 +24,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Enter a string: RosettaCode
 Enter the integer 75000: 75000
 

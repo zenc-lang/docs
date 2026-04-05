@@ -42,7 +42,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Native true evaluates to: 1
 Native false evaluates to: 0
 

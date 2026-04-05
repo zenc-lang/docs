@@ -41,7 +41,7 @@ fn main(argc: int, argv: char**) {
 
 **Word-by-word processing (Default):**
 
-```zc
+```
 $ echo "hello world from Zen C" | ./read_stream
 Word: [hello]
 Word: [world]
@@ -52,7 +52,7 @@ Word: [C]
 
 **Line-by-line processing (with -l flag):**
 
-```zc
+```
 $ printf "First line\nSecond line\n" | ./read_stream -l
 Line: [First line]
 Line: [Second line]

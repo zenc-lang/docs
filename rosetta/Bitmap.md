@@ -93,7 +93,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Created 3x3 image.
 Image filled with blue (0, 0, 255).
 Set pixel at (1, 1) to red (255, 0, 0).

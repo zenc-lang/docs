@@ -30,7 +30,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Using a Zen C range loop:
 Iteration: 1
 Iteration: 2

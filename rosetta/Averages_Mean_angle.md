@@ -32,7 +32,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Mean for angles 1 is :  -0.00
 Mean for angles 2 is : -90.00
 Mean for angles 3 is :  20.00

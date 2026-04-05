@@ -25,7 +25,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 fdsa
 ésoj
 esøøm

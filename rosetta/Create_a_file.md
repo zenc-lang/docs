@@ -43,7 +43,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Creating file: output.txt
 Success: output.txt created.
 Creating directory: docs

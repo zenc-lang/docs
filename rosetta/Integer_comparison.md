@@ -27,7 +27,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Enter two integers separated by a space: 42 17
 42 is greater than 17
 ```

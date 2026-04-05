@@ -76,7 +76,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Original: Hello, Zen-C World! (XYZ)
 Key: 3
 Encoded: Khoor, Chq-F Zruog! (ABC)

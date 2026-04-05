@@ -15,7 +15,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 /bin/bash
 ```
 

@@ -4,6 +4,8 @@ title = "Finite state machine"
 
 # Finite state machine
 
+{{trans|Wren}}
+
 ```zc
 import "ctype.h"
 
@@ -65,7 +67,7 @@ fn main() {
 
 Sample session:
 
-```zc
+```
 Please enter your option when prompted
 (any characters after the first will be ignored)
 

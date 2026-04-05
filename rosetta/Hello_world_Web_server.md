@@ -26,14 +26,14 @@ fn main() {
 
 **Server Console:**
 
-```zc
+```
 Serving 'Goodbye, World!' at http://localhost:8080/
 Server listening on port 8080
 ```
 
 **Client / Browser Request:**
 
-```zc
+```
 $ curl http://localhost:8080/
 Goodbye, World!
 ```

@@ -46,7 +46,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 There was an old lady who swallowed a fly;
 
   I don't know why she swallowed a fly - Perhaps she'll die!

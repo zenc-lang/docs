@@ -74,7 +74,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 STACK POINTERS
 Value of x: 42
 Address of x: 140734141454332

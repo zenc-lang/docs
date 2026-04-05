@@ -23,7 +23,7 @@ fn main() {
 
 Short sample run:
 
-```zc
+```
 2
 5
 8

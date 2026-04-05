@@ -23,7 +23,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Hello from closure!
 Hello from closure!
 Hello from closure!
@@ -44,7 +44,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Iteration 1
 Iteration 2
 Iteration 3
@@ -74,7 +74,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Hello from function pointer!
 Hello from function pointer!
 ```

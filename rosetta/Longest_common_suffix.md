@@ -71,7 +71,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 [baabababc, baabc, bbbabc] -> "abc"
 [baabababc, baabc, bbbazc] -> "c"
 [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday] -> "day"

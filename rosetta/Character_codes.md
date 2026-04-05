@@ -34,7 +34,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 The character 'a' has a code of 97 in ASCII/Unicode.
 The code 97 corresponds to the character 'a'.
 The rune '🚀' has a code of 128640 in Unicode.

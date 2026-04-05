@@ -40,7 +40,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Vector A: [1, 3, -5]
 Vector B: [4, -2, -1]
 A . B  = 3.000000

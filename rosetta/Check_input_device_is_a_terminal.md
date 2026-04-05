@@ -17,7 +17,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Input device is a terminal? true
 ```
 

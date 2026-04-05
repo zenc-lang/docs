@@ -26,7 +26,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 0.00˚ Kelvin
 -273.15˚ Celsius
 -459.67˚ Fahrenheit

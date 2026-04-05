@@ -44,7 +44,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Differences (to 4dp) between these bearings:
      20.0000° and      45.0000° ->   25.0000°
     -45.0000° and      45.0000° ->   90.0000°

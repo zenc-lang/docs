@@ -27,7 +27,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 (true, false)
 Inputs -> a: true, b: false
   a AND b: false

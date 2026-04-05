@@ -16,7 +16,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Assertion failed: Why aren't you using n?!
 ```
 

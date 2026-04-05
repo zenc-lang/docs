@@ -21,7 +21,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Pointer p holds the address of a: 140734141454332
 Pointer p now holds the address of b: 140734141454328
 ```

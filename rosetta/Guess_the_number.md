@@ -24,7 +24,7 @@ fn main() {
 
 Sample run:
 
-```zc
+```
 Your guess 1 to 10 : 3
 Your guess 1 to 10 : 8
 Your guess 1 to 10 : 5

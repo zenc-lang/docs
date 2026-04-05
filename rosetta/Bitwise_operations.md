@@ -42,7 +42,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 a AND b: 3
 a OR b: 255
 a XOR b: 252

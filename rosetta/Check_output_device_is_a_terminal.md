@@ -17,13 +17,13 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Output device is a terminal? true
 ```
 
 Or, if we redirect output to a file:
 
-```zc
+```
 $ zc build Check_output_device_is_a_terminal.zc
 $./Check_output_device_is_a_terminal > tmp
 $cat tmp

@@ -4,6 +4,8 @@ title = "Chinese zodiac"
 
 # Chinese zodiac
 
+{{trans|Wren}}
+
 ```zc
 let animals  = ["Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Goat", "Monkey", "Rooster", "Dog", "Pig"];
 let aspects  = ["Yang","Yin"];
@@ -62,7 +64,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Year  Chinese  Pinyin      Element  Animal   Aspect  Cycle
 ----  -------  ---------   -------  -------  ------  -----
 1935    乙亥     yĭ-hài     Wood     Pig      Yin     12/60

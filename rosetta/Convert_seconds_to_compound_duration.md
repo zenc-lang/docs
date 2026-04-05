@@ -4,6 +4,8 @@ title = "Convert seconds to compound duration"
 
 # Convert seconds to compound duration
 
+{{trans|Wren}}
+
 ```zc
 fn ends_with(s1: char*, s2: char*) -> bool {
     let l1 = strlen(s1);
@@ -45,7 +47,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 2 hr, 59 sec
 1 d
 9 wk, 6 d, 10 hr, 40 min

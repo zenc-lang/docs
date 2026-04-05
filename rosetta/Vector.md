@@ -92,7 +92,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 v1 (new): Vector(x: 3.00, y: 4.00)
 v2 (from_points): Vector(x: -1.00, y: 2.00)
 v_polar (from_polar): Vector(x: 3.54, y: 3.54)

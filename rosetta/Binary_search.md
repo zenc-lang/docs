@@ -44,7 +44,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 => Iterative Binary Search
 Value 12 found at index 5.
 Value 5 not found.
@@ -89,7 +89,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 => Recursive Binary Search
 Value 12 found at index 5.
 Value 5 not found.

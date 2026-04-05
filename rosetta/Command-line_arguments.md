@@ -16,7 +16,7 @@ fn main(argc: int, argv: char**) {
 
 **Output:**
 
-```zc
+```
 $ zc build Command-line_arguments.zc
    Compiling Command-line_arguments.zc
     Finished build in 0.04s

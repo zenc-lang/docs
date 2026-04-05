@@ -43,13 +43,13 @@ fn main() {
 
 And to compile use <code>zc</code>.
 
-```zc
+```
 zc hello.zc && ./hello # or use ./zc if you haven't installed it.
 ```
 
 You can also run it directly like this:
 
-```zc
+```
 zc run hello.zc
 ```
 

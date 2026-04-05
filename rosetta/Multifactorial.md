@@ -4,6 +4,8 @@ title = "Multifactorial"
 
 # Multifactorial
 
+{{trans|Wren}}
+
 ```zc
 fn mf(n: int, d: int) -> int {
     let prod  = 1;
@@ -25,7 +27,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 degree 1:        1       2       6      24     120     720    5040   40320  362880 3628800
 degree 2:        1       2       3       8      15      48     105     384     945    3840
 degree 3:        1       2       3       4      10      18      28      80     162     280

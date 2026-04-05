@@ -25,7 +25,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Sh ws  soul strppr. Sh took my hrt!
 ```
 

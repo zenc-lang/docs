@@ -71,7 +71,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 The (longest) rep-strings are:
 
 1001110011 -> 10011

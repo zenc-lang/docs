@@ -37,7 +37,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Taking a photo.
 Calling home.
 ```

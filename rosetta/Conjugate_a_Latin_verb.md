@@ -52,7 +52,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Present indicative tense, active voice, of 'amare' to 'love':
     amo         I love
     amas        you (singular) love

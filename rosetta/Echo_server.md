@@ -103,7 +103,7 @@ fn main() {
 
 **Output:**
 
-```zc
+```
 Starting Concurrent Echo Server on 127.0.0.1:12321...
 Listening for incoming connections...
 [Thread] Client connected!
