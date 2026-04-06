@@ -48,7 +48,6 @@ fn main() {
 - **`import "file.h"`**: Registriert Header als Modul; erlaubt impliziten Zugriff auf Symbole (`file::function()`).  
 - **`include <file.h>`**: Fügt nur `#include` in generiertes C ein; Symbole müssen mit `extern fn` manuell deklariert werden.
 
-
 ---
 
 ## Standardbibliothek

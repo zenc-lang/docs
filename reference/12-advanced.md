@@ -101,7 +101,6 @@ println "Running on: {PLATFORM}";
 Use raw strings (`r"..."`) in comptime to avoid escaping braces: `code(r"fn test() { return 42; }")`. Otherwise, use `{{` and `}}` to escape braces inside regular strings.
 {% end %}
 
-
 #### Embed
 Embed files as specified types.
 ```zc

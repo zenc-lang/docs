@@ -32,7 +32,6 @@ zc run meu_arquivo.zc
 #### Asserções
 Use a função integrada `assert(condição, mensagem)` para verificar as expectativas. Se a condição for falsa, o teste falhará e imprimirá a mensagem fornecida.
 
-
 ---
 
 ## Contribuindo

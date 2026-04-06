@@ -52,7 +52,6 @@ Zen C 确保类型匹配。
 - **`import "file.h"`**: 将头文件注册为命名模块。启用对符号的隐式访问 (例如 `file::function()`)。
 - **`include <file.h>`**: 纯粹在生成的 C 代码中发出 `#include <file.h>`。不向 Zen C 编译器引入任何符号；必须使用 `extern fn` 才能访问它们。
 
-
 ---
 
 ## 标准库
@@ -160,7 +159,6 @@ zc repl
 | `! <cmd>` | 运行 shell 命令 (如 `!ls`)。 |
 
 ---
-
 
 ### 语言服务器协议 (LSP)
 
@@ -371,7 +369,6 @@ let i = thread_id(); // 全局索引
 let bid = block_id();
 let tid = local_id();
 ```
-
 
 {% alert(type="note") %}
 **注意：** `--cuda` 标志设置 `nvcc` 为编译器并隐含 `--cpp` 模式。需要安装 NVIDIA CUDA Toolkit。

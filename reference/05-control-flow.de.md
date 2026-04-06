@@ -42,7 +42,7 @@ match wert {
 match form {
     Form::Kreis(r)       => { println "Radius: {r}" },
     Form::Rechteck(w, h) => { println "Fläche: {w*h}" },
-    Form::Punkt          => { println "Point" },
+    Form::Point          => { println "Point" },
 }
 ```
 

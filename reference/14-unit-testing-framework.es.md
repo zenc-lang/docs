@@ -99,7 +99,6 @@ zc repl
 
 ---
 
-
 ### Protocolo de Servidor de Lenguaje (LSP)
 
 Zen C incluye un Servidor de Lenguaje integrado para la integración con editores.
@@ -308,7 +307,6 @@ let bid = block_id();
 let tid = local_id();
 ```
 
-
 {% alert(type="note") %}
 **Nota:** La flag `--cuda` establece `nvcc` como el compilador e implica el modo `--cpp`. Requiere el NVIDIA CUDA Toolkit.
 {% end %}
@@ -353,7 +351,6 @@ fn main() {
 {% alert(type="note") %}
 **Nota:** La interpolación de cadenas de Zen C funciona con objetos de Objective-C (`id`) llamando a `debugDescription` o `description`.
 {% end %}
-
 
 ## Contribuyendo
 

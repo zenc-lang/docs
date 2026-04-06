@@ -101,7 +101,6 @@ println "In esecuzione su: {PLATFORM}";
 Usa raw strings (`r"..."`) in comptime per evitare di eseguire l'escape delle parentesi graffe: `code(r"fn test() { return 42; }")`. Altrimenti, usa `{{` e `}}` per l'escape nelle stringhe normali.
 {% end %}
 
-
 #### Incorporati
 Incorpora file come tipi specificati.
 ```zc
@@ -261,7 +260,6 @@ fn aggiungi_cinque(x: int) -> int {
 {% alert(type="note") %}
 Quando si usa la sintassi Intel (via `-masm=intel`), dovrai assicurarti che la tua build sia configurata correttamente (per esempio, `//> cflags: -masm=intel`). TCC non supporta la sintassi assembly Intel.
 {% end %}
-
 
 ### Direttive della Build
 

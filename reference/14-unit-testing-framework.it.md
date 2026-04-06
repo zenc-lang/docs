@@ -140,7 +140,6 @@ zc repl
 
 ---
 
-
 ### Protocollo Server di Linguaggio (LSP)
 
 Zen C include un Server di Linguaggio integrato per l'integrazione con gli editor.
@@ -348,7 +347,6 @@ let i = thread_id(); // Indice globale
 let bid = block_id();
 let tid = local_id();
 ```
-
 
 {% alert(type="note") %}
 **Nota:** La flag `--cuda` imposta `nvcc` come compilatore e implica la modalità `--cpp`. Richiede l'installazione dell'NVIDIA CUDA Toolkit.

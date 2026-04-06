@@ -98,7 +98,6 @@ externo: loop {
 for _ in 0..5 { ... }
 ```
 
-
 #### Control Avanzado
 ```zc
 // Guard: Ejecuta else y retorna si la condición es falsa

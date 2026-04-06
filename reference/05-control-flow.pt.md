@@ -40,9 +40,9 @@ match val {
 
 // Desestruturando Enums
 match shape {
-    Shape::Circle(r)   => println "Radius: {r}",
-    Shape::Rect(w, h)  => println "Area: {w*h}",
-    Shape::Point       => println "Point"
+    Shape::Circle(r)   => { println "Radius: {r}" },
+    Shape::Rect(w, h)  => { println "Area: {w*h}" },
+    Shape::Point       => { println "Point" }
 }
 ```
 

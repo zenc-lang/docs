@@ -101,7 +101,6 @@ println "Ejecutando en: {PLATFORM}";
 Usa raw strings (`r"..."`) en comptime para evitar escapar llaves: `code(r"fn test() { return 42; }")`. De lo contrario, usa `{{` y `}}` para escapar llaves en strings regulares.
 {% end %}
 
-
 #### Embed
 Embebe archivos como los tipos especificados.
 ```zc

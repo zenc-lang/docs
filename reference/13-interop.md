@@ -48,7 +48,6 @@ fn main() {
 - **`import "file.h"`**: Registers the header as a named module. Enables implicit access to symbols (for example, `file::function()`).
 - **`include <file.h>`**: Purely emits `#include <file.h>` in the generated C code. Does not introduce any symbols to the Zen C compiler; you must use `extern fn` to access them.
 
-
 ---
 
 ## Standard Library

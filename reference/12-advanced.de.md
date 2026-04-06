@@ -101,7 +101,6 @@ println "Running on: {PLATFORM}";
 Verwende in der Kompilierzeit rohe Zeichenketten (`r"..."`), um das Maskieren von geschweiften Klammern zu vermeiden: `code(r"fn test() { return 42; }")`. Verwende andernfalls `{{` und `}}`, um geschweifte Klammern innerhalb regulärer Zeichenketten zu maskieren.
 {% end %}
 
-
 #### Embed
 Binde Dateien als bestimmte Typen ein.
 ```zc

@@ -181,7 +181,6 @@ asm volatile {
 }
 ```
 
-
 #### Restrições Nomeadas
 Zen C simplifica a complexa restrição sintática do GCC com associações nomeadas.
 ```zc
