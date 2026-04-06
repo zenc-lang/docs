@@ -97,4 +97,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs.zenc-lang.org/content/std/ docs.zenc-lang.org/content/examples/rosetta/ docs.zenc-lang.org/content/tour/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: auto-sync documentation and rosetta examples" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: auto-sync documentation and rosetta examples" && git pull --rebase origin main && git push)

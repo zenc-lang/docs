@@ -56,5 +56,6 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "docs/site: Sync language reference and i18n infrastructure"
+            git pull --rebase origin main
             git push
           fi
