@@ -91,11 +91,11 @@ def fix_links(content, lang):
         "资源语义-默认移动": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
         "資源語義-默認移動": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
         "15-diagnostics": ("15-diagnostics", "15-diagnostic-system"),
-        "15-sistema-de-diagnóstico": ("15-diagnostics", "15-sistema-de-diagnóstico"),
+        "15-sistema-de-diagnóstico": ("15-diagnostics", "15-sistema-de-diagnostico"),
         "15-diagnosesystem": ("15-diagnostics", "15-diagnosesystem"),
         "15-sistema-di-diagnostica": ("15-diagnostics", "15-sistema-di-diagnostica"),
         "15-система-диагностики": ("15-diagnostics", "15-sistema-diagnostiki"),
-        "15-诊断系统": ("15-diagnostics", "15-zheng-duan-xi-tong"),
+        "15-诊断系统": ("15-diagnostics", "15-zhen-duan-xi-tong"),
         "15-診斷系統": ("15-diagnostics", "15-zhen-duan-xi-tong"),
     }
     
@@ -107,7 +107,8 @@ def fix_links(content, lang):
             target_base, new_anchor = target
             # Construct Zola link: (@/tour/file.lang.md#anchor)
             ext = f".{lang}.md" if lang != "en" else ".md"
-            return f"[{text}](@/tour/{target_base}{ext}#{new_anchor})"
+            anchor_part = f"#{new_anchor}" if new_anchor else ""
+            return f"[{text}](@/tour/{target_base}{ext}{anchor_part})"
         return match.group(0)
 
     # Match [Link Text](#anchor)

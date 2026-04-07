@@ -224,7 +224,7 @@ fn add_five(x: int) -> int {
 
 Zen C 提供了一个分类诊断系统，可以通过 `-W` 和 `-Wno-` 标记进行控制。这对于管理与安全、未使用代码和 C 互操作性相关的警告非常有用。
 
-[更多关于诊断系统的信息](@/tour/15-diagnostics.zh-cn.md#15-zheng-duan-xi-tong)
+[更多关于诊断系统的信息](@/tour/15-diagnostics.zh-cn.md#15-zhen-duan-xi-tong)
 
 #### 12.5 构建指令
 
