@@ -1,9 +1,9 @@
 +++
-title = "19. Diagnosesystem"
+title = "15. Diagnosesystem"
 weight = 15
 +++
 
-# 19. Diagnosesystem
+# 15. Diagnosesystem
 
 Zen C verfügt über ein kategorisiertes Diagnosesystem, das eine feingranulare Kontrolle über Compiler-Warnungen ermöglicht. Dies erlaubt es Ihnen, hohe Codequalitätsstandards einzuhalten und gleichzeitig Reibungsverluste bei der Interaktion mit externem C-Code zu reduzieren.
 

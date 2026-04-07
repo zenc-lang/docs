@@ -6,7 +6,7 @@ weight = 12
 # 12. Avanzado y Metaprogramación
 
 
-### Metaprogramación
+### 12.1 Metaprogramación
 
 #### Comptime
 Ejecuta código en tiempo de compilación para generar código fuente o imprimir mensajes.
@@ -157,13 +157,7 @@ fn fallback_init() { println "No se seleccionó backend"; }
 
 Múltiples `@cfg` en una declaración se combinan con AND. `not()` se puede usar dentro de `any()` y `all()`. Funciona en cualquier declaración de nivel superior: `fn`, `struct`, `import`, `impl`, `raw`, `def`, `test`, etc.
 
-### Sistema de Diagnóstico
-
-Zen C proporciona un sistema de diagnóstico categorizado que se puede controlar mediante los indicadores `-W` y `-Wno-`. Esto es útil para gestionar advertencias relacionadas con la seguridad, el código no utilizado y la interoperabilidad con C.
-
-[Leer más sobre el Sistema de Diagnóstico](15-diagnostics.es.md)
-
-### Atributos
+### 12.2 Atributos
 
 Decora funciones y structs para modificar el comportamiento del compilador.
 
@@ -214,7 +208,7 @@ Zen C proporciona "Derivaciones Inteligentes" que respetan la Semántica de Movi
     - Al comparar dos structs que no son Copy (`a == b`), el compilador pasa automáticamente `b` por referencia (`&b`) para evitar moverlo.
     - Las comprobaciones de igualdad recursivas en los campos también prefieren el acceso por puntero para prevenir la transferencia de posesión.
 
-### Ensamblador Inline
+### 12.3 Ensamblador Inline
 
 Zen C proporciona soporte de primera clase para ensamblador inline, transpilando directamente a `asm` extendido de estilo GCC.
 
@@ -264,7 +258,13 @@ fn sumar(x: int) -> int {
 
 > **Nota:** Cuando uses la sintaxis de Intel (mediante `-masm=intel`), debes asegurarte de que tu construcción esté configurada correctamente (por ejemplo, `//> cflags: -masm=intel`). TCC no soporta el ensamblador con sintaxis Intel.
 
-### Directivas de Construcción
+### 12.4 Sistema de Diagnóstico
+
+Zen C proporciona un sistema de diagnóstico categorizado que se puede controlar mediante los indicadores `-W` and `-Wno-`. Esto es útil para gestionar advertencias relacionadas con la seguridad, el código no utilizado y la interoperabilidad con C.
+
+[Leer más sobre el Sistema de Diagnóstico](15-diagnostics.es.md)
+
+### 12.5 Directivas de Construcción
 
 Zen C soporta comentarios especiales en la parte superior de tu archivo fuente para configurar el proceso de construcción sin necesidad de un complejo sistema de construcción o Makefile.
 
@@ -314,7 +314,7 @@ import "raylib.h"
 fn main() { ... }
 ```
 
-### Palabras Clave
+### 12.6 Palabras Clave
 
 Las siguientes palabras clave están reservadas en Zen C.
 

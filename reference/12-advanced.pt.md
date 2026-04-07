@@ -6,7 +6,7 @@ weight = 12
 # 12. Avançado e Metaprogramação
 
 
-### Metaprogramação
+### 12.1 Metaprogramação
 
 #### Comptime
 Execute código em tempo de compilação para gerar código ou imprimir mensagens.
@@ -110,13 +110,7 @@ fn fallback_init() { println "Nenhum backend selecionado"; }
 
 Múltiplos `@cfg` em uma declaração são combinados com AND. `not()` pode ser usado dentro de `any()` e `all()`. Funciona com qualquer declaração de nível superior: `fn`, `struct`, `import`, `impl`, `raw`, `def`, `test`, etc.
 
-### Sistema de Diagnóstico
-
-O Zen C fornece um sistema de diagnóstico categorizado que pode ser controlado através dos sinalizadores `-W` e `-Wno-`. Isso é útil para gerenciar avisos relacionados à segurança, código não utilizado e interoperabilidade com C.
-
-[Leia mais sobre o Sistema de Diagnóstico](15-diagnostics.pt.md)
-
-### Atributos
+### 12.2 Atributos
 Decore funções e structs para modificar o comportamento do compilador.
 
 | Atributo | Escopo | Descrição |
@@ -146,7 +140,7 @@ Decore funções e structs para modificar o comportamento do compilador.
 | `@ctype("type")` | Fn Param | Sobreescreve tipo C gerado para um parâmetro. |
 | `@<custom>` | Any | Passa atributos genéricos para o C (e.g. `@flatten`, `@alias("name")`). |
 
-### Atributos Customizados
+#### Atributos Customizados
 
 Zen C suporta um sistema poderoso de **Atributos Customizados** que te permite usar qualquer `__attribute__` de GCC/Clang diretamente no seu código. Qualquer atributo que não seja explicitamente reconhecido pelo compilador de Zen C é tratado como um atributo genérico e passado para o código C gerado.
 
@@ -158,7 +152,7 @@ Os atributos Zen C são mapeados diretamente para atributos C:
 - `@name(args)` → `__attribute__((name(args)))`
 - `@name("string")` → `__attribute__((name("string")))`
 
-### Smart Derives
+#### Smart Derives
 
 Zen C fornece "Smart Derives" que respeitam a Semântica de Move (Move Semantics):
 
@@ -166,7 +160,7 @@ Zen C fornece "Smart Derives" que respeitam a Semântica de Move (Move Semantics
     - Ao comparar dois structs non-Copy (`a == b`), o compilador automaticamente passa `b` por referência (`&b`) para evitar que ele seja movido.
     - Checagens recursivas de igualdade nos campos também preferem acesso ao ponteiro para prevenir transferência de propriedade.
     
-### Assembly Inline
+### 12.3 Assembly Inline
 
 Zen C fornece suporte de primeira classe para assembly inline, transpilando diretamente para `asm`de estilo GCC estendido.
 
@@ -215,7 +209,13 @@ fn add_five(x: int) -> int {
 
 > **Nota:** Ao utilizar sintaxe Intel (via `-masm=intel`), você deve garantir que seu build esteja configurado corretamente (por exemplo, `//> cflags: -masm=intel`). O TCC não suporta sintaxe assembly da Intel.
 
-### Diretivas de Build
+### 12.4 Sistema de Diagnóstico
+
+O Zen C fornece um sistema de diagnóstico categorizado que pode ser controlado através dos sinalizadores `-W` e `-Wno-`. Isso é útil para gerenciar avisos relacionados à segurança, código não utilizado e interoperabilidade com C.
+
+[Leia mais sobre o Sistema de Diagnóstico](15-diagnostics.pt.md)
+
+### 12.5 Diretivas de Build
 
 Zen C suporta comentários especiais no topo de seu arquivo-fonte para configurar o processo de build sem precisar de um sistema de build complexo ou um Makefile.
 
@@ -265,7 +265,7 @@ import "raylib.h"
 fn main() { ... }
 ```
 
-### Palavras-chave
+### 12.6 Palavras-chave
 
 Zen C reserva as seguintes palavras-chave:
 

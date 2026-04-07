@@ -1,9 +1,9 @@
 +++
-title = "18. Framework di Test Unitari"
+title = "14. Framework di Test Unitari"
 weight = 14
 +++
 
-# 18. Framework di Test Unitari
+# 14. Framework di Test Unitari
 
 
 Zen C include un framework di test integrato che consente di scrivere test unitari direttamente nei file sorgente utilizzando la parola chiave `test`.

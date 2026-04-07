@@ -1,9 +1,9 @@
 +++
-title = "19. Sistema di Diagnostica"
+title = "15. Sistema di Diagnostica"
 weight = 15
 +++
 
-# 19. Sistema di Diagnostica
+# 15. Sistema di Diagnostica
 
 Zen C presenta un sistema di diagnostica categorizzato che fornisce un controllo granulare sugli avvisi (warning) del compilatore. Ciò consente di mantenere elevati standard di qualità del codice riducendo al contempo l'attrito durante l'interazione con il codice C esterno.
 

@@ -1,9 +1,9 @@
 +++
-title = "19. Diagnostic System"
+title = "15. Diagnostic System"
 weight = 15
 +++
 
-# 19. Diagnostic System
+# 15. Diagnostic System
 
 
 Zen C features a categorized diagnostic system that provides granular control over compiler warnings. This allows you to maintain high code quality standards while reducing friction when interacting with external C code.

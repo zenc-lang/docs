@@ -1,9 +1,9 @@
 +++
-title = "17. Interoperabilidad C"
+title = "13. Interoperabilidad C"
 weight = 13
 +++
 
-# 17. Interoperabilidad C
+# 13. Interoperabilidad C
 
 Zen C ofrece dos formas de interactuar con código C: **Importaciones de Confianza** (Conveniente) y **FFI Explícita** (Seguro/Preciso).
 
