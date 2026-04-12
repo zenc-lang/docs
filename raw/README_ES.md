@@ -1221,7 +1221,7 @@ let wav   = embed "sound.wav" as u8[];        // Embebe como Slice_u8
 ```
 
 #### Plugins
-Zen C admite plugins nativos de Zen C (`.zc`) que extienden la sintaxis del lenguaje mediante la generación de código en tiempo de compilación.
+Zen C admite plugins nativos de Zen C (`.zc`) que extienden la sintaxis del lenguaje mediante la generación de código en tiempo de compilación. Los plugins ahora pueden proporcionar documentación interactiva al pasar el cursor (tooltips) para el Servidor de Lenguaje (LSP).
 
 ```zc
 import plugin "plugins/lisp" as lisp
@@ -1641,7 +1641,7 @@ El Servidor de Lenguaje de Zen C (LSP) soporta las características estándar de
 
 *   **Ir a la Definición**
 *   **Encontrar Referencias**
-*   **Información al pasar el ratón (Hover)**
+*   **Información de Hover** (incluyendo plugins DSL personalizados)
 *   **Autocompletado** (Nombres de funciones/structs, autocompletado tras punto para métodos/campos)
 *   **Símbolos del Documento** (Esquema)
 *   **Ayuda de Firma**
