@@ -1,10 +1,194 @@
-{# MISRA Rules Coverage Table Shortcode #}
-{# Usage: {{/* misra_table() */}} in any markdown file -- use {% misra_table() %} #}
-
-{% set rules = load_data(path="misra_rules.toml") %}
+{# MISRA Rules Coverage Table -- self-contained, no external data file #}
+{% set chapters = [
+  {number: "Dir 4", title: "Development process", rules: [
+    {number: "4.5", summary: "Identifier typographic ambiguity"},
+    {number: "4.7", summary: "Header file identification"},
+    {number: "4.8", summary: "Measurement unit comments"},
+  ]},
+  {number: "1", title: "Environment", rules: [
+    {number: "1.1", summary: "No reliance on undefined behavior"},
+    {number: "1.2", summary: "No reliance on unspecified behavior"},
+    {number: "1.3", summary: "No reliance on implementation-defined behavior"},
+  ]},
+  {number: "2", title: "Unused code", rules: [
+    {number: "2.1", summary: "No unreachable code"},
+    {number: "2.2", summary: "No dead code"},
+    {number: "2.3", summary: "No void where not required"},
+    {number: "2.4", summary: "Unused labels"},
+    {number: "2.5", summary: "Unused macros"},
+    {number: "2.6", summary: "Unused function declarations"},
+    {number: "2.7", summary: "Unused parameters"},
+  ]},
+  {number: "5", title: "Identifiers", rules: [
+    {number: "5.1", summary: "Trigraph identifier collisions"},
+    {number: "5.2", summary: "Same identifier in same scope"},
+    {number: "5.3", summary: "No identifier hiding"},
+    {number: "5.4", summary: "Macro identifier uniqueness"},
+    {number: "5.5", summary: "Identifier length distinction"},
+    {number: "5.6", summary: "Typedef name uniqueness"},
+    {number: "5.7", summary: "Tag name uniqueness"},
+    {number: "5.8", summary: "Identifiers starting with underscore"},
+    {number: "5.9", summary: "Identifiers differing by underscore only"},
+  ]},
+  {number: "6", title: "Types", rules: [
+    {number: "6.1", summary: "Bit fields only as unsigned or bool"},
+    {number: "6.2", summary: "Single-bit bit fields"},
+  ]},
+  {number: "7", title: "Literals", rules: [
+    {number: "7.1", summary: "Octal constants forbidden"},
+    {number: "7.2", summary: "U suffix on unsigned constants"},
+    {number: "7.3", summary: "Lowercase L suffix forbidden"},
+    {number: "7.4", summary: "String literals const-qualified"},
+  ]},
+  {number: "8", title: "Declarations", rules: [
+    {number: "8.1", summary: "Types explicitly specified"},
+    {number: "8.2", summary: "Function types in prototype form"},
+    {number: "8.3", summary: "All declarations visible"},
+    {number: "8.4", summary: "Compatible declarations"},
+    {number: "8.5", summary: "External linkage declarations"},
+    {number: "8.6", summary: "Identifiers must be defined"},
+    {number: "8.7", summary: "No external linkage if not needed"},
+    {number: "8.8", summary: "Static functions with prototype"},
+    {number: "8.9", summary: "Symbols with block scope"},
+    {number: "8.10", summary: "Inline function definitions"},
+    {number: "8.11", summary: "External array sizes explicit"},
+    {number: "8.12", summary: "Array size shall be explicit"},
+    {number: "8.13", summary: "Pointer to const value"},
+    {number: "8.14", summary: "No restricted pointer qualifier"},
+  ]},
+  {number: "9", title: "Initialization", rules: [
+    {number: "9.1", summary: "All automatic variables initialized"},
+    {number: "9.2", summary: "Braces in initializers"},
+    {number: "9.3", summary: "Partial array initialization"},
+    {number: "9.4", summary: "No double initialization"},
+    {number: "9.5", summary: "Designated initializers order"},
+  ]},
+  {number: "10", title: "Essential type model", rules: [
+    {number: "10.1", summary: "Operands on essential types"},
+    {number: "10.2", summary: "Essential type expressions"},
+    {number: "10.3", summary: "Complex integer assignment"},
+    {number: "10.4", summary: "Balanced essential types"},
+    {number: "10.5", summary: "Cast essential type width"},
+    {number: "10.6", summary: "Composite expressions"},
+    {number: "10.7", summary: "Unary ops on composite types"},
+    {number: "10.8", summary: "Cast composite to other type"},
+  ]},
+  {number: "11", title: "Pointer conversions", rules: [
+    {number: "11.1", summary: "Pointer to object conversions"},
+    {number: "11.2", summary: "No pointer to void conversions"},
+    {number: "11.3", summary: "No pointer to integer casts"},
+    {number: "11.4", summary: "No pointer integer to pointer"},
+    {number: "11.5", summary: "No pointer to void*"},
+    {number: "11.6", summary: "No void* to pointer"},
+    {number: "11.7", summary: "Casts between function and object"},
+    {number: "11.8", summary: "No pointer arithmetic on void*"},
+    {number: "11.9", summary: "No macro-defined pointer"},
+  ]},
+  {number: "12", title: "Expressions", rules: [
+    {number: "12.1", summary: "Precedence of operators"},
+    {number: "12.2", summary: "Right-hand operand of && and ||"},
+    {number: "12.3", summary: "Comma operator forbidden"},
+    {number: "12.4", summary: "Unsigned integer wrap check"},
+  ]},
+  {number: "13", title: "Side effects", rules: [
+    {number: "13.1", summary: "No side effects in initializer list"},
+    {number: "13.2", summary: "No side-effect collisions"},
+    {number: "13.3", summary: "Full expression evaluation"},
+    {number: "13.4", summary: "Assignment-result not used"},
+    {number: "13.5", summary: "No assignment in &&/|| operand"},
+    {number: "13.6", summary: "No sizeof on function type"},
+  ]},
+  {number: "14", title: "Control flow", rules: [
+    {number: "14.1", summary: "No unreachable loops"},
+    {number: "14.2", summary: "No null statement body"},
+    {number: "14.3", summary: "Controlling expressions must be Boolean"},
+    {number: "14.4", summary: "Iteration termination"},
+  ]},
+  {number: "15", title: "If/switch statements", rules: [
+    {number: "15.1", summary: "No goto in if/else"},
+    {number: "15.2", summary: "All if/else compound"},
+    {number: "15.3", summary: "No else without if"},
+    {number: "15.4", summary: "Single return per function"},
+    {number: "15.5", summary: "Single function exit point"},
+    {number: "15.6", summary: "No if/else if without else"},
+    {number: "15.7", summary: "Else required after if/else if"},
+  ]},
+  {number: "16", title: "Switch/match statements", rules: [
+    {number: "16.1", summary: "No switch with no cases"},
+    {number: "16.2", summary: "Switch must have default"},
+    {number: "16.3", summary: "Break/return at end of each case"},
+    {number: "16.4", summary: "No fallthrough between cases"},
+    {number: "16.5", summary: "No default where not needed"},
+    {number: "16.6", summary: "No more than one default"},
+    {number: "16.7", summary: "No break outside switch"},
+  ]},
+  {number: "17", title: "Functions", rules: [
+    {number: "17.1", summary: "No variadic parameter after named"},
+    {number: "17.2", summary: "No recursion"},
+    {number: "17.3", summary: "No implicit function declaration"},
+    {number: "17.4", summary: "No array parameter decay"},
+    {number: "17.5", summary: "Array parameter size explicit"},
+    {number: "17.6", summary: "No function declarator with no prototype"},
+    {number: "17.7", summary: "Return value used"},
+    {number: "17.8", summary: "No function parameter modification"},
+  ]},
+  {number: "18", title: "Pointers and arrays", rules: [
+    {number: "18.1", summary: "No pointer arithmetic beyond bounds"},
+    {number: "18.2", summary: "Array index bounds check"},
+    {number: "18.3", summary: "No relational operators on pointers"},
+    {number: "18.4", summary: "No pointer arithmetic on non-array"},
+    {number: "18.5", summary: "No dynamic heap allocation"},
+    {number: "18.6", summary: "No address of automatic var escape"},
+    {number: "18.7", summary: "No flexible array member in union"},
+    {number: "18.8", summary: "Variable-length arrays forbidden"},
+  ]},
+  {number: "19", title: "Overlapping storage", rules: [
+    {number: "19.1", summary: "No overlapping objects in memcpy"},
+    {number: "19.2", summary: "No union overlapping writes"},
+  ]},
+  {number: "20", title: "Preprocessor", rules: [
+    {number: "20.1", summary: "#include preceded by directive only"},
+    {number: "20.2", summary: "No quoted header names"},
+    {number: "20.3", summary: "No #include in external braces"},
+    {number: "20.4", summary: "No self-inclusion"},
+    {number: "20.5", summary: "#undef forbidden"},
+    {number: "20.6", summary: "No tokens after #endif"},
+    {number: "20.7", summary: "No expressions in #if defined"},
+    {number: "20.8", summary: "No macro with same name as keyword"},
+    {number: "20.9", summary: "Identifiers in preprocessor directives"},
+    {number: "20.10", summary: "No comma, backslash in #include"},
+    {number: "20.11", summary: "No macro names reserved"},
+    {number: "20.12", summary: "No #include depth exceeded"},
+    {number: "20.13", summary: "No macro with same name twice"},
+    {number: "20.14", summary: "No #line with non-numeric"},
+  ]},
+  {number: "21", title: "Standard libraries", rules: [
+    {number: "21.1", summary: "#define reserved names forbidden"},
+    {number: "21.2", summary: "No reserved standard library"},
+    {number: "21.3", summary: "No memory allocation forbidden"},
+    {number: "21.4", summary: "No setjmp/longjmp"},
+    {number: "21.5", summary: "No stdarg.h for va_arg"},
+    {number: "21.6", summary: "No abort or exit in production"},
+    {number: "21.7", summary: "No atof/atoi/atol"},
+    {number: "21.8", summary: "No bsearch/qsort"},
+    {number: "21.9", summary: "No bcopy/strcpy/strcat"},
+    {number: "21.10", summary: "No stdlib.h time functions"},
+    {number: "21.11", summary: "No unsafe standard functions"},
+    {number: "21.12", summary: "No exception handling"},
+    {number: "21.13", summary: "No signal handling"},
+  ]},
+  {number: "22", title: "Resources", rules: [
+    {number: "22.1", summary: "No dynamic memory deallocation"},
+    {number: "22.2", summary: "No auto variable address leak"},
+    {number: "22.3", summary: "No double free"},
+    {number: "22.4", summary: "No use after free"},
+    {number: "22.5", summary: "No memory leak"},
+    {number: "22.6", summary: "No file handle leak"},
+  ]},
+] %}
 {% set total = 0 %}
-{% for chapter, data in rules.chapters %}
-  {% set total = total + data.rules | length %}
+{% for ch in chapters %}
+  {% set total = total + ch.rules | length %}
 {% endfor %}
 
 <style>
@@ -29,7 +213,7 @@
 .misra-chapter-header .arrow { transition: transform 0.2s; }
 .misra-chapter.open .misra-chapter-header .arrow { transform: rotate(90deg); }
 .misra-table { width: 100%; border-collapse: collapse; }
-.misra-table th { text-align: left; padding: 0.5rem 1rem; font-size: 0.85rem; 
+.misra-table th { text-align: left; padding: 0.5rem 1rem; font-size: 0.85rem;
   border-bottom: 2px solid var(--border, #d0d7de); color: var(--text-muted, #656d76); }
 .misra-table td { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border, #d0d7de); font-size: 0.9rem; }
 .misra-table tr:last-child td { border-bottom: none; }
@@ -41,7 +225,7 @@
 
 <div class="misra-summary">
   <div class="misra-stat">
-    <div class="misra-stat-value">{{ rules.chapters | length }}</div>
+    <div class="misra-stat-value">{{ chapters | length }}</div>
     <div class="misra-stat-label">Chapters</div>
   </div>
   <div class="misra-stat">
@@ -54,12 +238,12 @@
   </div>
 </div>
 
-{% for key, chapter in rules.chapters %}
+{% for ch in chapters %}
 <div class="misra-chapter" onclick="this.classList.toggle('open')">
   <div class="misra-chapter-header">
-    <span>Chapter {{ chapter.number }}: {{ chapter.title }}</span>
+    <span>Chapter {{ ch.number }}: {{ ch.title }}</span>
     <span>
-      <span style="font-weight:400;color:var(--text-muted,#656d76);margin-right:0.5rem">{{ chapter.rules | length }} rules</span>
+      <span style="font-weight:400;color:var(--text-muted,#656d76);margin-right:0.5rem">{{ ch.rules | length }} rules</span>
       <span class="arrow">&#9654;</span>
     </span>
   </div>
@@ -73,9 +257,9 @@
         </tr>
       </thead>
       <tbody>
-        {% for rule in chapter.rules %}
+        {% for rule in ch.rules %}
         <tr>
-          <td>{{ chapter.number }}.{{ rule.number }}</td>
+          <td>{{ ch.number }}.{{ rule.number }}</td>
           <td>{{ rule.summary }}</td>
           <td class="status"><span class="status-yes">&#10003; Checked</span></td>
         </tr>
@@ -87,7 +271,6 @@
 {% endfor %}
 
 <script>
-// Open first chapter by default
 document.addEventListener('DOMContentLoaded', function() {
   var first = document.querySelector('.misra-chapter');
   if (first) first.classList.add('open');
