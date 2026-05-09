@@ -63,7 +63,9 @@ fn main() {
 ```
 
 #### RAII / Трейт Drop
-Реализуйте `Drop` для автоматического запуска логики очистки.
+
+Implement `Drop` to run cleanup logic automatically when a value goes out of scope.
+
 ```zc
 impl Drop for MyStruct {
     fn drop(self) {
@@ -71,3 +73,19 @@ impl Drop for MyStruct {
     }
 }
 ```
+
+**Обёртка RAII-типа.** Если ваша структура содержит поле, которое уже реализует `Drop` (например, `Vec` или `String`), компилятор обрабатывает очистку автоматически. Вам НЕ нужно писать `impl Drop` для внешней структуры.
+
+```zc
+struct MyVecWrapper {
+    inner: Vec<int>;  // Vec::drop() called automatically
+}
+```
+
+{% alert(type="note") %}
+**Пример:** `String` определён как `struct String { vec: Vec<char>; }` -- ему НЕ нужна явная реализация `Drop`, потому что `Vec<char>` управляет всей памятью. `Set<T>` напротив использует сырые указатели `T*` и ТРЕБУЕТ явного `Drop`.
+{% end %}
+
+**Правило:**
+- Поля `Vec<T>`, `String` или другие RAII-типы → автоматический Drop
+- Поля `T*`, `malloc`-указатели или файловые дескрипторы → требуется явный Drop

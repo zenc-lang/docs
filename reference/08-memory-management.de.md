@@ -69,7 +69,9 @@ fn main() {
 ```
 
 #### RAII / Drop Trait
-Implementiere `Drop`, um automatische Aufräumlogik auszuführen.
+
+Implement `Drop` to run cleanup logic automatically when a value goes out of scope.
+
 ```zc
 impl Drop for MyStruct {
     fn drop(self) {
@@ -77,3 +79,19 @@ impl Drop for MyStruct {
     }
 }
 ```
+
+**Umhüllen eines RAII-Typs.** Wenn dein Struct ein Feld enthält, das bereits `Drop` implementiert (wie `Vec` oder `String`), kümmert sich der Compiler automatisch um die Bereinigung. Du musst kein `impl Drop` für das äußere Struct schreiben.
+
+```zc
+struct MyVecWrapper {
+    inner: Vec<int>;  // Vec::drop() called automatically
+}
+```
+
+{% alert(type="note") %}
+**Beispiel:** `String` ist als `struct String { vec: Vec<char>; }` definiert -- es benötigt keine explizite `Drop`-Implementierung, da `Vec<char>` den gesamten Speicher verwaltet. `Set<T>` hingegen verwendet rohe `T*`-Zeiger und benötigt explizites `Drop`.
+{% end %}
+
+**Faustregel:**
+- Felder vom Typ `Vec<T>`, `String` oder andere RAII-Typen → automatisches Drop
+- Felder vom Typ `T*`, `malloc`-Zeiger oder Dateihandles → explizites Drop erforderlich
