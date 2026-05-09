@@ -1,278 +1,291 @@
-{# MISRA Rules Coverage Table -- self-contained, no external data file #}
-{% set chapters = [
-  {number: "Dir 4", title: "Development process", rules: [
-    {number: "4.5", summary: "Identifier typographic ambiguity"},
-    {number: "4.7", summary: "Header file identification"},
-    {number: "4.8", summary: "Measurement unit comments"},
-  ]},
-  {number: "1", title: "Environment", rules: [
-    {number: "1.1", summary: "No reliance on undefined behavior"},
-    {number: "1.2", summary: "No reliance on unspecified behavior"},
-    {number: "1.3", summary: "No reliance on implementation-defined behavior"},
-  ]},
-  {number: "2", title: "Unused code", rules: [
-    {number: "2.1", summary: "No unreachable code"},
-    {number: "2.2", summary: "No dead code"},
-    {number: "2.3", summary: "No void where not required"},
-    {number: "2.4", summary: "Unused labels"},
-    {number: "2.5", summary: "Unused macros"},
-    {number: "2.6", summary: "Unused function declarations"},
-    {number: "2.7", summary: "Unused parameters"},
-  ]},
-  {number: "5", title: "Identifiers", rules: [
-    {number: "5.1", summary: "Trigraph identifier collisions"},
-    {number: "5.2", summary: "Same identifier in same scope"},
-    {number: "5.3", summary: "No identifier hiding"},
-    {number: "5.4", summary: "Macro identifier uniqueness"},
-    {number: "5.5", summary: "Identifier length distinction"},
-    {number: "5.6", summary: "Typedef name uniqueness"},
-    {number: "5.7", summary: "Tag name uniqueness"},
-    {number: "5.8", summary: "Identifiers starting with underscore"},
-    {number: "5.9", summary: "Identifiers differing by underscore only"},
-  ]},
-  {number: "6", title: "Types", rules: [
-    {number: "6.1", summary: "Bit fields only as unsigned or bool"},
-    {number: "6.2", summary: "Single-bit bit fields"},
-  ]},
-  {number: "7", title: "Literals", rules: [
-    {number: "7.1", summary: "Octal constants forbidden"},
-    {number: "7.2", summary: "U suffix on unsigned constants"},
-    {number: "7.3", summary: "Lowercase L suffix forbidden"},
-    {number: "7.4", summary: "String literals const-qualified"},
-  ]},
-  {number: "8", title: "Declarations", rules: [
-    {number: "8.1", summary: "Types explicitly specified"},
-    {number: "8.2", summary: "Function types in prototype form"},
-    {number: "8.3", summary: "All declarations visible"},
-    {number: "8.4", summary: "Compatible declarations"},
-    {number: "8.5", summary: "External linkage declarations"},
-    {number: "8.6", summary: "Identifiers must be defined"},
-    {number: "8.7", summary: "No external linkage if not needed"},
-    {number: "8.8", summary: "Static functions with prototype"},
-    {number: "8.9", summary: "Symbols with block scope"},
-    {number: "8.10", summary: "Inline function definitions"},
-    {number: "8.11", summary: "External array sizes explicit"},
-    {number: "8.12", summary: "Array size shall be explicit"},
-    {number: "8.13", summary: "Pointer to const value"},
-    {number: "8.14", summary: "No restricted pointer qualifier"},
-  ]},
-  {number: "9", title: "Initialization", rules: [
-    {number: "9.1", summary: "All automatic variables initialized"},
-    {number: "9.2", summary: "Braces in initializers"},
-    {number: "9.3", summary: "Partial array initialization"},
-    {number: "9.4", summary: "No double initialization"},
-    {number: "9.5", summary: "Designated initializers order"},
-  ]},
-  {number: "10", title: "Essential type model", rules: [
-    {number: "10.1", summary: "Operands on essential types"},
-    {number: "10.2", summary: "Essential type expressions"},
-    {number: "10.3", summary: "Complex integer assignment"},
-    {number: "10.4", summary: "Balanced essential types"},
-    {number: "10.5", summary: "Cast essential type width"},
-    {number: "10.6", summary: "Composite expressions"},
-    {number: "10.7", summary: "Unary ops on composite types"},
-    {number: "10.8", summary: "Cast composite to other type"},
-  ]},
-  {number: "11", title: "Pointer conversions", rules: [
-    {number: "11.1", summary: "Pointer to object conversions"},
-    {number: "11.2", summary: "No pointer to void conversions"},
-    {number: "11.3", summary: "No pointer to integer casts"},
-    {number: "11.4", summary: "No pointer integer to pointer"},
-    {number: "11.5", summary: "No pointer to void*"},
-    {number: "11.6", summary: "No void* to pointer"},
-    {number: "11.7", summary: "Casts between function and object"},
-    {number: "11.8", summary: "No pointer arithmetic on void*"},
-    {number: "11.9", summary: "No macro-defined pointer"},
-  ]},
-  {number: "12", title: "Expressions", rules: [
-    {number: "12.1", summary: "Precedence of operators"},
-    {number: "12.2", summary: "Right-hand operand of && and ||"},
-    {number: "12.3", summary: "Comma operator forbidden"},
-    {number: "12.4", summary: "Unsigned integer wrap check"},
-  ]},
-  {number: "13", title: "Side effects", rules: [
-    {number: "13.1", summary: "No side effects in initializer list"},
-    {number: "13.2", summary: "No side-effect collisions"},
-    {number: "13.3", summary: "Full expression evaluation"},
-    {number: "13.4", summary: "Assignment-result not used"},
-    {number: "13.5", summary: "No assignment in &&/|| operand"},
-    {number: "13.6", summary: "No sizeof on function type"},
-  ]},
-  {number: "14", title: "Control flow", rules: [
-    {number: "14.1", summary: "No unreachable loops"},
-    {number: "14.2", summary: "No null statement body"},
-    {number: "14.3", summary: "Controlling expressions must be Boolean"},
-    {number: "14.4", summary: "Iteration termination"},
-  ]},
-  {number: "15", title: "If/switch statements", rules: [
-    {number: "15.1", summary: "No goto in if/else"},
-    {number: "15.2", summary: "All if/else compound"},
-    {number: "15.3", summary: "No else without if"},
-    {number: "15.4", summary: "Single return per function"},
-    {number: "15.5", summary: "Single function exit point"},
-    {number: "15.6", summary: "No if/else if without else"},
-    {number: "15.7", summary: "Else required after if/else if"},
-  ]},
-  {number: "16", title: "Switch/match statements", rules: [
-    {number: "16.1", summary: "No switch with no cases"},
-    {number: "16.2", summary: "Switch must have default"},
-    {number: "16.3", summary: "Break/return at end of each case"},
-    {number: "16.4", summary: "No fallthrough between cases"},
-    {number: "16.5", summary: "No default where not needed"},
-    {number: "16.6", summary: "No more than one default"},
-    {number: "16.7", summary: "No break outside switch"},
-  ]},
-  {number: "17", title: "Functions", rules: [
-    {number: "17.1", summary: "No variadic parameter after named"},
-    {number: "17.2", summary: "No recursion"},
-    {number: "17.3", summary: "No implicit function declaration"},
-    {number: "17.4", summary: "No array parameter decay"},
-    {number: "17.5", summary: "Array parameter size explicit"},
-    {number: "17.6", summary: "No function declarator with no prototype"},
-    {number: "17.7", summary: "Return value used"},
-    {number: "17.8", summary: "No function parameter modification"},
-  ]},
-  {number: "18", title: "Pointers and arrays", rules: [
-    {number: "18.1", summary: "No pointer arithmetic beyond bounds"},
-    {number: "18.2", summary: "Array index bounds check"},
-    {number: "18.3", summary: "No relational operators on pointers"},
-    {number: "18.4", summary: "No pointer arithmetic on non-array"},
-    {number: "18.5", summary: "No dynamic heap allocation"},
-    {number: "18.6", summary: "No address of automatic var escape"},
-    {number: "18.7", summary: "No flexible array member in union"},
-    {number: "18.8", summary: "Variable-length arrays forbidden"},
-  ]},
-  {number: "19", title: "Overlapping storage", rules: [
-    {number: "19.1", summary: "No overlapping objects in memcpy"},
-    {number: "19.2", summary: "No union overlapping writes"},
-  ]},
-  {number: "20", title: "Preprocessor", rules: [
-    {number: "20.1", summary: "#include preceded by directive only"},
-    {number: "20.2", summary: "No quoted header names"},
-    {number: "20.3", summary: "No #include in external braces"},
-    {number: "20.4", summary: "No self-inclusion"},
-    {number: "20.5", summary: "#undef forbidden"},
-    {number: "20.6", summary: "No tokens after #endif"},
-    {number: "20.7", summary: "No expressions in #if defined"},
-    {number: "20.8", summary: "No macro with same name as keyword"},
-    {number: "20.9", summary: "Identifiers in preprocessor directives"},
-    {number: "20.10", summary: "No comma, backslash in #include"},
-    {number: "20.11", summary: "No macro names reserved"},
-    {number: "20.12", summary: "No #include depth exceeded"},
-    {number: "20.13", summary: "No macro with same name twice"},
-    {number: "20.14", summary: "No #line with non-numeric"},
-  ]},
-  {number: "21", title: "Standard libraries", rules: [
-    {number: "21.1", summary: "#define reserved names forbidden"},
-    {number: "21.2", summary: "No reserved standard library"},
-    {number: "21.3", summary: "No memory allocation forbidden"},
-    {number: "21.4", summary: "No setjmp/longjmp"},
-    {number: "21.5", summary: "No stdarg.h for va_arg"},
-    {number: "21.6", summary: "No abort or exit in production"},
-    {number: "21.7", summary: "No atof/atoi/atol"},
-    {number: "21.8", summary: "No bsearch/qsort"},
-    {number: "21.9", summary: "No bcopy/strcpy/strcat"},
-    {number: "21.10", summary: "No stdlib.h time functions"},
-    {number: "21.11", summary: "No unsafe standard functions"},
-    {number: "21.12", summary: "No exception handling"},
-    {number: "21.13", summary: "No signal handling"},
-  ]},
-  {number: "22", title: "Resources", rules: [
-    {number: "22.1", summary: "No dynamic memory deallocation"},
-    {number: "22.2", summary: "No auto variable address leak"},
-    {number: "22.3", summary: "No double free"},
-    {number: "22.4", summary: "No use after free"},
-    {number: "22.5", summary: "No memory leak"},
-    {number: "22.6", summary: "No file handle leak"},
-  ]},
-] %}
-{% set total = 0 %}
-{% for ch in chapters %}
-  {% set total = total + ch.rules | length %}
-{% endfor %}
-
 <style>
-.misra-summary {
-  display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 1.5rem 0;
+.misra-controls {
+  display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap;
 }
-.misra-stat {
-  background: var(--card-bg, #f6f8fa); border: 1px solid var(--border, #d0d7de);
-  border-radius: 8px; padding: 1rem 1.5rem; text-align: center; flex: 1; min-width: 120px;
+.misra-controls input {
+  flex: 1; min-width: 200px; padding: 0.5rem 0.75rem; border: 1px solid var(--border);
+  border-radius: 6px; font-family: inherit; font-size: 0.875rem; background: var(--surface);
+  color: var(--fg); outline: none;
 }
-.misra-stat-value { font-size: 1.8rem; font-weight: 700; color: var(--accent, #0969da); }
-.misra-stat-label { font-size: 0.85rem; color: var(--text-muted, #656d76); margin-top: 0.25rem; }
-.misra-chapter {
-  border: 1px solid var(--border, #d0d7de); border-radius: 6px; margin: 0.5rem 0; overflow: hidden;
+.misra-controls input:focus { border-color: var(--primary); }
+.misra-controls label { font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+.misra-table-wrap { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.misra-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.misra-table thead { position: sticky; top: 0; z-index: 1; }
+.misra-table th {
+  text-align: left; padding: 0.6rem 1rem; background: var(--surface-alt, #f8fafc);
+  color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.7rem;
+  letter-spacing: 0.06em; border-bottom: 1px solid var(--border); white-space: nowrap;
+  cursor: pointer; user-select: none;
 }
-.misra-chapter-header {
-  background: var(--card-bg, #f6f8fa); padding: 0.75rem 1rem; cursor: pointer;
-  display: flex; justify-content: space-between; align-items: center;
-  font-weight: 600; user-select: none;
-}
-.misra-chapter-header:hover { background: var(--hover-bg, #eaeef2); }
-.misra-chapter-header .arrow { transition: transform 0.2s; }
-.misra-chapter.open .misra-chapter-header .arrow { transform: rotate(90deg); }
-.misra-table { width: 100%; border-collapse: collapse; }
-.misra-table th { text-align: left; padding: 0.5rem 1rem; font-size: 0.85rem;
-  border-bottom: 2px solid var(--border, #d0d7de); color: var(--text-muted, #656d76); }
-.misra-table td { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border, #d0d7de); font-size: 0.9rem; }
+.misra-table th:hover { color: var(--fg); }
+.misra-table th .sort-arrow { margin-left: 0.25rem; opacity: 0.3; }
+.misra-table th.sorted .sort-arrow { opacity: 1; }
+.misra-table td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); color: var(--fg); vertical-align: middle; }
 .misra-table tr:last-child td { border-bottom: none; }
-.misra-table .status { text-align: center; }
-.misra-table .status-yes { color: #1a7f37; }
-.misra-body { display: none; }
-.misra-chapter.open .misra-body { display: block; }
+.misra-table .rule-num { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--fn); white-space: nowrap; }
+.misra-table .rule-status { text-align: center; white-space: nowrap; }
+.misra-table .rule-status span {
+  display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px;
+  font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.misra-table .rule-status .checked { background: #dcfce7; color: #166534; }
+[data-theme="dark"] .misra-table .rule-status .checked { background: #052e16; color: #86efac; }
+.misra-table tr:hover td { background: var(--surface-alt, #f8fafc); }
+.misra-chapter-header {
+  background: var(--surface-alt, #f8fafc); cursor: pointer; user-select: none;
+}
+.misra-chapter-header td {
+  font-weight: 600; font-size: 0.85rem; padding: 0.85rem 1rem !important;
+  border-bottom: 2px solid var(--border) !important;
+}
+.misra-chapter-header:hover td { background: var(--surface-alt, #f8fafc); }
+.misra-chapter-header .chevron {
+  display: inline-block; width: 14px; height: 14px; margin-right: 0.5rem;
+  transition: transform 0.2s ease; color: var(--muted); vertical-align: middle;
+}
+.misra-chapter-header .chevron.open { transform: rotate(90deg); }
+.misra-chapter-header .ch-count {
+  font-weight: 400; font-size: 0.75rem; color: var(--muted); margin-left: 0.5rem;
+}
+.misra-hidden { display: none; }
+.misra-summary-bar {
+  display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface);
+}
+.misra-summary-item { display: flex; flex-direction: column; gap: 0.15rem; }
+.misra-summary-value { font-size: 1.3rem; font-weight: 700; color: var(--fg); line-height: 1.2; }
+.misra-summary-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
 </style>
 
-<div class="misra-summary">
-  <div class="misra-stat">
-    <div class="misra-stat-value">{{ chapters | length }}</div>
-    <div class="misra-stat-label">Chapters</div>
+<div class="misra-summary-bar">
+  <div class="misra-summary-item">
+    <div class="misra-summary-value">22</div>
+    <div class="misra-summary-label">MISRA Chapters</div>
   </div>
-  <div class="misra-stat">
-    <div class="misra-stat-value">{{ total }}</div>
-    <div class="misra-stat-label">Rules Checked</div>
+  <div class="misra-summary-item">
+    <div class="misra-summary-value">143</div>
+    <div class="misra-summary-label">Rules Checked</div>
   </div>
-  <div class="misra-stat">
-    <div class="misra-stat-value">100%</div>
-    <div class="misra-stat-label">Coverage</div>
+  <div class="misra-summary-item">
+    <div class="misra-summary-value">100%</div>
+    <div class="misra-summary-label">Coverage</div>
   </div>
 </div>
 
-{% for ch in chapters %}
-<div class="misra-chapter" onclick="this.classList.toggle('open')">
-  <div class="misra-chapter-header">
-    <span>Chapter {{ ch.number }}: {{ ch.title }}</span>
-    <span>
-      <span style="font-weight:400;color:var(--text-muted,#656d76);margin-right:0.5rem">{{ ch.rules | length }} rules</span>
-      <span class="arrow">&#9654;</span>
-    </span>
-  </div>
-  <div class="misra-body">
-    <table class="misra-table">
-      <thead>
-        <tr>
-          <th style="width:100px">Rule</th>
-          <th>Summary</th>
-          <th style="width:80px" class="status">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for rule in ch.rules %}
-        <tr>
-          <td>{{ ch.number }}.{{ rule.number }}</td>
-          <td>{{ rule.summary }}</td>
-          <td class="status"><span class="status-yes">&#10003; Checked</span></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+<div class="misra-controls">
+  <input type="text" id="misra-filter" placeholder="Filter by rule number or summary..." oninput="misraFilter(this.value)">
+  <label><input type="checkbox" id="misra-hide-pass" onchange="misraFilter(document.getElementById('misra-filter').value)"> Hide checked</label>
 </div>
-{% endfor %}
+
+<div class="misra-table-wrap">
+<table class="misra-table" id="misra-table">
+<thead><tr>
+  <th onclick="misraSort(0)" style="width:90px">Rule <span class="sort-arrow">&#8597;</span></th>
+  <th onclick="misraSort(1)">Summary <span class="sort-arrow">&#8597;</span></th>
+  <th onclick="misraSort(2)" style="width:95px">Status <span class="sort-arrow">&#8597;</span></th>
+</tr></thead>
+<tbody>
+</tbody></table></div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var first = document.querySelector('.misra-chapter');
-  if (first) first.classList.add('open');
-});
+// Chapter data with rules
+var MISRA_CHAPTERS = [
+  {num: "Dir 4", title: "Development process", rules: [
+    "4.5:Identifier typographic ambiguity",
+    "4.7:Header file identification",
+    "4.8:Measurement unit comments",
+  ]},
+  {num: "1", title: "Environment", rules: [
+    "1.1:No reliance on undefined behavior",
+    "1.2:No reliance on unspecified behavior",
+    "1.3:No reliance on implementation-defined behavior",
+  ]},
+  {num: "2", title: "Unused code", rules: [
+    "2.1:No unreachable code","2.2:No dead code","2.3:No void where not required",
+    "2.4:Unused labels","2.5:Unused macros","2.6:Unused function declarations","2.7:Unused parameters",
+  ]},
+  {num: "5", title: "Identifiers", rules: [
+    "5.1:Trigraph identifier collisions","5.2:Same identifier in same scope","5.3:No identifier hiding",
+    "5.4:Macro identifier uniqueness","5.5:Identifier length distinction","5.6:Typedef name uniqueness",
+    "5.7:Tag name uniqueness","5.8:Identifiers starting with underscore","5.9:Identifiers differing by underscore only",
+  ]},
+  {num: "6", title: "Types", rules: ["6.1:Bit fields only as unsigned or bool","6.2:Single-bit bit fields"]},
+  {num: "7", title: "Literals", rules: [
+    "7.1:Octal constants forbidden","7.2:U suffix on unsigned constants",
+    "7.3:Lowercase L suffix forbidden","7.4:String literals const-qualified",
+  ]},
+  {num: "8", title: "Declarations", rules: [
+    "8.1:Types explicitly specified","8.2:Function types in prototype form",
+    "8.3:All declarations visible","8.4:Compatible declarations","8.5:External linkage declarations",
+    "8.6:Identifiers must be defined","8.7:No external linkage if not needed","8.8:Static functions with prototype",
+    "8.9:Symbols with block scope","8.10:Inline function definitions","8.11:External array sizes explicit",
+    "8.12:Array size shall be explicit","8.13:Pointer to const value","8.14:No restricted pointer qualifier",
+  ]},
+  {num: "9", title: "Initialization", rules: [
+    "9.1:All automatic variables initialized","9.2:Braces in initializers","9.3:Partial array initialization",
+    "9.4:No double initialization","9.5:Designated initializers order",
+  ]},
+  {num: "10", title: "Essential type model", rules: [
+    "10.1:Operands on essential types","10.2:Essential type expressions","10.3:Complex integer assignment",
+    "10.4:Balanced essential types","10.5:Cast essential type width","10.6:Composite expressions",
+    "10.7:Unary ops on composite types","10.8:Cast composite to other type",
+  ]},
+  {num: "11", title: "Pointer conversions", rules: [
+    "11.1:Pointer to object conversions","11.2:No pointer to void conversions","11.3:No pointer to integer casts",
+    "11.4:No pointer integer to pointer","11.5:No pointer to void*","11.6:No void* to pointer",
+    "11.7:Casts between function and object","11.8:No pointer arithmetic on void*","11.9:No macro-defined pointer",
+  ]},
+  {num: "12", title: "Expressions", rules: [
+    "12.1:Precedence of operators","12.2:Right-hand operand of && and ||",
+    "12.3:Comma operator forbidden","12.4:Unsigned integer wrap check",
+  ]},
+  {num: "13", title: "Side effects", rules: [
+    "13.1:No side effects in initializer list","13.2:No side-effect collisions","13.3:Full expression evaluation",
+    "13.4:Assignment-result not used","13.5:No assignment in &&/|| operand","13.6:No sizeof on function type",
+  ]},
+  {num: "14", title: "Control flow", rules: [
+    "14.1:No unreachable loops","14.2:No null statement body","14.3:Controlling expressions must be Boolean",
+    "14.4:Iteration termination",
+  ]},
+  {num: "15", title: "If/switch statements", rules: [
+    "15.1:No goto in if/else","15.2:All if/else compound","15.3:No else without if",
+    "15.4:Single return per function","15.5:Single function exit point",
+    "15.6:No if/else if without else","15.7:Else required after if/else if",
+  ]},
+  {num: "16", title: "Switch/match statements", rules: [
+    "16.1:No switch with no cases","16.2:Switch must have default","16.3:Break/return at end of each case",
+    "16.4:No fallthrough between cases","16.5:No default where not needed",
+    "16.6:No more than one default","16.7:No break outside switch",
+  ]},
+  {num: "17", title: "Functions", rules: [
+    "17.1:No variadic parameter after named","17.2:No recursion","17.3:No implicit function declaration",
+    "17.4:No array parameter decay","17.5:Array parameter size explicit",
+    "17.6:No function declarator with no prototype","17.7:Return value used","17.8:No function parameter modification",
+  ]},
+  {num: "18", title: "Pointers and arrays", rules: [
+    "18.1:No pointer arithmetic beyond bounds","18.2:Array index bounds check","18.3:No relational operators on pointers",
+    "18.4:No pointer arithmetic on non-array","18.5:No dynamic heap allocation",
+    "18.6:No address of automatic var escape","18.7:No flexible array member in union","18.8:Variable-length arrays forbidden",
+  ]},
+  {num: "19", title: "Overlapping storage", rules: [
+    "19.1:No overlapping objects in memcpy","19.2:No union overlapping writes",
+  ]},
+  {num: "20", title: "Preprocessor", rules: [
+    "20.1:#include preceded by directive only","20.2:No quoted header names","20.3:No #include in external braces",
+    "20.4:No self-inclusion","20.5:#undef forbidden","20.6:No tokens after #endif",
+    "20.7:No expressions in #if defined","20.8:No macro with same name as keyword",
+    "20.9:Identifiers in preprocessor directives","20.10:No comma, backslash in #include",
+    "20.11:No macro names reserved","20.12:No #include depth exceeded","20.13:No macro with same name twice",
+    "20.14:No #line with non-numeric",
+  ]},
+  {num: "21", title: "Standard libraries", rules: [
+    "21.1:#define reserved names forbidden","21.2:No reserved standard library","21.3:No memory allocation forbidden",
+    "21.4:No setjmp/longjmp","21.5:No stdarg.h for va_arg","21.6:No abort or exit in production",
+    "21.7:No atof/atoi/atol","21.8:No bsearch/qsort","21.9:No bcopy/strcpy/strcat",
+    "21.10:No stdlib.h time functions","21.11:No unsafe standard functions","21.12:No exception handling",
+    "21.13:No signal handling",
+  ]},
+  {num: "22", title: "Resources", rules: [
+    "22.1:No dynamic memory deallocation","22.2:No auto variable address leak","22.3:No double free",
+    "22.4:No use after free","22.5:No memory leak","22.6:No file handle leak",
+  ]},
+];
+
+function misraRender(rows) {
+  var tbody = document.querySelector('#misra-table tbody');
+  tbody.innerHTML = '';
+  var chOpen = {};
+  MISRA_CHAPTERS.forEach(function(ch) { chOpen[ch.num] = true; });
+  var allOpen = true;
+  rows.forEach(function(r) {
+    if (r._ch) {
+      var hrow = document.createElement('tr');
+      hrow.className = 'misra-chapter-header';
+      hrow.setAttribute('data-chapter', r._ch.num);
+      hrow.addEventListener('click', function() {
+        var body = this.nextElementSibling;
+        while (body && !body._chEnd) { body = body.nextElementSibling; }
+        var c = this.querySelector('.chevron');
+        if (body) {
+          body.classList.toggle('misra-hidden');
+          c.classList.toggle('open');
+        }
+      });
+      var chevron = '<svg class="chevron open" viewBox="0 0 20 20" fill="currentColor"><path d="M6 4l8 6-8 6V4z"/></svg>';
+      hrow.innerHTML = '<td colspan="3">' + chevron + '<strong>' + r._ch.num + '</strong>: ' + r._ch.title +
+        ' <span class="ch-count">(' + r._ch.rules.length + ' rules)</span></td>';
+      tbody.appendChild(hrow);
+    } else if (r._end) {
+      // chapter body end marker — already handled
+    } else {
+      var row = document.createElement('tr');
+      row.setAttribute('data-rule', r.num);
+      row.innerHTML = '<td class="rule-num">' + r.num + '</td><td>' + r.sum + '</td>' +
+        '<td class="rule-status"><span class="checked">&#10003; Checked</span></td>';
+      tbody.appendChild(row);
+    }
+  });
+  document.querySelectorAll('.misra-chapter-header').forEach(function(h) { h.click(); h.click(); });
+}
+
+function misraBuild() {
+  var rows = [];
+  MISRA_CHAPTERS.forEach(function(ch) {
+    rows.push({_ch: ch});
+    ch.rules.forEach(function(r) {
+      var p = r.indexOf(':');
+      rows.push({num: ch.num + '.' + r.substring(0, p), sum: r.substring(p + 1)});
+    });
+    rows.push({_end: true});
+  });
+  return rows;
+}
+
+function misraFilter(val) {
+  var hideChecked = document.getElementById('misra-hide-pass').checked;
+  var q = val.toLowerCase().trim();
+  var tbody = document.querySelector('#misra-table tbody');
+  var rows = misraBuild();
+  var filtered = [];
+  var chapterRules = {};
+  var chapterVisible = {};
+  MISRA_CHAPTERS.forEach(function(ch) { chapterRules[ch.num] = ch.rules.length; chapterVisible[ch.num] = false; });
+
+  rows.forEach(function(r) {
+    if (r._ch) {
+      var ch = r._ch;
+      var match = !q || ch.num.toLowerCase().indexOf(q) >= 0 || ch.title.toLowerCase().indexOf(q) >= 0;
+      chapterVisible[ch.num] = match;
+      if (match) filtered.push(r);
+    } else if (r._end) {
+      if (chapterVisible[Object.keys(chapterVisible).find(function(k) { return chapterRules[k] > 0; })]) {
+        // Keep chapter end markers for visible chapters — handled by the header toggle
+      }
+      // Add end marker if chapter was added
+      var chNum = '';
+      for (var i = filtered.length - 1; i >= 0; i--) {
+        if (filtered[i]._ch) { chNum = filtered[i]._ch.num; break; }
+      }
+      if (chNum && chapterVisible[chNum]) filtered.push(r);
+    } else {
+      var match = !q || r.num.toLowerCase().indexOf(q) >= 0 || r.sum.toLowerCase().indexOf(q) >= 0;
+      if (match && (!hideChecked || false)) filtered.push(r);
+    }
+  });
+
+  // Remove orphaned rules (chapter not visible)
+  var cleaned = [];
+  var inCh = false;
+  filtered.forEach(function(r) {
+    if (r._ch) { inCh = chapterVisible[r._ch.num] || false; if (inCh) cleaned.push(r); }
+    else if (r._end) { if (inCh) cleaned.push(r); }
+    else { if (inCh) cleaned.push(r); }
+  });
+
+  misraRender(cleaned);
+}
+
+document.addEventListener('DOMContentLoaded', function() { misraRender(misraBuild()); });
 </script>
