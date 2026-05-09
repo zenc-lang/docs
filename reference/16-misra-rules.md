@@ -40,12 +40,12 @@ These rules are unique to Zen C. Each rule is checked when `--misra` is active.
 Forbids `raw { }` blocks that bypass the transpiler.
 
 ```zc
-// ❌ Violation:
+// Bad:
 fn main() {
     raw { int x = 10; }
 }
 
-// ✅ Fix: use native Zen C constructs
+// Good:
 fn main() {
     let x = 10;
 }
@@ -56,10 +56,10 @@ fn main() {
 Forbids `plugin ... end` blocks, which execute arbitrary build-time code.
 
 ```zc
-// ❌ Violation:
+// Bad:
 plugin my_plugin
 
-// ✅ Fix: implement functionality as a regular function or import a library
+// Good:
 import "std/some_module.zc"
 ```
 
@@ -70,16 +70,15 @@ Forbids the `_` wildcard in `match` on enum types -- all variants must be handle
 ```zc
 enum Color { Red; Green; Blue; }
 
-// ❌ Violation:
+// Bad -- missing Blue:
 fn describe(c: Color) {
     match c {
         Color::Red => { println "red"; }
         Color::Green => { println "green"; }
-        // Missing Blue -- Zen 1.3
     }
 }
 
-// ✅ Fix: handle all variants
+// Good:
 fn describe(c: Color) {
     match c {
         Color::Red => { println "red"; }
@@ -95,11 +94,11 @@ Forbids C preprocessor directives (`#define`, `#include`, `#if`, etc.).
 Use Zen's `import` and `def` instead.
 
 ```zc
-// ❌ Violation:
+// Bad:
 #define BUFFER_SIZE 256
 #include <stdio.h>
 
-// ✅ Fix:
+// Good:
 def BUFFER_SIZE = 256;
 import "std/io.zc"
 ```
@@ -110,31 +109,30 @@ The `var` and `const` keywords are deprecated for variable/constant declarations
 Use `let` for variables and `def` for compile-time constants.
 
 ```zc
-// ❌ Violation:
+// Bad:
 var x = 10;
 const MAX = 100;
 
-// ✅ Fix:
+// Good:
 let x = 10;
 def MAX = 100;
 ```
 
-> The `const` keyword remains valid as a **type qualifier** for C interop
-> (e.g., `const int` means "pointer to const int" in FFI declarations).
+> `const` remains valid as a **type qualifier** for C interop
+> (e.g., `const int` in FFI declarations).
 
 #### Zen 1.8 -- No identifier shadowing
 
 Forbids declaring a name that hides one from an outer scope.
 
 ```zc
-// ❌ Violation:
 let x = 10;
 if true {
-    let x = 20;  // shadows outer x
+    // Bad -- shadows outer x:
+    let x = 20;
 }
 
-// ✅ Fix: use a distinct name
-let x = 10;
+// Good:
 if true {
     let inner_x = 20;
 }
@@ -146,12 +144,12 @@ Forbids identifiers starting with `__`, `_[A-Z]`, or `_z_`, which are reserved
 for the compiler and C implementation.
 
 ```zc
-// ❌ Violation:
+// Bad:
 let __my_var = 10;
 let _Reserved = 20;
 let _z_internal = 30;
 
-// ✅ Fix: use non-reserved names
+// Good:
 let my_var = 10;
 let reserved = 20;
 let internal = 30;
@@ -163,17 +161,15 @@ Tuples with **3 or more fields** shall not be used as function return types or
 parameters. Use a named struct instead. 2-tuples are exempt.
 
 ```zc
-// ❌ Violation:
+// Bad -- 3-tuple as return type:
 fn get_stats() -> (int, int, int) { ... }
-
-// ❌ Violation:
 fn process(p: (int, string, bool)) { ... }
 
-// ✅ OK:
+// Good -- use a struct:
 struct Stats { sum: int; avg: int; max: int; }
 fn get_stats() -> Stats { ... }
 
-// ✅ OK (2-tuples exempt):
+// OK -- 2-tuples are exempt:
 fn get_pair() -> (int, int) { ... }
 ```
 
@@ -182,14 +178,14 @@ fn get_pair() -> (int, int) { ... }
 `string == string` shall not be used. Use `strcmp()` instead.
 
 ```zc
-// ❌ Violation:
-if a == b { ... }  // when a, b are string
+// Bad (when a, b are string):
+if a == b { ... }
 
-// ✅ Fix:
+// Good:
 if strcmp(a, b) == 0 { ... }
 
-// ✅ OK (non-string types):
-if x == y { ... }   // int, bool, pointer comparisons are safe
+// OK -- int, bool, pointer comparisons are safe:
+if x == y { ... }
 ```
 
 ## Standard MISRA C:2012 Coverage
