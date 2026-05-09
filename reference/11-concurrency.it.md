@@ -1,27 +1,39 @@
 +++
-title = "11. Generici"
+title = "11. Concorrenza (Async/Await)"
 weight = 11
 +++
 
-# 11. Generici
+# 11. Concorrenza (Async/Await)
 
 
-Template type-safe per struct e funzioni.
+Zen C utilizza un modello **stackless coroutine** per l'async/await, senza thread pool o pthread.
 
 ```zc
-// Struct Generico
-struct Scatola<T> {
-    oggetto: T;
+async fn fetch_data() -> string {
+    return "Dati";
 }
 
-// Funzione Generica
-fn identità<T>(valore: T) -> T {
-    return valore;
+fn main() {
+    let risultato = await fetch_data();
+}
+```
+
+### Come funziona
+
+Una funzione `async` viene trasformata dal compilatore in una **macchina a stati**.
+Ogni punto di `await` diventa una transizione di stato. Il `Future` resultante
+contiene lo stato, i parametri, e i sub-future per le chiamate awaitate.
+
+### Pattern concorrente
+
+```zc
+async fn task(n: int) -> int {
+    return n * 2;
 }
 
-// Generici Multi-parametro
-struct Paio<K, V> {
-    chiavi: K;
-    valore: V;
+fn main() {
+    // Chiamate sequenziali — ogni await completa prima del successivo
+    let a = await task(5);
+    let b = await task(a);
 }
 ```

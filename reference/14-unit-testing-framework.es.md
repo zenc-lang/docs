@@ -22,14 +22,35 @@ test "unittest1" {
 }
 ```
 
-#### Ejecución de Pruebas
-Para ejecutar todas las pruebas en un archivo, usa el comando `run`. El compilador detectará y ejecutará automáticamente todos los bloques `test` de nivel superior.
+
+#### Ejecutar pruebas
 
 ```bash
 zc run mi_archivo.zc
 ```
 
-#### Aserciones
-Usa la función integrada `assert(condición, mensaje)` para verificar las expectativas. Si la condición es falsa, la prueba fallará y se imprimirá el mensaje proporcionado.
+La salida muestra cada prueba por nombre:
+```
+  TEST: nombre descriptivo ... OK
+  TEST: otra prueba ... FALLIDA
 
----
+1 test(s) failed
+```
+
+#### Aserciones
+
+| Función | Comportamiento |
+|:---|:---|
+| `assert(cond, msg)` | Registra el fallo, continúa con la siguiente prueba |
+| `expect(cond, msg)` | No fatal — registra el fallo pero continúa dentro de la misma prueba |
+
+```zc
+test "ejemplo" {
+    expect(resultado != null, "el resultado no debería ser nulo");
+    expect(codigo == 200, "el estado debería ser 200");
+}
+```
+
+#### Código de salida
+
+El binario termina con el número de pruebas fallidas (0 = todas aprobadas).

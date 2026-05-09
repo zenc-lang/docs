@@ -26,6 +26,27 @@ Deep dives into the compiler's internals and tooling protocols.
 - **[LSP Protocol](LSP.md)**: Documentation for the Zen C Language Server integration.
 - **[Plugin System](PLUGINS.md)**: How to extend the compiler with custom plugins.
 
+## Reference (16 chapters)
+
+| # | Chapter | Description |
+|:---|:---|:---|
+| 1 | [Variables & Constants](reference/01-variables-constants.md) | let, types, mutability |
+| 2 | [Primitive Types](reference/02-primitive-types.md) | int, float, bool, char, etc. |
+| 3 | [Aggregate Types](reference/03-aggregate-types.md) | Arrays, slices, tuples |
+| 4 | [Functions & Lambdas](reference/04-functions-lambdas.md) | Functions, closures |
+| 5 | [Control Flow](reference/05-control-flow.md) | if, while, for, match |
+| 6 | [Operators](reference/06-operators.md) | Arithmetic, comparison, sugar operators |
+| 7 | [Printing & F-strings](reference/07-printing-interpolation.md) | Output, string interpolation |
+| 8 | [Memory & Lifetimes](reference/08-memory-management.md) | Ownership, borrowing |
+| 9 | [OOP](reference/09-oop.md) | Traits, impl blocks, methods |
+| 10 | [Generics](reference/10-generics.md) | Type-safe templates |
+| 11 | [Concurrency](reference/11-concurrency.md) | Stackless async/await |
+| 12 | [Advanced](reference/12-advanced.md) | Inline assembly, raw blocks |
+| 13 | [Interop](reference/13-interop.md) | C, C++, CUDA, Objective-C interop |
+| 14 | [Unit Testing](reference/14-unit-testing-framework.md) | test, assert, expect |
+| 15 | [Diagnostics](reference/15-diagnostics.md) | Compiler warnings, categories |
+| 16 | [MISRA Rules](reference/16-misra-rules.md) | Safety rules, Zen-specific checks |
+
 ## Related Resources
 
 - **[zenc](https://github.com/zenc-lang/zenc)**: The core compiler source code.

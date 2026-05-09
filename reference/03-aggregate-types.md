@@ -15,38 +15,99 @@ let zeros: [int; SIZE]; // Zero-initialized
 ```
 
 #### Tuples
-Group multiple values together, access elements by index.
+
+Group multiple values together into a single compound value. Tuples support
+arbitrary arities (2, 3, 4, … up to 10+), nested composition, mutation of
+individual fields, and destructuring.
+
+**Basic usage**
+
 ```zc
-let pair = (1, "Hello");
-let x = pair.0;  // 1
-let s = pair.1;  // "Hello"
+let pair = (1, "hello");          // 2-tuple, types inferred
+let triple = (1, "hello", 3.14);  // 3-tuple
+let five = (1, 2, 3, 4, 5);      // 5-tuple
+let typed: (int, string, f64) = (1, "two", 3.0);  // explicit annotation
 ```
 
-**Multiple Return Values**
+**Field access**
+
+Elements are accessed positionally with `.0`, `.1`, `.2` etc., or via
+raw struct field names `.v0`, `.v1`:
+
+```zc
+let t = (1, "hello", 3.14);
+assert(t.0 == 1);       // positional
+assert(t.v1 == "hello"); // raw field name
+```
+
+**Multiple return values**
 
 Functions can return tuples to provide multiple results:
+
 ```zc
-fn add_and_subtract(a: int, b: int) -> (int, int) {
-    return (a + b, a - b);
+fn stats(data: int) -> (int, int) {
+    return (data * 2, data + 1);
 }
 
-let result = add_and_subtract(3, 2);
-let sum = result.0;   // 5
-let diff = result.1;  // 1
+let r = stats(5);
+assert(r.0 == 10);
+assert(r.1 == 6);
 ```
 
 **Destructuring**
 
-Tuples can be destructured directly into variables:
 ```zc
 let (sum, diff) = add_and_subtract(3, 2);
 // sum = 5, diff = 1
+
+let (a: string, b: u8) = ("hello", 42);  // typed destructuring
+let (x, y: i32) = (1, 2);                // mixed: x inferred, y explicit
 ```
 
-Typed tuple destructuring allows explicit type annotations:
+**Nested tuples**
+
 ```zc
-let (a: string, b: u8) = ("hello", 42);
-let (x, y: i32) = (1, 2);  // Mixed: x inferred, y explicit
+let nested = ((1, 2), (3, 4));
+let inner = nested.v0;
+assert(inner.v0 == 1);
+assert(inner.v1 == 2);
+```
+
+**Mutation**
+
+Individual fields can be reassigned:
+
+```zc
+let t = (1, 2);
+t.v0 = 99;
+assert(t.v0 == 99);
+```
+
+**String comparison**
+
+Tuples with `string` fields must use `strcmp()` for comparison,
+not `==` (which does pointer comparison on `char*`):
+
+```zc
+let t = (1, "hello");
+assert(strcmp(t.1, "hello") == 0);
+```
+
+**Enum tuple payloads**
+
+Enum variants can carry tuple data:
+
+```zc
+enum Shape {
+    Point,
+    Line(int, int),
+    Labeled(int, string, f64),
+}
+
+match shape {
+    Shape::Line(x, y) => { … }
+    Shape::Labeled(id, name, val) => { … }
+}
 ```
 
 #### Structs

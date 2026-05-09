@@ -3,19 +3,36 @@ title = "11. Concurrencia (Async/Await)"
 weight = 11
 +++
 
+
 # 11. Concurrencia (Async/Await)
 
-
-Construido sobre pthreads.
+Zen C utiliza un modelo de **corrutina sin pila** para async/await — sin pool de hilos, sin dependencia de pthread.
 
 ```zc
-async fn obtener_datos() -> string {
-    // Se ejecuta en segundo plano
+async fn fetch_data() -> string {
     return "Datos";
 }
 
 fn main() {
-    let futuro = obtener_datos();
-    let resultado = await futuro;
+    let result = await fetch_data();
+}
+```
+
+### Cómo funciona
+
+Una `async fn` es transformada por el compilador en una **máquina de estados**. Cada
+punto `await` se convierte en una transición de estado. El `Future` resultante
+contiene el estado, los parámetros y los sub-futures para las llamadas awaitadas.
+
+### Patrón secuencial
+
+```zc
+async fn task(n: int) -> int {
+    return n * 2;
+}
+
+fn main() {
+    let a = await task(5);
+    let b = await task(a);
 }
 ```

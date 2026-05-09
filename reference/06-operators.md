@@ -68,5 +68,52 @@ These operators are built-in language features and cannot be overloaded directly
 | `?.` | Safe Navigation | `ptr?.field` accesses field only if `ptr` is not NULL |
 | `?` | Try Operator | `res?` returns error if present (Result/Option types) |
 
+**`|>` Pipeline — chain calls without nesting**
+
+```zc
+fn double(x: int) -> int { return x * 2; }
+fn add(a: int, b: int) -> int { return a + b; }
+
+let res = 5 |> double |> add(10);
+// Equivalent to: add(double(5), 10) → 20
+```
+
+**`??` Null Coalescing — fallback for nullable pointers**
+
+```zc
+let p: int* = NULL;
+let default_val = &42;
+let val = p ?? default_val;
+assert(*val == 42);
+```
+
+**`??=` Null Assignment — assign only if NULL**
+
+```zc
+let p: int* = NULL;
+p ??= &42;
+assert(*p == 42);
+```
+
+**`?.` Safe Navigation — access field without NULL check**
+
+```zc
+struct Point { x: int; y: int; }
+let p: Point* = NULL;
+let x = p?.x;  // returns 0/default instead of crashing
+```
+
+**`?` Try Operator — short-circuit on error**
+
+```zc
+import "std/result.zc"
+
+fn try_work() -> Result<int> {
+    let inner = may_fail();
+    let val = inner?;  // returns Err early if inner is Err
+    return Result<int>::Ok(val * 2);
+}
+```
+
 **Auto-Dereference**:
 Pointer field access (`ptr.field`) and method calls (`ptr.method()`) automatically dereference the pointer, equivalent to `(*ptr).field`.

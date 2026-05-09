@@ -1,9 +1,9 @@
 +++
-title = "13. C Interoperability"
+title = "13. Interoperability"
 weight = 13
 +++
 
-# 13. C Interoperability
+# 13. Interoperability
 
 
 Zen C offers two ways to interact with C code: **Trusted Imports** (Convenient) and **Explicit FFI** (Safe/Precise).
@@ -55,6 +55,139 @@ fn main() {
 Zen C includes a standard library (`std`) covering essential functionality.
 
 [Browse the Standard Library Documentation](docs/std/README.md)
+
+### C++ Interop
+
+Zen C can generate C++-compatible code with the `--cpp` flag, allowing seamless
+integration with C++ libraries.
+
+```bash
+# Direct compilation with g++
+zc app.zc --cpp
+
+# Or transpile for manual build
+zc transpile app.zc --cpp
+g++ out.c my_cpp_lib.o -o app
+```
+
+#### Using C++ in Zen C
+
+Include C++ headers and use raw blocks for C++ code:
+
+```zc
+include <vector>
+include <iostream>
+
+raw {
+    std::vector<int> make_vec(int a, int b) {
+        return {a, b};
+    }
+}
+
+fn main() {
+    let v = make_vec(1, 2);
+    raw { std::cout << "Size: " << v.size() << std::endl; }
+}
+```
+
+> **Note:** The `--cpp` flag switches the backend to `g++` and emits C++-compatible
+> code (uses `auto` instead of `__auto_type`, function overloads instead of `_Generic`,
+> and explicit casts for `void*`).
+
+---
+
+### CUDA Interop
+
+Zen C supports GPU programming by transpiling to **CUDA C++**.
+
+```bash
+# Direct compilation with nvcc
+zc run app.zc --cuda
+
+# Or transpile for manual build
+zc transpile app.zc --cuda -o app.cu
+nvcc app.cu -o app
+```
+
+#### CUDA Attributes
+
+| Attribute | CUDA Equivalent | Description |
+|:---|:---|:---|
+| `@global` | `__global__` | Kernel function (runs on GPU, called from host) |
+| `@device` | `__device__` | Device function (runs on GPU, called from GPU) |
+| `@host` | `__host__` | Host function (explicit CPU-only) |
+
+#### Kernel Launch Syntax
+
+```zc
+launch kernel_name(args) with {
+    grid: num_blocks,
+    block: threads_per_block,
+    shared_mem: 1024,  // Optional
+    stream: my_stream   // Optional
+};
+```
+
+Transpiles to: `kernel_name<<<grid, block, shared, stream>>>(args);`
+
+#### Writing CUDA Kernels
+
+```zc
+import "std/cuda.zc"
+
+@global
+fn add_kernel(a: float*, b: float*, c: float*, n: int) {
+    let i = thread_id();
+    if i < n { c[i] = a[i] + b[i]; }
+}
+
+fn main() {
+    def N = 1024;
+    let d_a = cuda_alloc<float>(N);
+    let d_b = cuda_alloc<float>(N);
+    let d_c = cuda_alloc<float>(N);
+    defer cuda_free(d_a);
+    defer cuda_free(d_b);
+    defer cuda_free(d_c);
+
+    launch add_kernel(d_a, d_b, d_c, N) with {
+        grid: (N + 255) / 256,
+        block: 256
+    };
+    cuda_sync();
+}
+```
+
+> **Note:** The `--cuda` flag sets `nvcc` as the compiler and implies `--cpp` mode.
+> Requires the NVIDIA CUDA Toolkit.
+
+---
+
+### Objective-C Interop
+
+Zen C can compile to Objective-C (`.m`) using the `--objc` flag.
+
+```bash
+zc app.zc --objc --cc clang
+```
+
+```zc
+include <Foundation/Foundation.h>
+
+fn main() {
+    raw {
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        NSLog(@"Hello from Objective-C!");
+        [pool drain];
+    }
+    println "Zen C works too!";
+}
+```
+
+> **Note:** Zen C string interpolation works with Objective-C objects (`id`)
+> by calling `debugDescription` or `description`.
+
+---
 
 ### Key Modules
 

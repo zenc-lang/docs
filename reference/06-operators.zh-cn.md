@@ -70,5 +70,52 @@ let val = m[1, 2]; // 调用 Matrix.get(m, 1, 2)
 | `?.` | 安全导航 | 仅当 `ptr` 不为 NULL 时访问字段 |
 | `?` | Try 运算符 | 如果存在错误则返回 (用于 Result/Option 类型) |
 
+
+
+**`|>` Pipeline — chain calls without nesting**
+
+```zc
+fn double(x: int) -> int { return x * 2; }
+fn add(a: int, b: int) -> int { return a + b; }
+let res = 5 |> double |> add(10);
+```
+
+**`??` Null Coalescing — fallback for nullable pointers**
+
+```zc
+let p: int* = NULL;
+let default_val = &42;
+let val = p ?? default_val;
+assert(*val == 42);
+```
+
+**`??=` Null Assignment — assign only if NULL**
+
+```zc
+let p: int* = NULL;
+p ??= &42;
+assert(*p == 42);
+```
+
+**`?.` Safe Navigation — access field without NULL check**
+
+```zc
+struct Point { x: int; y: int; }
+let p: Point* = NULL;
+let x = p?.x;
+```
+
+**`?` Try Operator — short-circuit on error**
+
+```zc
+import "std/result.zc"
+
+fn try_work() -> Result<int> {
+    let inner = may_fail();
+    let val = inner?;
+    return Result<int>::Ok(val * 2);
+}
+```
+
 **自动解引用**：
 指针字段访问 (`ptr.field`) 和方法调用 (`ptr.method()`) 会自动解引用指针，等同于 `(*ptr).field`。

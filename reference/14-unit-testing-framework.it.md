@@ -6,28 +6,44 @@ weight = 14
 # 14. Framework di Test Unitari
 
 
-Zen C include un framework di test integrato che consente di scrivere test unitari direttamente nei file sorgente utilizzando la parola chiave `test`.
+Zen C include un framework di test integrato con **isolamento per-test**, **output nominativo**, e **asserzioni non-fatali**.
 
 #### Sintassi
-Un blocco `test` contiene un nome descrittivo e un corpo di codice da eseguire. I test non richiedono una funzione `main` per essere eseguiti.
+Un blocco `test` contiene un nome descrittivo e un corpo di codice da eseguire.
 
 ```zc
-test "unittest1" {
-    "Questo è un test unitario";
-
+test "nome descrittivo" {
     let a = 3;
-    assert(a > 0, "a dovrebbe essere un intero positivo");
-
-    "unittest1 superato.";
+    assert(a > 0, "a dovrebbe essere positivo");
 }
 ```
 
 #### Esecuzione dei Test
-Per eseguire tutti i test in un file, usa il comando `run`. Il compilatore rileverà ed eseguirà automaticamente tutti i blocchi `test` di alto livello.
-
 ```bash
 zc run mio_file.zc
 ```
 
+L'output mostra ogni test per nome:
+```
+  TEST: nome descrittivo ... OK
+  TEST: altro test ... FALLITO
+
+1 test(s) failed
+```
+
 #### Asserzioni
-Usa la funzione integrata `assert(condizione, messaggio)` per verificare le aspettative. Se la condizione è falsa, il test fallirà e stamperà il messaggio fornito.
+
+| Funzione | Comportamento |
+|:---|:---|
+| `assert(cond, msg)` | Registra il fallimento, continua al test successivo |
+| `expect(cond, msg)` | Non-fatale — registra il fallimento ma continua nello stesso test |
+
+```zc
+test "esempio" {
+    expect(risultato != null, "il risultato non dovrebbe essere nullo");
+    expect(codice == 200, "lo stato dovrebbe essere 200");
+}
+```
+
+#### Codice di uscita
+Il binario termina con il numero di test falliti (0 = tutti superati).

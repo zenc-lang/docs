@@ -23,14 +23,35 @@ test "unittest1" {
 }
 ```
 
+
 #### Tests ausführen
-Um alle Tests einer Datei auszuführen, nutze den `run`-Befehl. Der Compiler erkennt automatisch alle top-level `test`-Blöcke.
 
 ```bash
-zc run my_file.zc
+zc run meine_datei.zc
+```
+
+Die Ausgabe zeigt jeden Test mit Namen:
+```
+  TEST: beschreibender Name ... OK
+  TEST: weiterer Test ... FEHLGESCHLAGEN
+
+1 test(s) failed
 ```
 
 #### Assertions
-Verwende die eingebaute Funktion `assert(condition, message)` zur Überprüfung von Erwartungen. Wenn die Bedingung falsch ist, schlägt der Test fehl und die Nachricht wird ausgegeben.
 
----
+| Funktion | Verhalten |
+|:---|:---|
+| `assert(cond, msg)` | Zeichnet Fehler auf, fährt mit nächstem Test fort |
+| `expect(cond, msg)` | Nicht-fatale Assertion — zeichnet Fehler auf, fährt im selben Test fort |
+
+```zc
+test "beispiel" {
+    expect(ergebnis != null, "ergebnis sollte nicht null sein");
+    expect(code == 200, "status sollte 200 sein");
+}
+```
+
+#### Exit-Code
+
+Das Binary beendet sich mit der Anzahl fehlgeschlagener Tests (0 = alle bestanden).
