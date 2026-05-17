@@ -7,11 +7,11 @@ title = "Text between"
 ```zc
 import "std/string.zc"
 
-fn text_between(str: string, start: string, end: string) -> string {
+fn text_between(str: string, start: string, end: string) -> String {
     if strlen(start) == 0 || strlen(end) == 0 {
         eprintln "Start and end must both be non-empty strings.";
     }
-    if strlen(str) == 0 { return ""; }
+    if strlen(str) == 0 { return String::new(""); }
     let s: int;
     let t: int;
     if strcmp(start, "start") == 0 {
@@ -23,7 +23,7 @@ fn text_between(str: string, start: string, end: string) -> string {
             s = u - str;
             t = s + strlen(start);
         } else {
-            return "";
+            return String::new("");
         }
     }
     let e: int;
@@ -35,11 +35,11 @@ fn text_between(str: string, start: string, end: string) -> string {
             e = u - str;
         } else {
             let ss = String::from(str);
-            return ss.substring(t, ss.length() - t).c_str();
+            return ss.substring(t, ss.length() - t);
         }
     }
     let ss = String::from(str);
-    return ss.substring(t, e - t).c_str();
+    return ss.substring(t, e - t);
 }
 
 fn main() {

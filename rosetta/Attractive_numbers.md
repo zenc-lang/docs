@@ -49,7 +49,7 @@ fn count_factors(n: int) -> int {
         }
     }
     if n > 1 { factors << n; }
-    return factors.length();
+    return (int)factors.length();
 }
 
 fn is_attractive(n: int) -> bool {

@@ -10,7 +10,8 @@ title = "Determine if a string is collapsible"
 import "std/string.zc"
 
 fn collapse(s: string) {
-    let c = String::new(s).runes();
+    let ss = String::new(s);
+    let c = ss.runes();
     let le = (int)c.length();
     println "original : length = {le:2d}, string = «««{s}»»»";
     if le >= 2 {
@@ -18,7 +19,7 @@ fn collapse(s: string) {
             if c[i] == c[i + 1] { c.remove(i); }
         }
         let cl = (int)c.length();
-        let cs = String::from_runes_vec(c).c_str();
+        let cs = String::from_runes_vec(c);
         println "collapsed: length = {cl:2d}, string = «««{cs}»»»\n";
     } else {
         println "collapsed: length = {le:2d}, string = «««{s}»»»\n";

@@ -58,6 +58,7 @@ fn main() {
         for v in list[i] { print "{v}, "; }
         println "\b\b]";
     }
+    for i in 0..BASE { list[i].free(); }
 }
 ```
 

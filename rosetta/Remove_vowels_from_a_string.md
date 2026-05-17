@@ -7,7 +7,7 @@ title = "Remove vowels from a string"
 ```zc
 import "std/string.zc"
 
-fn remove_vowels(s: string) -> string {
+fn remove_vowels(s: string) -> String {
     let res = String::from(s);
     let vowels = String::from("aeiouAEIOU");
     let len = res.utf8_len();
@@ -15,14 +15,13 @@ fn remove_vowels(s: string) -> string {
         let c = res.utf8_get(i);
         if vowels.contains(c) { res.remove_rune_at(i); }
     }
-    return res.c_str();
+    return res;
 }
 
 fn main() {
     let s = "The Zen C Programming Language";
     println "Input  : {s}";
-    s = remove_vowels(s);
-    println "Output : {s}";
+    println "Output : {remove_vowels(s)}";
 }
 ```
 

@@ -36,8 +36,8 @@ def E = """
 """;
 
 def N = """
-
-  _____  _______       
+ 
+ _____  _______       
  |\\__  \\/       \\      
  || |\\      __   \\    
  \\|_| \\    /| \\   \\   
@@ -62,12 +62,16 @@ def C = """
 """;
 
 fn main() {
-    let z = String::from(Z).split('\n');
-    let e = String::from(E).split('\n');
-    let n = String::from(N).split('\n');
-    let c = String::from(C).split('\n');
-    for i in 0..11 {
-        println "{z[i]}{e[i]}{n[i]} {c[i]}";
+    let z  = String::from(Z);
+    let zs = z.split('\n');
+    let e  = String::from(E);
+    let es = e.split('\n');
+    let n  = String::from(N);
+    let ns = n.split('\n');
+    let c  = String::from(C);
+    let cs = c.split('\n');
+    for i in 0..12 {
+        println "{zs[i]}{es[i]}{ns[i]} {cs[i]}";
     }
 }
 ```
@@ -75,8 +79,8 @@ fn main() {
 **Output:**
 
 ```
-____________            
-  |\           \             ___________        _____  _______               ___________       
+____________             
+  |\           \             ___________       _____  _______               ___________       
   | \_______    \           /   _____   \      |\__  \/       \             /           \     
   \ |      /    /|         /   /_____\   \     || |\      __   \          /      _______\    
    \|_____/    / |        |\       _____/|     \|_| \    /| \   \        |\     /|______|    

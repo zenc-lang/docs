@@ -7,11 +7,11 @@ title = "Reverse a string"
 ```zc
 import "std/string.zc"
 
-fn reverse_str(s: string) -> string {
+fn reverse_str(s: string) -> String {
     let s2 = String::from(s);
     let r = s2.runes();
     r.reverse();
-    return String::from_runes_vec(r).c_str();
+    return String::from_runes_vec(r);
 }
 
 fn main() {

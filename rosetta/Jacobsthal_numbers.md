@@ -21,6 +21,7 @@ fn jacobsthal(r: mpz_t, n: c_ulong) {
     if n % 2 { mpz_neg(s, s); }
     mpz_sub(r, r, s);
     mpz_div_ui(r, r, 3);
+    mpz_clear(s);
 }
 
 fn jacobsthal_lucas(r: mpz_t, n: c_ulong) {
@@ -31,6 +32,7 @@ fn jacobsthal_lucas(r: mpz_t, n: c_ulong) {
     mpz_set_ui(a, 1);
     if n % 2 { mpz_neg(a, a); }
     mpz_add(r, r, a);
+    mpz_clear(a);
 }
 
 fn main() {
@@ -68,6 +70,9 @@ fn main() {
             ++count;
         }
     }
+
+    for i in 0..30 { mpz_clear(jac[i]); }
+    mpz_clear(j);
 }
 ```
 
