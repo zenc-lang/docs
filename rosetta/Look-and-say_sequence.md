@@ -9,7 +9,7 @@ title = "Look-and-say sequence"
 ```zc
 import "std/string.zc"
 
-fn look_and_say(s: string) -> string {
+fn look_and_say(s: string) -> String {
     let res = String::from("");
     let digit = s[0];
     let count = 1;
@@ -23,14 +23,16 @@ fn look_and_say(s: string) -> string {
         }
     }
     res.append_c("{count}{digit:c}");
-    return res.c_str();
+    return res;
 }
 
 fn main() {
-    let las = "1";
+    let s: char[100];
+    strcpy(s, "1");
     for i in 1..=15 {
-        println "{las}";
-        las = look_and_say(las);
+        println "{s}";
+        let las = look_and_say(s);
+        strcpy(s, las.c_str());
     }
 }
 ```
