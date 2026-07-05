@@ -18,10 +18,9 @@ MAPPING = {
     "10.": "10-generics.md",
     "11.": "11-concurrency.md",
     "12.": "12-advanced.md",
-    "13.": "13-interop.md",
-    "14.": "14-unit-testing-framework.md",
-    "15.": "15-diagnostics.md",
-    "16.": "16-misra-rules.md",
+    "13.": "14-interop.md",
+    "14.": "15-unit-testing-framework.md",
+    "15.": "16-diagnostics.md",
 }
 
 WEIGHTS = {
@@ -37,9 +36,11 @@ WEIGHTS = {
     "10-generics.md": 10,
     "11-concurrency.md": 11,
     "12-advanced.md": 12,
-    "13-interop.md": 13,
-    "14-unit-testing-framework.md": 14,
-    "15-diagnostics.md": 15,
+    "13-comptime.md": 13,
+    "14-interop.md": 14,
+    "15-unit-testing-framework.md": 15,
+    "16-diagnostics.md": 16,
+    "17-misra-rules.md": 17,
 }
 
 LANG_MAP = {

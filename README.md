@@ -26,7 +26,7 @@ Deep dives into the compiler's internals and tooling protocols.
 - **[LSP Protocol](LSP.md)**: Documentation for the Zen C Language Server integration.
 - **[Plugin System](PLUGINS.md)**: How to extend the compiler with custom plugins.
 
-## Reference (16 chapters)
+## Reference (17 chapters)
 
 | # | Chapter | Description |
 |:---|:---|:---|
@@ -42,10 +42,11 @@ Deep dives into the compiler's internals and tooling protocols.
 | 10 | [Generics](reference/10-generics.md) | Type-safe templates |
 | 11 | [Concurrency](reference/11-concurrency.md) | Stackless async/await |
 | 12 | [Advanced](reference/12-advanced.md) | Inline assembly, raw blocks |
-| 13 | [Interop](reference/13-interop.md) | C, C++, CUDA, Objective-C interop |
-| 14 | [Unit Testing](reference/14-unit-testing-framework.md) | test, assert, expect |
-| 15 | [Diagnostics](reference/15-diagnostics.md) | Compiler warnings, categories |
-| 16 | [MISRA Rules](reference/16-misra-rules.md) | Safety rules, Zen-specific checks |
+| 13 | [Comptime](reference/13-comptime.md) | Compile-time evaluation and metaprogramming |
+| 14 | [Interop](reference/14-interop.md) | C, C++, CUDA, Objective-C interop |
+| 15 | [Unit Testing](reference/15-unit-testing-framework.md) | test, assert, expect |
+| 16 | [Diagnostics](reference/16-diagnostics.md) | Compiler warnings, categories |
+| 17 | [MISRA Rules](reference/17-misra-rules.md) | Safety rules, Zen-specific checks |
 
 ## Related Resources
 
