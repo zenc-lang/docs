@@ -14,102 +14,39 @@ let interi: int[GRANDEZZA] = [1, 2, 3, 4, 5];
 let zeri: [int; GRANDEZZA]; // Inizializzato a zero
 ```
 
-
-
 #### Tuple
-
-Raggruppa più valori in un unico valore composto. Le tuple supportano
-arità arbitrarie (2, 3, 4, … fino a 10+), composizione annidata, mutazione
-di singoli campi e destrutturazione.
-
-**Uso base**
-
+Valori molteplici raggruppati assieme, accesso agli elementi indicizzato.
 ```zc
-let pair = (1, "hello");          // 2-tuple, types inferred
-let triple = (1, "hello", 3.14);  // 3-tuple
-let five = (1, 2, 3, 4, 5);      // 5-tuple
-let typed: (int, string, f64) = (1, "two", 3.0);  // explicit annotation
+let paio = (1, "Ciao!");
+let x = paio.0;  // 1
+let s = paio.1;  // "Ciao!"
 ```
 
-**Accesso ai campi**
+**Molteplici Valori di Ritorno**
 
-Gli elementi sono accessibili posizionalmente con `.0`, `.1`, `.2`, ecc., o tramite
-i nomi di campo `.v0`, `.v1`:
-
+Le funzioni posso restituire delle tuple per fornire diversi risultati:
 ```zc
-let t = (1, "hello", 3.14);
-assert(t.0 == 1);       // positional
-assert(t.v1 == "hello"); // raw field name
-```
-
-**Valori di ritorno multipli**
-
-Functions can return tuples to provide multiple results:
-
-```zc
-fn stats(data: int) -> (int, int) {
-    return (data * 2, data + 1);
+fn somma_e_differenza(a: int, b: int) -> (int, int) {
+    return (a + b, a - b);
 }
 
-let r = stats(5);
-assert(r.0 == 10);
-assert(r.1 == 6);
+let risultato = somma_e_differenza(3, 2);
+let somma = risultato.0;   // 5
+let differenza = risultato.1;  // 1
 ```
 
-**Destrutturazione**
+**Separazione**
 
+Le tuple possono essere separate direttamente in variabili singole.
 ```zc
-let (sum, diff) = add_and_subtract(3, 2);
-// sum = 5, diff = 1
-
-let (a: string, b: u8) = ("hello", 42);  // typed destructuring
-let (x, y: i32) = (1, 2);                // mixed: x inferred, y explicit
+let (somma, differenza) = somma_e_differenza(3, 2);
+// somma = 5, differenza = 1
 ```
 
-**Tuple annidate**
-
+La separazione delle tuple tipizzata permette annotazioni di tipo esplicite:
 ```zc
-let nested = ((1, 2), (3, 4));
-let inner = nested.v0;
-assert(inner.v0 == 1);
-assert(inner.v1 == 2);
-```
-
-**Mutazione**
-
-I singoli campi possono essere riassegnati:
-
-```zc
-let t = (1, 2);
-t.v0 = 99;
-assert(t.v0 == 99);
-```
-
-**Confronto di stringhe**
-
-Le tuple con campi `string` devono usare `strcmp()` per il confronto,
-non `==` (che confronta i puntatori su `char*`):
-
-```zc
-let t = (1, "hello");
-assert(strcmp(t.1, "hello") == 0);
-```
-
-**Payload di tuple negli enum**
-
-Le varianti enum possono trasportare dati di tupla:
-
-```zc
-enum Shape {
-    Point,
-    Line(int, int),
-    Labeled(int, string, f64),
-}
-
-match shape {
-    Shape::Line(x, y) => { … }
-    Shape::Labeled(id, name, val) => { … }
-}
+let (a: string, b: u8) = ("hello", 42);
+let (x, y: i32) = (1, 2);  // Misto: x inferito, y esplicito
 ```
 
 #### Structs

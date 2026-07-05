@@ -14,101 +14,40 @@ let ints: int[SIZE] = [1, 2, 3, 4, 5];
 let zeros: [int; SIZE]; // 零初始化的
 ```
 
-
-
-
-#### Tuples
-
-将多个值组合成一个复合值。元组支持任意元数（2、3、4…最多10+）、嵌套组合、单个字段的修改和解构。
-
-**基本用法**
-
+#### 元组
+将多个值组合在一起，通过索引访问元素。
 ```zc
-let pair = (1, "hello");          // 2-tuple, types inferred
-let triple = (1, "hello", 3.14);  // 3-tuple
-let five = (1, 2, 3, 4, 5);      // 5-tuple
-let typed: (int, string, f64) = (1, "two", 3.0);  // explicit annotation
-```
-
-**字段访问**
-
-元素通过位置访问，使用 `.0`, `.1`, `.2` 等，或通过原始结构字段名 `.v0`, `.v1`：
-
-```zc
-let t = (1, "hello", 3.14);
-assert(t.0 == 1);       // positional
-assert(t.v1 == "hello"); // raw field name
+let pair = (1, "Hello");
+let x = pair.0;  // 1
+let s = pair.1;  // "Hello"
 ```
 
 **多个返回值**
 
 函数可以返回元组以提供多个结果：
-
 ```zc
-fn stats(data: int) -> (int, int) {
-    return (data * 2, data + 1);
+fn add_and_subtract(a: int, b: int) -> (int, int) {
+    return (a + b, a - b);
 }
 
-let r = stats(5);
-assert(r.0 == 10);
-assert(r.1 == 6);
+let result = add_and_subtract(3, 2);
+let sum = result.0;   // 5
+let diff = result.1;  // 1
 ```
 
 **解构**
 
+元组可以直接解构为多个变量：
 ```zc
 let (sum, diff) = add_and_subtract(3, 2);
 // sum = 5, diff = 1
-
-let (a: string, b: u8) = ("hello", 42);  // typed destructuring
-let (x, y: i32) = (1, 2);                // mixed: x inferred, y explicit
 ```
 
-**嵌套元组**
-
+带类型的解构允许显式类型注解：
 ```zc
-let nested = ((1, 2), (3, 4));
-let inner = nested.v0;
-assert(inner.v0 == 1);
-assert(inner.v1 == 2);
+let (a: string, b: u8) = ("hello", 42);
+let (x, y: i32) = (1, 2);  // 混合：x 推断，y 显式
 ```
-
-**修改**
-
-可以重新分配单个字段：
-
-```zc
-let t = (1, 2);
-t.v0 = 99;
-assert(t.v0 == 99);
-```
-
-**字符串比较**
-
-包含 `string` 字段的元组必须使用 `strcmp()` 进行比较，而不是 `==`（`==` 对 `char*` 进行指针比较）：
-
-```zc
-let t = (1, "hello");
-assert(strcmp(t.1, "hello") == 0);
-```
-
-**枚举元组负载**
-
-枚举变体可以携带元组数据：
-
-```zc
-enum Shape {
-    Point,
-    Line(int, int),
-    Labeled(int, string, f64),
-}
-
-match shape {
-    Shape::Line(x, y) => { ... }
-    Shape::Labeled(id, name, val) => { ... }
-}
-```
-
 
 #### 结构体
 带有可选位域的数据结构。

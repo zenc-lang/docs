@@ -66,10 +66,8 @@ fn main() {
 }
 ```
 
-#### RAII / Drop 特性
-
-Implement `Drop` to run cleanup logic automatically when a value goes out of scope.
-
+#### RAII / Drop Trait
+實現 `Drop` 以自動運行清理邏輯。
 ```zc
 impl Drop for MyStruct {
     fn drop(self) {
@@ -77,19 +75,3 @@ impl Drop for MyStruct {
     }
 }
 ```
-
-**包裝 RAII 類型。**如果結構體包含已經實作了 `Drop` 的欄位（如 `Vec` 或 `String`），編譯器會自動處理清理。你**不需要**為外部結構體編寫 `impl Drop`。
-
-```zc
-struct MyVecWrapper {
-    inner: Vec<int>;  // Vec::drop() called automatically
-}
-```
-
-{% alert(type="note") %}
-**範例：** `String` 定義為 `struct String { vec: Vec<char>; }` -- 它**不需要**顯式的 `Drop` 實作，因為 `Vec<char>` 管理所有記憶體。而 `Set<T>` 使用原始 `T*` 指標，**需要**顯式的 `Drop`。
-{% end %}
-
-**經驗法則：**
-- `Vec<T>`、`String` 或其他 RAII 類型的欄位 → 自動 Drop
-- `T*`、`malloc` 分配的指標或檔案控制代碼 → 需要顯式 Drop

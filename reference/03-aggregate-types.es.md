@@ -14,89 +14,40 @@ let ints: int[SIZE] = [1, 2, 3, 4, 5];
 let zeros: [int; SIZE]; // Inicializado a cero
 ```
 
-
-
-
-#### Tuples
-
-Agrupa múltiples valores en un único valor compuesto. Las tuplas admiten aridades arbitrarias (2, 3, 4, … hasta 10+), composición anidada, mutación de campos individuales y deconstrucción.
-
-**Uso básico**
-
+#### Tuplas
+Agrupa múltiples valores, accede a los elementos por índice.
 ```zc
-let pair = (1, "hello");
-let triple = (1, "hello", 3.14);
-let five = (1, 2, 3, 4, 5);
-let typed: (int, string, f64) = (1, "two", 3.0);
+let pair = (1, "Hola");
+let x = pair.0;  // 1
+let s = pair.1;  // "Hola"
 ```
 
-**Acceso a campos**
+**Múltiples Valores de Retorno**
 
-Los elementos se acceden posicionalmente con `.0`, `.1`, `.2`, etc., o mediante los nombres de campo `.v0`, `.v1`:
-
+Las funciones pueden retornar tuplas para proporcionar múltiples resultados:
 ```zc
-let t = (1, "hello", 3.14);
-assert(t.0 == 1);
-assert(t.v1 == "hello");
-```
-
-**Múltiples valores de retorno**
-
-Las funciones pueden devolver tuplas para proporcionar múltiples resultados:
-
-```zc
-fn stats(data: int) -> (int, int) {
-    return (data * 2, data + 1);
+fn sumar_y_restar(a: int, b: int) -> (int, int) {
+    return (a + b, a - b);
 }
-let r = stats(5);
-assert(r.0 == 10);
-assert(r.1 == 6);
+
+let resultado = sumar_y_restar(3, 2);
+let suma = resultado.0;   // 5
+let resta = resultado.1;  // 1
 ```
 
-**Deconstrucción**
+**Desestructuración**
 
+Las tuplas pueden desestructurarse directamente en variables:
 ```zc
-let (sum, diff) = add_and_subtract(3, 2);
+let (suma, resta) = sumar_y_restar(3, 2);
+// suma = 5, resta = 1
+```
+
+La desestructuración tipada permite anotaciones de tipo explícitas:
+```zc
 let (a: string, b: u8) = ("hello", 42);
-let (x, y: i32) = (1, 2);
+let (x, y: i32) = (1, 2);  // Mixto: x inferido, y explícito
 ```
-
-**Tuplas anidadas**
-
-```zc
-let nested = ((1, 2), (3, 4));
-let inner = nested.v0;
-assert(inner.v0 == 1);
-```
-
-**Mutación**
-
-Los campos individuales se pueden reasignar:
-
-```zc
-let t = (1, 2);
-t.v0 = 99;
-```
-
-**Comparación de cadenas**
-
-Las tuplas con campos `string` deben usar `strcmp()` para la comparación, no `==` (que compara punteros en `char*`):
-
-```zc
-let t = (1, "hello");
-assert(strcmp(t.1, "hello") == 0);
-```
-
-**Tuplas en variantes de enumeración**
-
-Las variantes de enum pueden contener datos de tupla:
-
-```zc
-enum Shape {
-    Point, Line(int, int), Labeled(int, string, f64),
-}
-```
-
 
 #### Structs
 Estructuras de datos con campos de bits opcionales.
@@ -117,7 +68,7 @@ struct Flags {
 ```
 
 {% alert(type="note") %}
-Los structs usan [Semántica de Movimiento](@/tour/08-memory-management.es.md#semantica-de-recursos-movimiento-por-defecto) por defecto. Los campos se pueden acceder mediante `.` incluso en punteros (Auto-Dereferencia).
+Los structs usan [Semántica de Movimiento](#semántica-de-recursos-movimiento-por-defecto) por defecto. Los campos se pueden acceder mediante `.` incluso en punteros (Auto-Dereferencia).
 {% end %}
 
 #### Structs Opacos

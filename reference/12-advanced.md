@@ -276,7 +276,7 @@ fn add_five(x: int) -> int {
 
 Zen C provides a categorized diagnostic system that can be controlled via `-W` and `-Wno-` flags. This is useful for managing warnings related to safety, unused code, and C interop.
 
-[Read more about the Diagnostic System](@/tour/16-diagnostics.md#15-diagnostic-system)
+[Read more about the Diagnostic System](@/tour/16-diagnostics.md#16-diagnostic-system)
 
 #### 12.5 Build Directives
 

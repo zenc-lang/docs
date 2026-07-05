@@ -63,29 +63,11 @@ fn main() {
 ```
 
 #### RAII / Rilascio Tratti
-
-Implement `Drop` to run cleanup logic automatically when a value goes out of scope.
-
+Implementa `Drop` per una logica di pulizia automatica.
 ```zc
-impl Drop for MyStruct {
+impl Drop for MioStruct {
     fn drop(self) {
         self.free();
     }
 }
 ```
-
-**Avvolgere un tipo RAII.** Se la tua struttura contiene un campo che implementa già `Drop` (come `Vec` o `String`), il compilatore gestisce automaticamente la pulizia. NON è necessario scrivere `impl Drop` per la struttura esterna.
-
-```zc
-struct MyVecWrapper {
-    inner: Vec<int>;  // Vec::drop() called automatically
-}
-```
-
-{% alert(type="note") %}
-**Esempio:** `String` è definita come `struct String { vec: Vec<char>; }` -- NON necessita di un'implementazione esplicita di `Drop` perché `Vec<char>` gestisce tutta la memoria. `Set<T>` invece usa puntatori `T*` grezzi e necessita di `Drop` esplicito.
-{% end %}
-
-**Regola pratica:**
-- Campi che sono `Vec<T>`, `String` o altri tipi RAII → Drop automatico
-- Campi che sono `T*`, puntatori `malloc` o handle di file → Drop esplicito richiesto

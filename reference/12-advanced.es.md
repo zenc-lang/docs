@@ -1,9 +1,9 @@
 +++
-title = "12. Avanzado y Metaprogramación"
+title = "12. Avanzado y Metaprogramacion"
 weight = 12
 +++
 
-# 12. Avanzado y Metaprogramación
+# 12. Avanzado y Metaprogramacion
 
 
 ### Avanzado y Metaprogramación
@@ -271,7 +271,7 @@ fn sumar(x: int) -> int {
 
 Zen C proporciona un sistema de diagnóstico categorizado que se puede controlar a través de las banderas `-W` y `-Wno-`. Esto es útil para gestionar advertencias relacionadas con la seguridad, el código no utilizado y la interoperabilidad con C.
 
-[Más información sobre el Sistema de Diagnóstico](@/tour/16-diagnostics.es.md#15-sistema-de-diagnostico)
+[Más información sobre el Sistema de Diagnóstico](@/tour/16-diagnostics.es.md#16-sistema-de-diagnóstico)
 
 #### 12.5 Directivas de Construcción
 Zen C soporta comentarios especiales en la parte superior de tu archivo fuente para configurar el proceso de construcción sin necesidad de un complejo sistema de construcción o Makefile.

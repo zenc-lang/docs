@@ -6,44 +6,16 @@ weight = 11
 # 11. Concurrency (Async/Await)
 
 
-Zen C uses a **stackless coroutine** model for async/await -- no thread pool, no pthread dependency.
-This means async functions are transformed at compile time into state machines, not into threads.
-
-#### Syntax
-
-Declare an async function with `async fn` and await its result with the `await` keyword:
+Built on pthreads.
 
 ```zc
 async fn fetch_data() -> string {
+    // Runs in background
     return "Data";
 }
 
 fn main() {
-    let result = await fetch_data();
-}
-```
-
-{% alert(type="note") %}
-Unlike thread-based models, Zen C's `await` is a **blocking poll loop** that runs the
-entire async function to completion. This is intentional -- it makes the control flow
-predictable and eliminates the need for a runtime executor or thread pool.
-{% end %}
-
-#### How it works
-
-An `async fn` is transformed by the compiler into a **state machine**. Each `await`
-point becomes a state transition. The resulting `Future` struct holds the state,
-parameters, and sub-futures for awaited calls.
-
-#### Sequential pattern
-
-```zc
-async fn task(n: int) -> int {
-    return n * 2;
-}
-
-fn main() {
-    let a = await task(5);
-    let b = await task(a);
+    let future = fetch_data();
+    let result = await future;
 }
 ```

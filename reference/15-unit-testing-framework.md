@@ -6,51 +6,31 @@ weight = 15
 # 15. Unit Testing Framework
 
 
-Zen C features a built-in testing framework with **per-test isolation**, **named output**, and **non-fatal assertions**.
+Zen C features a built-in testing framework that allows you to write unit tests directly in your source files using the `test` keyword.
 
 #### Syntax
 A `test` block contains a descriptive name and a body of code to execute. Tests do not require a `main` function to run.
 
 ```zc
-test "descriptive name" {
+test "unittest1" {
+    "This is an unittest";
+
     let a = 3;
-    assert(a > 0, "a should be positive");
+    assert(a > 0, "a should be a positive integer");
+
+    "unittest1 passed.";
 }
 ```
 
 #### Running Tests
-To run all tests in a file, use the `run` command:
+To run all tests in a file, use the `run` command. The compiler will automatically detect and execute all top-level `test` blocks.
 
 ```bash
 zc run my_file.zc
 ```
 
-Output shows each test by name:
-```
-  TEST: descriptive name ... OK
-  TEST: another test ... FAIL
-
-1 test(s) failed
-```
-
 #### Assertions
-
-| Function | Behavior |
-|:---|:---|
-| `assert(cond, msg)` | Records failure, continues to next test |
-| `expect(cond, msg)` | Non-fatal -- records failure but continues within the same test |
-
-Use `expect` when you want to verify multiple conditions without short-circuiting:
-
-```zc
-test "example" {
-    expect(result != null, "result should not be null");
-    expect(result.code == 200, "status should be 200");
-}
-```
-
-#### Exit Code
-The binary exits with the number of failed tests (0 = all passed).
+Use the built-in `assert(condition, message)` function to verify expectations. If the condition is false, the test will fail and print the provided message.
 
 ---
 
@@ -64,7 +44,7 @@ The Zen C Language Server (LSP) supports standard LSP features for editor integr
 
 *   **Go to Definition**
 *   **Find References**
-*   **Hover Information**
+*   **Hover Information** (including custom DSL plugins)
 *   **Completion** (Function/Struct names, Dot-completion for methods/fields)
 *   **Document Symbols** (Outline)
 *   **Signature Help**

@@ -14,89 +14,40 @@ let ints: int[SIZE] = [1, 2, 3, 4, 5];
 let zeros: [int; SIZE]; // Nullinitialisiert
 ```
 
-
-
-
-#### Tuples
-
-Mehrere Werte zu einem einzigen zusammengesetzten Wert gruppieren. Tupel unterstützen beliebige Stelligkeiten (2, 3, 4, … bis 10+), Verschachtelung, Mutation einzelner Felder und Destrukturierung.
-
-**Grundlegende Verwendung**
-
+#### Tupel
+Mehrere Werte gruppieren, Elemente über den Index aufrufen.
 ```zc
-let pair = (1, "hello");
-let triple = (1, "hello", 3.14);
-let five = (1, 2, 3, 4, 5);
-let typed: (int, string, f64) = (1, "two", 3.0);
-```
-
-**Feldzugriff**
-
-Elemente werden positionell mit `.0`, `.1`, `.2` usw. oder über die rohen Strukturfeldnamen `.v0`, `.v1` zugegriffen:
-
-```zc
-let t = (1, "hello", 3.14);
-assert(t.0 == 1);
-assert(t.v1 == "hello");
+let pair = (1, "Hallo");
+let x = pair.0;  // 1
+let s = pair.1;  // "Hallo"
 ```
 
 **Mehrere Rückgabewerte**
 
 Funktionen können Tupel zurückgeben, um mehrere Ergebnisse zu liefern:
-
 ```zc
-fn stats(data: int) -> (int, int) {
-    return (data * 2, data + 1);
+fn addiere_und_subtrahiere(a: int, b: int) -> (int, int) {
+    return (a + b, a - b);
 }
-let r = stats(5);
-assert(r.0 == 10);
-assert(r.1 == 6);
+
+let ergebnis = addiere_und_subtrahiere(3, 2);
+let summe = ergebnis.0;        // 5
+let differenz = ergebnis.1;    // 1
 ```
 
 **Destrukturierung**
 
+Tupel können direkt in Variablen zerlegt werden:
 ```zc
-let (sum, diff) = add_and_subtract(3, 2);
-let (a: string, b: u8) = ("hello", 42);
-let (x, y: i32) = (1, 2);
+let (summe, differenz) = addiere_und_subtrahiere(3, 2);
+// summe = 5, differenz = 1
 ```
 
-**Verschachtelte Tupel**
-
+Typisierte Tupel-Destrukturierung ermöglicht explizite Typannotationen:
 ```zc
-let nested = ((1, 2), (3, 4));
-let inner = nested.v0;
-assert(inner.v0 == 1);
+let (a: string, b: u8) = ("Hallo", 42);
+let (x, y: i32) = (1, 2);  // Gemischt: x abgeleitet, y explizit
 ```
-
-**Mutation**
-
-Einzelne Felder können neu zugewiesen werden:
-
-```zc
-let t = (1, 2);
-t.v0 = 99;
-```
-
-**Zeichenkettenvergleich**
-
-Tupel mit `string`-Feldern müssen für den Vergleich `strcmp()` verwenden, nicht `==` (das einen Zeigervergleich auf `char*` durchführt):
-
-```zc
-let t = (1, "hello");
-assert(strcmp(t.1, "hello") == 0);
-```
-
-**Aufzählungstupel**
-
-Aufzählungsvarianten können Tupeldaten tragen:
-
-```zc
-enum Shape {
-    Point, Line(int, int), Labeled(int, string, f64),
-}
-```
-
 
 #### Structs
 Datenstrukturen mit optionalen Bitfeldern.

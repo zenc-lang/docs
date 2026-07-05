@@ -14,101 +14,40 @@ let ints: int[SIZE] = [1, 2, 3, 4, 5];
 let zeros: [int; SIZE]; // 零初始化的
 ```
 
-
-
-
-#### Tuples
-
-將多個值組合成一個複合值。元組支援任意元數（2、3、4…最多10+）、巢狀組合、單個欄位的修改和解構。
-
-**基本用法**
-
+#### 元組
+將多個值組合在一起，通過索引訪問元素。
 ```zc
-let pair = (1, "hello");          // 2-tuple, types inferred
-let triple = (1, "hello", 3.14);  // 3-tuple
-let five = (1, 2, 3, 4, 5);      // 5-tuple
-let typed: (int, string, f64) = (1, "two", 3.0);  // explicit annotation
+let pair = (1, "Hello");
+let x = pair.0;  // 1
+let s = pair.1;  // "Hello"
 ```
 
-**欄位存取**
+**多個返回值**
 
-元素透過位置存取，使用 `.0`, `.1`, `.2` 等，或透過原始結構欄位名稱 `.v0`, `.v1`：
-
+函數可以返回元組以提供多個結果：
 ```zc
-let t = (1, "hello", 3.14);
-assert(t.0 == 1);       // positional
-assert(t.v1 == "hello"); // raw field name
-```
-
-**多個回傳值**
-
-函數可以回傳元組以提供多個結果：
-
-```zc
-fn stats(data: int) -> (int, int) {
-    return (data * 2, data + 1);
+fn add_and_subtract(a: int, b: int) -> (int, int) {
+    return (a + b, a - b);
 }
 
-let r = stats(5);
-assert(r.0 == 10);
-assert(r.1 == 6);
+let result = add_and_subtract(3, 2);
+let sum = result.0;   // 5
+let diff = result.1;  // 1
 ```
 
 **解構**
 
+元組可以直接解構為多個變量：
 ```zc
 let (sum, diff) = add_and_subtract(3, 2);
 // sum = 5, diff = 1
-
-let (a: string, b: u8) = ("hello", 42);  // typed destructuring
-let (x, y: i32) = (1, 2);                // mixed: x inferred, y explicit
 ```
 
-**巢狀元組**
-
+帶類型的解構允許顯式類型注解：
 ```zc
-let nested = ((1, 2), (3, 4));
-let inner = nested.v0;
-assert(inner.v0 == 1);
-assert(inner.v1 == 2);
+let (a: string, b: u8) = ("hello", 42);
+let (x, y: i32) = (1, 2);  // 混合：x 推斷，y 顯式
 ```
-
-**修改**
-
-可以重新指派單個欄位：
-
-```zc
-let t = (1, 2);
-t.v0 = 99;
-assert(t.v0 == 99);
-```
-
-**字串比較**
-
-包含 `string` 欄位的元組必須使用 `strcmp()` 進行比較，而不是 `==`（`==` 對 `char*` 進行指標比較）：
-
-```zc
-let t = (1, "hello");
-assert(strcmp(t.1, "hello") == 0);
-```
-
-**列舉元組載荷**
-
-列舉變體可以攜帶元組資料：
-
-```zc
-enum Shape {
-    Point,
-    Line(int, int),
-    Labeled(int, string, f64),
-}
-
-match shape {
-    Shape::Line(x, y) => { ... }
-    Shape::Labeled(id, name, val) => { ... }
-}
-```
-
 
 #### 結構體
 帶有可選位域的數據結構。

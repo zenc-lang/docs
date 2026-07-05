@@ -232,7 +232,7 @@ fn add_five(x: int) -> int {
 
 Zen C 提供了一個分類診斷系統，可以通過 `-W` 和 `-Wno-` 標記進行控制。這對於管理與安全、未使用程式碼和 C 互操作性相關的警告非常有用。
 
-[更多關於診斷系統的信息](@/tour/16-diagnostics.zh-tw.md#15-zhen-duan-xi-tong)
+[更多關於診斷系統的信息](@/tour/16-diagnostics.zh-tw.md#16-診斷系統)
 
 #### 12.5 構建指令
 

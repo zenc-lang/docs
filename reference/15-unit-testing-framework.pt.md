@@ -22,35 +22,12 @@ test "unittest1" {
 }
 ```
 
-
-#### Executar testes
+#### Executando Testes
+Para rodar todos os testes em um arquivo, utilize o comando `run`. O compilador irá automaticamente detectar e executar todos os blocos `test` de nível superior.
 
 ```bash
 zc run meu_arquivo.zc
 ```
 
-A saída mostra cada teste pelo nome:
-```
-  TEST: nome descritivo ... OK
-  TEST: outro teste ... FALHOU
-
-1 test(s) failed
-```
-
 #### Asserções
-
-| Função | Comportamento |
-|:---|:---|
-| `assert(cond, msg)` | Registra falha, continua para o próximo teste |
-| `expect(cond, msg)` | Não fatal -- registra falha mas continua no mesmo teste |
-
-```zc
-test "exemplo" {
-    expect(resultado != null, "o resultado não deveria ser nulo");
-    expect(codigo == 200, "o status deveria ser 200");
-}
-```
-
-#### Código de saída
-
-O binário termina com o número de testes falhos (0 = todos aprovados).
+Utilize a função embutida `assert(condition, message)` para verificar expectativas. Se a condição for falsa, o teste irá falhar e imprimir a mensagem fornecida.

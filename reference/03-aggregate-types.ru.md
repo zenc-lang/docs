@@ -14,101 +14,40 @@ let ints: int[SIZE] = [1, 2, 3, 4, 5];
 let zeros: [int; SIZE]; // Инициализировано нулями
 ```
 
-
-
-
-#### Tuples
-
-Группирует несколько значений в одно составное значение. Кортежи поддерживают произвольную арность (2, 3, 4, … до 10+), вложенность, изменение отдельных полей и деструктуризацию.
-
-**Базовое использование**
-
+#### Кортежи
+Группируйте несколько значений вместе, получайте доступ к элементам по индексу.
 ```zc
-let pair = (1, "hello");          // 2-tuple, types inferred
-let triple = (1, "hello", 3.14);  // 3-tuple
-let five = (1, 2, 3, 4, 5);      // 5-tuple
-let typed: (int, string, f64) = (1, "two", 3.0);  // explicit annotation
-```
-
-**Доступ к полям**
-
-Элементы доступны позиционно через `.0`, `.1`, `.2` и т.д., или через имена сырых полей структуры `.v0`, `.v1`:
-
-```zc
-let t = (1, "hello", 3.14);
-assert(t.0 == 1);       // positional
-assert(t.v1 == "hello"); // raw field name
+let pair = (1, "Hello");
+let x = pair.0;  // 1
+let s = pair.1;  // "Hello"
 ```
 
 **Множественные возвращаемые значения**
 
 Функции могут возвращать кортежи для предоставления нескольких результатов:
-
 ```zc
-fn stats(data: int) -> (int, int) {
-    return (data * 2, data + 1);
+fn add_and_subtract(a: int, b: int) -> (int, int) {
+    return (a + b, a - b);
 }
 
-let r = stats(5);
-assert(r.0 == 10);
-assert(r.1 == 6);
+let result = add_and_subtract(3, 2);
+let sum = result.0;   // 5
+let diff = result.1;  // 1
 ```
 
 **Деструктуризация**
 
+Кортежи могут быть деструктурированы прямо в переменные:
 ```zc
 let (sum, diff) = add_and_subtract(3, 2);
 // sum = 5, diff = 1
-
-let (a: string, b: u8) = ("hello", 42);  // typed destructuring
-let (x, y: i32) = (1, 2);                // mixed: x inferred, y explicit
 ```
 
-**Вложенные кортежи**
-
+Типизированная деструктуризация позволяет указывать явные аннотации типов:
 ```zc
-let nested = ((1, 2), (3, 4));
-let inner = nested.v0;
-assert(inner.v0 == 1);
-assert(inner.v1 == 2);
+let (a: string, b: u8) = ("hello", 42);
+let (x, y: i32) = (1, 2);  // Смешанный: x выводится, y явный
 ```
-
-**Изменение**
-
-Отдельные поля могут быть переназначены:
-
-```zc
-let t = (1, 2);
-t.v0 = 99;
-assert(t.v0 == 99);
-```
-
-**Сравнение строк**
-
-Кортежи с полями `string` должны использовать `strcmp()` для сравнения, а не `==` (который сравнивает указатели на `char*`):
-
-```zc
-let t = (1, "hello");
-assert(strcmp(t.1, "hello") == 0);
-```
-
-**Кортежи в вариантах перечисления**
-
-Варианты перечисления могут содержать кортежные данные:
-
-```zc
-enum Shape {
-    Point,
-    Line(int, int),
-    Labeled(int, string, f64),
-}
-
-match shape {
-    Shape::Line(x, y) => { ... }
-    Shape::Labeled(id, name, val) => { ... }
-}
-```
-
 
 #### Структуры
 Структуры данных с опциональными битовыми полями.

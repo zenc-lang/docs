@@ -278,7 +278,7 @@ fn summe(x: int) -> int {
 
 Zen C bietet ein kategorisiertes Diagnosesystem, das über die Flags `-W` und `-Wno-` gesteuert werden kann. Dies ist nützlich, um Warnungen in Bezug auf Sicherheit, ungenutzten Code und C-Interoperabilität zu verwalten.
 
-[Weitere Informationen zum Diagnosesystem](@/tour/16-diagnostics.de.md#15-diagnosesystem)
+[Weitere Informationen zum Diagnosesystem](@/tour/16-diagnostics.de.md#16-diagnosesystem)
 
 #### 12.5 Build-Direktiven
 

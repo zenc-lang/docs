@@ -2,9 +2,9 @@ import os
 import re
 import sys
 
-# Configuration
 SOURCE_DIR = "raw"
-TARGET_DIR = "reference"  # This will be used by the GitHub Action to sync to www
+TARGET_DIR = "reference"
+
 MAPPING = {
     "1.": "01-variables-constants.md",
     "2.": "02-primitive-types.md",
@@ -58,65 +58,113 @@ GROUP_TITLES = {
     "12-advanced.md": {
         "en": "12. Advanced & Metaprogramming",
         "de": "12. Fortgeschrittenes & Metaprogrammierung",
-        "es": "12. Avanzado y Metaprogramación",
+        "es": "12. Avanzado y Metaprogramacion",
         "it": "12. Avanzate e Metaprogrammazione",
-        "pt": "12. Avançado e Metaprogramação",
+        "pt": "12. Avancado e Metaprogramacao",
         "ru": "12. Продвинутые темы и метапрограммирование",
         "zh-cn": "12. 高级与元编程",
         "zh-tw": "12. 高級與元編程",
     }
 }
 
+MANUAL_FILES = {
+    "13-comptime.md",
+    "17-misra-rules.md",
+}
+
+DESCRIPTIVE_ANCHORS = {
+    "move-semantics--copy-safety": ("08-memory-management", "resource-semantics-move-by-default"),
+    "resource-semantics-move-by-default": ("08-memory-management", "resource-semantics-move-by-default"),
+    "semantica-de-recursos-move-por-padrao": ("08-memory-management", "semantica-de-recursos-move-by-default"),
+    "semantiche-di-movimento--copia-sicura": ("08-memory-management", "semantiche-delle-risorse-move-by-default"),
+    "semantiche-delle-risorse": ("08-memory-management", "semantiche-delle-risorse-move-by-default"),
+    "ressourcen-semantik-move-by-default": ("08-memory-management", "ressourcen-semantik-move-by-default"),
+    "semantica-de-recursos-movimiento-por-defecto": ("08-memory-management", "semantica-de-recursos-movimiento-por-defecto"),
+    "семантика-ресурсов-move-по-умолчанию": ("08-memory-management", "semantika-resursov-move-po-umolchaniiu"),
+    "资源语义-默认移动": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
+    "資源語義-默認移動": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
+}
+
+
+def build_reverse_mapping():
+    """Build {target_filename: raw_section_number} from MAPPING."""
+    rev = {}
+    for raw_num, target in MAPPING.items():
+        rev[target] = raw_num.rstrip(".")
+    return rev
+
+
+RAW_SECTION_NUM = build_reverse_mapping()
+
+
+def rewrite_numbered_anchor(anchor):
+    """Given a numbered anchor like '15-diagnostic-system', rewrite the numeric prefix
+    using MAPPING and WEIGHTS. Returns None if the anchor is not numbered."""
+    m = re.match(r"^(\d+)-(.*)", anchor)
+    if not m:
+        return None
+    raw_num = m.group(1)
+    suffix = m.group(2)
+    target = MAPPING.get(raw_num + ".")
+    if not target:
+        return None
+    weight = WEIGHTS.get(target)
+    if weight is None:
+        return None
+    return f"{weight}-{suffix}"
+
+
 def convert_alerts(content):
     def replace_alert(match):
         alert_type = match.group(1).lower()
         body = match.group(2)
-        # remove '> ' or '>' from start of lines
-        body_clean = re.sub(r'^>\s?', '', body, flags=re.MULTILINE)
+        body_clean = re.sub(r"^>\s?", "", body, flags=re.MULTILINE)
         return f'{{% alert(type="{alert_type}") %}}\n{body_clean}{{% end %}}\n'
 
-    pattern = r'>\s*\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]\s*\n((?:>.*\n?)+)'
+    pattern = r">\s*\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]\s*\n((?:>.*\n?)+)"
     return re.sub(pattern, replace_alert, content)
 
+
 def fix_links(content, lang):
-    # Mapping of local anchors to their cross-page destinations
-    # Pattern: old_anchor -> (target_file_base, new_anchor_slug)
-    link_targets = {
-        "move-semantics--copy-safety": ("08-memory-management", "resource-semantics-move-by-default"),
-        "resource-semantics-move-by-default": ("08-memory-management", "resource-semantics-move-by-default"),
-        "semântica-de-recursos-move-por-padrão": ("08-memory-management", "semantica-de-recursos-move-by-default"),
-        "semantiche-di-movimento--copia-sicura": ("08-memory-management", "semantiche-delle-risorse-move-by-default"),
-        "semantiche-delle-risorse": ("08-memory-management", "semantiche-delle-risorse-move-by-default"),
-        "ressourcen-semantik-move-by-default": ("08-memory-management", "ressourcen-semantik-move-by-default"),
-        "semántica-de-recursos-movimiento-por-defecto": ("08-memory-management", "semantica-de-recursos-movimiento-por-defecto"),
-        "семантика-ресурсов-move-по-умолчанию": ("08-memory-management", "semantika-resursov-move-po-umolchaniiu"),
-        "资源语义-默认移动": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
-        "資源語義-默認移動": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
-        "15-diagnostics": ("16-diagnostics", "15-diagnostic-system"),
-        "15-sistema-de-diagnóstico": ("16-diagnostics", "15-sistema-de-diagnostico"),
-        "15-diagnosesystem": ("16-diagnostics", "15-diagnosesystem"),
-        "15-sistema-di-diagnostica": ("16-diagnostics", "15-sistema-di-diagnostica"),
-        "15-система-диагностики": ("16-diagnostics", "15-sistema-diagnostiki"),
-        "15-诊断系统": ("16-diagnostics", "15-zhen-duan-xi-tong"),
-        "15-診斷系統": ("16-diagnostics", "15-zhen-duan-xi-tong"),
-    }
-    
     def replacer(match):
         text = match.group(1)
-        anchor = match.group(2).lstrip('#')
-        target = link_targets.get(anchor)
-        if target:
-            target_base, new_anchor = target
-            # Construct Zola link: (@/tour/file.lang.md#anchor)
-            ext = f".{lang}.md" if lang != "en" else ".md"
-            anchor_part = f"#{new_anchor}" if new_anchor else ""
-            return f"[{text}](@/tour/{target_base}{ext}{anchor_part})"
-        return match.group(0)
+        anchor = match.group(2).lstrip("#")
 
-    # Match [Link Text](#anchor)
-    return re.sub(r'\[([^\]]+)\]\(#([^\)]+)\)', replacer, content)
+        target_base = None
+        new_anchor = None
 
-def process_file(filename):
+        desc = DESCRIPTIVE_ANCHORS.get(anchor)
+        if desc:
+            target_base, new_anchor = desc
+        else:
+            new_anchor = rewrite_numbered_anchor(anchor)
+            if new_anchor is None:
+                return match.group(0)
+            m = re.match(r"^(\d+)-", anchor)
+            raw_num = m.group(1)
+            target_base = MAPPING.get(raw_num + ".")
+
+        if not target_base:
+            return match.group(0)
+
+        base_no_ext = target_base.replace(".md", "")
+        if lang == "en":
+            ext = ".md"
+        else:
+            ext = f".{lang}.md"
+        anchor_part = f"#{new_anchor}" if new_anchor else ""
+        return f"[{text}](@/tour/{base_no_ext}{ext}{anchor_part})"
+
+    return re.sub(r"\[([^\]]+)\]\(#([^\)]+)\)", replacer, content)
+
+
+def make_title(raw_num, raw_title, target_filename):
+    """Replace the raw section number with the weight-based number."""
+    weight = WEIGHTS.get(target_filename, 100)
+    return f"{weight}. {raw_title}"
+
+
+def process_file(filename, force=False):
     lang = LANG_MAP.get(filename)
     if not lang:
         return
@@ -125,73 +173,76 @@ def process_file(filename):
     with open(filepath, "r", encoding="utf-8") as f:
         full_content = f.read()
 
-    # Split by ### headers
-    # We look for "### N. Title"
-    sections = re.split(r'\n###\s+(\d+\.)\s+(.*?)\n', full_content)
-    # sections[0] is preamble
-    # sections[1] is "1."
-    # sections[2] is "Variables and Constants"
-    # sections[3] is the content of section 1
-    
-    file_contents = {} # target_filename -> list of (title, body)
+    sections = re.split(r"\n###\s+(\d+\.)\s+(.*?)\n", full_content)
+
+    file_contents = {}
 
     for i in range(1, len(sections), 3):
-        num = sections[i]
-        title = sections[i+1]
-        body = sections[i+2]
-        
-        target_filename = MAPPING.get(num)
+        raw_num = sections[i]
+        raw_title = sections[i + 1]
+        body = sections[i + 2]
+
+        target_filename = MAPPING.get(raw_num)
         if not target_filename:
             continue
-            
+
         if target_filename not in file_contents:
             file_contents[target_filename] = []
-        
-        file_contents[target_filename].append((num + " " + title, body))
 
-    # Write split files
+        renumbered_title = make_title(raw_num.rstrip("."), raw_title, target_filename)
+        file_contents[target_filename].append((renumbered_title, body))
+
     for target_filename, parts in file_contents.items():
-        # Final filename needs lang suffix if not English
         if lang == "en":
             out_name = target_filename
         else:
             out_name = target_filename.replace(".md", f".{lang}.md")
-            
+
         out_path = os.path.join(TARGET_DIR, out_name)
-        
-        # Skip if the file already exists -- manual edits in reference/ take priority
-        if os.path.exists(out_path):
-            print(f"  Skipping {out_name} -- already exists, keeping manual edits")
+
+        if target_filename in MANUAL_FILES:
+            print(f"  Skipping {out_name} -- manual file, never generated")
             continue
-        
-        # Combine parts for grouped files (like 12-advanced)
+
+        if os.path.exists(out_path) and not force:
+            print(f"  Skipping {out_name} -- already exists (use --force to regenerate)")
+            continue
+
+        main_title = parts[0][0]
         combined_body = ""
-        main_title = parts[0][0] # use first title as main title for now
-        
+
         if target_filename in GROUP_TITLES:
             main_title = GROUP_TITLES[target_filename].get(lang, parts[0][0])
-            # Special case for 12-16 grouping
             for title, body in parts:
-                combined_body += f"\n### {title.split('. ', 1)[1]}\n{body}"
+                sub_title = title.split(". ", 1)[1]
+                combined_body += f"\n### {sub_title}\n{body}"
         else:
             combined_body = parts[0][1]
 
-        # Clean up combined_body
         combined_body = convert_alerts(combined_body)
         combined_body = fix_links(combined_body, lang)
 
-        # Build final content with Zola frontmatter
         weight = WEIGHTS.get(target_filename, 100)
-        final_content = f"+++\ntitle = \"{main_title}\"\nweight = {weight}\n+++\n\n# {main_title}\n\n{combined_body}"
+        final_content = (
+            f"+++\ntitle = \"{main_title}\"\n"
+            f"weight = {weight}\n"
+            f"+++\n\n"
+            f"# {main_title}\n\n"
+            f"{combined_body}"
+        )
 
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(final_content)
+        print(f"  Wrote {out_name}")
+
 
 if __name__ == "__main__":
+    force = "--force" in sys.argv
+
     if not os.path.exists(TARGET_DIR):
         os.makedirs(TARGET_DIR)
-        
-    for filename in os.listdir(SOURCE_DIR):
+
+    for filename in sorted(os.listdir(SOURCE_DIR)):
         if filename.startswith("README"):
             print(f"Processing {filename}...")
-            process_file(filename)
+            process_file(filename, force=force)
