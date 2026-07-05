@@ -8,6 +8,101 @@ weight = 12
 
 ### Advanced & Metaprogramming
 
+#### 12.1 Metaprogramming
+
+#### Comptime
+Run code at compile-time to generate source or print messages.
+```zc
+comptime {
+    // Generate code at compile-time (written to stdout)
+    println "let build_date = \"2024-01-01\";";
+}
+
+println "Build Date: {build_date}";
+```
+
+<details>
+<summary><b>Helper Functions</b></summary>
+
+Special functions available inside `comptime` blocks for code generation and diagnostics:
+
+<table>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><code>yield(str)</code></td>
+<td>Explicitly emit generated code (alternative to <code>printf</code>)</td>
+</tr>
+<tr>
+<td><code>code(str)</code></td>
+<td>Alias for <code>yield()</code> - clearer intent for code generation</td>
+</tr>
+<tr>
+<td><code>compile_error(msg)</code></td>
+<td>Halt compilation with a fatal error message</td>
+</tr>
+<tr>
+<td><code>compile_warn(msg)</code></td>
+<td>Emit a compile-time warning (allows compilation to continue)</td>
+</tr>
+</table>
+
+**Example:**
+```zc
+comptime {
+    compile_warn("Generating optimized code...");
+    
+    let ENABLE_FEATURE = 1;
+    if (ENABLE_FEATURE == 0) {
+        compile_error("Feature must be enabled!");
+    }
+    
+    // Use code() with raw strings for clean generation
+    code(r"let FEATURE_ENABLED = 1;");
+}
+```
+</details>
+
+<details>
+<summary><b>Build Metadata</b></summary>
+
+Access compiler build information at compile-time:
+
+<table>
+<tr>
+<th>Constant</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><code>__COMPTIME_TARGET__</code></td>
+<td>string</td>
+<td>Platform: <code>"linux"</code>, <code>"windows"</code>, or <code>"macos"</code></td>
+</tr>
+<tr>
+<td><code>__COMPTIME_FILE__</code></td>
+<td>string</td>
+<td>Current source filename being compiled</td>
+</tr>
+</table>
+
+**Example:**
+```zc
+comptime {
+    // Platform-specific code generation
+    println "let PLATFORM = \"{__COMPTIME_TARGET__}\";";
+}
+
+println "Running on: {PLATFORM}";
+```
+</details>
+
+{% alert(type="tip") %}
+Use raw strings (`r"..."`) in comptime to avoid escaping braces: `code(r"fn test() { return 42; }")`. Otherwise, use `{{` and `}}` to escape braces inside regular strings.
+{% end %}
+
 #### Embed
 Embed files as specified types.
 ```zc
@@ -21,11 +116,20 @@ let wav  = embed "sound.wav" as u8[];        // Embed as Slice_u8
 ```
 
 #### Plugins
-Import compiler plugins to extend syntax.
+Zen C supports native Zen C (`.zc`) plugins that extend language syntax through compile-time code generation. Plugins can now provide interactive hover documentation (tooltips) for the Language Server (LSP).
+
 ```zc
-import plugin "regex"
-let re = regex! { ^[a-z]+$ };
+import plugin "plugins/lisp" as lisp
+
+fn main() {
+    lisp! {
+        (defun square (x) (* x x))
+        (print (square 10))
+    }
+}
 ```
+
+Read the full **[Plugin System Guide](../PLUGINS.md)** for more details.
 
 #### Generic C Macros
 Pass preprocessor macros through to C.
@@ -94,6 +198,7 @@ Decorate functions and structs to modify compiler behavior.
 | `@global` | Fn | CUDA: Kernel entry point (`__global__`). |
 | `@device` | Fn | CUDA: Device function (`__device__`). |
 | `@host` | Fn | CUDA: Host function (`__host__`). |
+| `@comptime` | Fn | Helper function available for compile-time execution. |
 | `@cfg(NAME)` | Any | Conditional compilation: include only if `-DNAME` is passed. Supports `not()`, `any()`, `all()`. |
 | `@derive(...)` | Struct | Auto-implement traits. Supports `Debug`, `Eq` (Smart Derive), `Copy`, `Clone`. |
 | `@ctype("type")` | Fn Param | Overrides generated C type for a parameter. |
@@ -171,7 +276,7 @@ fn add_five(x: int) -> int {
 
 Zen C provides a categorized diagnostic system that can be controlled via `-W` and `-Wno-` flags. This is useful for managing warnings related to safety, unused code, and C interop.
 
-[Read more about the Diagnostic System](@/tour/16-diagnostics.md)
+[Read more about the Diagnostic System](@/tour/16-diagnostics.md#15-diagnostic-system)
 
 #### 12.5 Build Directives
 

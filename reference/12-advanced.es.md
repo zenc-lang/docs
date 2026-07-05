@@ -10,6 +10,99 @@ weight = 12
 
 #### 12.1 Metaprogramación
 
+#### Comptime
+Ejecuta código en tiempo de compilación para generar código fuente o imprimir mensajes.
+```zc
+comptime {
+    // Genera código en tiempo de compilación (escrito en stdout)
+    println "let fecha_compilacion = \"2024-01-01\";";
+}
+
+println "Fecha de compilación: {fecha_compilacion}";
+```
+
+<details>
+<summary><b>Funciones Auxiliares</b></summary>
+
+Funciones especiales disponibles dentro de bloques `comptime`:
+
+<table>
+<tr>
+<th>Función</th>
+<th>Descripción</th>
+</tr>
+<tr>
+<td><code>yield(str)</code></td>
+<td>Emite código generado explícitamente (alternativa a <code>printf</code>)</td>
+</tr>
+<tr>
+<td><code>code(str)</code></td>
+<td>Alias de <code>yield()</code> - intención más clara para generación de código</td>
+</tr>
+<tr>
+<td><code>compile_error(msg)</code></td>
+<td>Detiene la compilación con un mensaje de error fatal</td>
+</tr>
+<tr>
+<td><code>compile_warn(msg)</code></td>
+<td>Emite una advertencia en tiempo de compilación (permite continuar)</td>
+</tr>
+</table>
+
+**Ejemplo:**
+```zc
+comptime {
+    compile_warn("Generando código optimizado...");
+    
+    let ENABLE_FEATURE = 1;
+    if (ENABLE_FEATURE == 0) {
+        compile_error("¡La función debe estar habilitada!");
+    }
+    
+    // Usa code() con raw strings para generación limpia
+    code(r"let FEATURE_ENABLED = 1;");
+}
+```
+</details>
+
+<details>
+<summary><b>Metadatos de Construcción</b></summary>
+
+Accede a información de construcción del compilador en tiempo de compilación:
+
+<table>
+<tr>
+<th>Constante</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+<tr>
+<td><code>__COMPTIME_TARGET__</code></td>
+<td>string</td>
+<td>Plataforma: <code>"linux"</code>, <code>"windows"</code> o <code>"macos"</code></td>
+</tr>
+<tr>
+<td><code>__COMPTIME_FILE__</code></td>
+<td>string</td>
+<td>Nombre del archivo fuente actual siendo compilado</td>
+</tr>
+</table>
+
+**Ejemplo:**
+```zc
+comptime {
+    // Generación de código específica de plataforma
+    println "let PLATFORM = \"{__COMPTIME_TARGET__}\";";
+}
+
+println "Ejecutando en: {PLATFORM}";
+```
+</details>
+
+{% alert(type="tip") %}
+Usa raw strings (`r"..."`) en comptime para evitar escapar llaves: `code(r"fn test() { return 42; }")`. De lo contrario, usa `{{` y `}}` para escapar llaves en strings regulares.
+{% end %}
+
 #### Embed
 Embebe archivos como los tipos especificados.
 ```zc
@@ -23,11 +116,20 @@ let wav   = embed "sound.wav" as u8[];        // Embebe como Slice_u8
 ```
 
 #### Plugins
-Importa plugins del compilador para extender la sintaxis.
+Zen C admite plugins nativos de Zen C (`.zc`) que extienden la sintaxis del lenguaje mediante la generación de código en tiempo de compilación. Los plugins ahora pueden proporcionar documentación interactiva al pasar el cursor (tooltips) para el Servidor de Lenguaje (LSP).
+
 ```zc
-import plugin "regex"
-let re = regex! { ^[a-z]+$ };
+import plugin "plugins/lisp" as lisp
+
+fn main() {
+    lisp! {
+        (defun cuadrado (x) (* x x))
+        (print (cuadrado 10))
+    }
+}
 ```
+
+Lee la **[Guía del Sistema de Plugins](../PLUGINS.md)** completa para más detalles.
 
 #### Macros de C Genéricas
 Pasa macros del preprocesador directamente a C.
@@ -91,6 +193,7 @@ Decora funciones y structs para modificar el comportamiento del compilador.
 | `@global` | Fn | CUDA: Punto de entrada del kernel (`__global__`). |
 | `@device` | Fn | CUDA: Función de dispositivo (`__device__`). |
 | `@host` | Fn | CUDA: Función de host (`__host__`). |
+| `@comptime` | Fn | Función auxiliar disponible para ejecución en tiempo de compilación. |
 | `@cfg(NAME)` | Cualquiera | Compilación condicional: incluye solo si se pasa `-DNAME`. Soporta `not()`, `any()`, `all()`. |
 | `@derive(...)` | Struct | Implementa traits automáticamente. Soporta `Debug`, `Eq` (Derivación Inteligente), `Copy`, `Clone`. |
 | `@ctype("tipo")` | Parámetro Fn | Sobrescribe el tipo C generado para un parámetro. |
@@ -168,7 +271,7 @@ fn sumar(x: int) -> int {
 
 Zen C proporciona un sistema de diagnóstico categorizado que se puede controlar a través de las banderas `-W` y `-Wno-`. Esto es útil para gestionar advertencias relacionadas con la seguridad, el código no utilizado y la interoperabilidad con C.
 
-[Más información sobre el Sistema de Diagnóstico](@/tour/15-diagnostics.es.md#15-sistema-de-diagnostico)
+[Más información sobre el Sistema de Diagnóstico](@/tour/16-diagnostics.es.md#15-sistema-de-diagnostico)
 
 #### 12.5 Directivas de Construcción
 Zen C soporta comentarios especiales en la parte superior de tu archivo fuente para configurar el proceso de construcción sin necesidad de un complejo sistema de construcción o Makefile.

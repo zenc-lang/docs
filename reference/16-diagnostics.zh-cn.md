@@ -55,7 +55,7 @@ zc main.zc -Winterop
 ```
 
 启用后，编译器将为常见的 C 函数提供有用的建议：
-```text
+```
 warning: Undefined function 'abs'
   --> main.zc:5:13
    |

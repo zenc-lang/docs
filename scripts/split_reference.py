@@ -92,13 +92,13 @@ def fix_links(content, lang):
         "семантика-ресурсов-move-по-умолчанию": ("08-memory-management", "semantika-resursov-move-po-umolchaniiu"),
         "资源语义-默认移动": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
         "資源語義-默認移動": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
-        "15-diagnostics": ("15-diagnostics", "15-diagnostic-system"),
-        "15-sistema-de-diagnóstico": ("15-diagnostics", "15-sistema-de-diagnostico"),
-        "15-diagnosesystem": ("15-diagnostics", "15-diagnosesystem"),
-        "15-sistema-di-diagnostica": ("15-diagnostics", "15-sistema-di-diagnostica"),
-        "15-система-диагностики": ("15-diagnostics", "15-sistema-diagnostiki"),
-        "15-诊断系统": ("15-diagnostics", "15-zhen-duan-xi-tong"),
-        "15-診斷系統": ("15-diagnostics", "15-zhen-duan-xi-tong"),
+        "15-diagnostics": ("16-diagnostics", "15-diagnostic-system"),
+        "15-sistema-de-diagnóstico": ("16-diagnostics", "15-sistema-de-diagnostico"),
+        "15-diagnosesystem": ("16-diagnostics", "15-diagnosesystem"),
+        "15-sistema-di-diagnostica": ("16-diagnostics", "15-sistema-di-diagnostica"),
+        "15-система-диагностики": ("16-diagnostics", "15-sistema-diagnostiki"),
+        "15-诊断系统": ("16-diagnostics", "15-zhen-duan-xi-tong"),
+        "15-診斷系統": ("16-diagnostics", "15-zhen-duan-xi-tong"),
     }
     
     def replacer(match):

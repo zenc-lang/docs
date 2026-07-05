@@ -55,7 +55,7 @@ zc main.zc -Winterop
 ```
 
 Quando habilitado, o compilador fornecerá sugestões úteis para funções C comuns:
-```text
+```
 warning: Undefined function 'abs'
   --> main.zc:5:13
    |

@@ -10,6 +10,99 @@ weight = 12
 
 #### 12.1 Metaprogrammierung
 
+#### Comptime
+Führt Code zur Compile-Zeit aus, um Quellcode zu generieren oder Nachrichten auszugeben.
+
+```zc
+comptime {
+    // Generiert Code während der Kompilierung (wird auf stdout geschrieben)
+    println "let build_date = \"2024-01-01\";";
+}
+
+println "Build Date: {build_date}";
+```
+
+<details>
+<summary><b>Hilfsfunktionen</b></summary>
+
+Spezielle Funktionen innerhalb von `comptime`-Blöcken für Code-Generierung und Diagnostik:
+<table>
+<tr>
+<th>Funktion</th>
+<th>Beschreibung</th>
+</tr>
+<tr>
+<td><code>yield(str)</code></td>
+<td>Generiert explizit Code (Alternative zu <code>printf</code>)</td>
+</tr>
+<tr>
+<td><code>code(str)</code></td>
+<td>Alias für <code>yield()</code>,  klarere Absicht für Code-Generierung</td>
+</tr>
+<tr>
+<td><code>compile_error(msg)</code></td>
+<td>Bricht die Kompilierung mit Fehlermeldung ab</td>
+</tr>
+<tr>
+<td><code>compile_warn(msg)</code></td>
+<td>Gibt eine Warnung zur Compile-Zeit aus (Kompilierung wird fortgesetzt)</td>
+</tr>
+</table>
+
+**Beispiel:**
+```zc
+comptime {
+    compile_warn("Generiere optimierten Code...");
+    
+    let ENABLE_FEATURE = 1;
+    if (ENABLE_FEATURE == 0) {
+        compile_error("Feature muss aktiviert sein!");
+    }
+    
+    // Verwende code() mit Raw-Strings für saubere Generierung
+    code(r"let FEATURE_ENABLED = 1;");
+}
+```
+</details>
+
+<details>
+<summary><b>Build-Metadaten</b></summary>
+
+Zugriff auf Compiler-Buildinformationen zur Compile-Zeit:
+
+<table>
+<tr>
+<th>Konstante</th>
+<th>Typ</th>
+<th>Beschreibung</th>
+</tr>
+<tr>
+<td><code>__COMPTIME_TARGET__</code></td>
+<td>string</td>
+<td>Plattform: <code>"linux"</code>, <code>"windows"</code>, oder <code>"macos"</code></td>
+</tr>
+<tr>
+<td><code>__COMPTIME_FILE__</code></td>
+<td>string</td>
+<td>Aktueller Quellcode-Dateiname, der kompiliert wird</td>
+</tr>
+</table>
+
+**Beispiel:**
+```zc
+comptime {
+    // Plattform-spezifische Code-Generierung
+    println "let PLATFORM = \"{__COMPTIME_TARGET__}\";";
+}
+
+println "Running on: {PLATFORM}";
+```
+</details>
+
+{% alert(type="tip") %}
+Verwende in der Kompilierzeit rohe Zeichenketten (`r"..."`), um das Maskieren von geschweiften Klammern zu vermeiden: `code(r"fn test() { return 42; }")`. Verwende andernfalls `{{` und `}}`, um geschweifte Klammern innerhalb regulärer Zeichenketten zu maskieren.
+{% end %}
+
 #### Embed
 Binde Dateien als bestimmte Typen ein.
 ```zc
@@ -23,11 +116,20 @@ let wav  = embed "sound.wav" as u8[];        // Einbindung als Slice_u8
 ```
 
 #### Plugins
-Importiere Compiler-Plugins zur Erweiterung der Syntax.
+Zen C unterstützt native Zen C (`.zc`) Plugins, die die Sprachsyntax durch Code-Generierung zur Compile-Zeit erweitern. Plugins können nun interaktive Hover-Dokumentationen (Tooltips) für den Language Server (LSP) bereitstellen.
+
 ```zc
-import plugin "regex"
-let re = regex! { ^[a-z]+$ };
+import plugin "plugins/lisp" as lisp
+
+fn main() {
+    lisp! {
+        (defun square (x) (* x x))
+        (print (square 10))
+    }
+}
 ```
+
+Die vollständige **[Anleitung zum Plugin-System](../PLUGINS.md)** findest du für weitere Details.
 
 #### Generische C-Makros
 Leite Preprocessor-Makros direkt an C weiter.
@@ -96,6 +198,7 @@ Dekoriere Funktionen und Strukturen, um das Verhalten des Compilers zu beeinflus
 | `@global` | Fn | CUDA: Kernel-Einstiegspunkt (`__global__`). |
 | `@device` | Fn | CUDA: Device-Funktion (`__device__`). |
 | `@host` | Fn | CUDA: Host-Funktion (`__host__`). |
+| `@comptime` | Fn | Hilfsfunktion für Compile-Time-Ausführung. |
 | `@cfg(NAME)` | Any | Bedingte Kompilierung: nur einbinden, wenn `-DNAME` gesetzt ist. Unterstützt `not()`, `any()`, `all()`. |
 | `@derive(...)` | Struct | Implementiert automatisch Traits (`Debug`, `Eq`, `Copy`, `Clone`). |
 | `@ctype("type")` | Fn Param | Überschreibt den generierten C-Typ eines Parameters. |
@@ -175,7 +278,7 @@ fn summe(x: int) -> int {
 
 Zen C bietet ein kategorisiertes Diagnosesystem, das über die Flags `-W` und `-Wno-` gesteuert werden kann. Dies ist nützlich, um Warnungen in Bezug auf Sicherheit, ungenutzten Code und C-Interoperabilität zu verwalten.
 
-[Weitere Informationen zum Diagnosesystem](@/tour/15-diagnostics.de.md#15-diagnosesystem)
+[Weitere Informationen zum Diagnosesystem](@/tour/16-diagnostics.de.md#15-diagnosesystem)
 
 #### 12.5 Build-Direktiven
 

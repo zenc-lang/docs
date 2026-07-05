@@ -10,6 +10,99 @@ weight = 12
 
 #### 12.1 Metaprogrammazione
 
+#### Comptime
+Esegui codice al momento della compilazione per generare sorgente o stampare messaggi.
+```zc
+comptime {
+    // Genera codice al momento della compilazione (scritto su stdout)
+    println "let data_compilazione = \"2024-01-01\";";
+}
+
+println "Data compilazione: {data_compilazione}";
+```
+
+<details>
+<summary><b>Funzioni Helper</b></summary>
+
+Funzioni speciali disponibili all'interno dei blocchi `comptime`:
+
+<table>
+<tr>
+<th>Funzione</th>
+<th>Descrizione</th>
+</tr>
+<tr>
+<td><code>yield(str)</code></td>
+<td>Emette esplicitamente codice generato (alternativa a <code>printf</code>)</td>
+</tr>
+<tr>
+<td><code>code(str)</code></td>
+<td>Alias di <code>yield()</code> - intento più chiaro per generazione codice</td>
+</tr>
+<tr>
+<td><code>compile_error(msg)</code></td>
+<td>Interrompe la compilazione con un messaggio di errore fatale</td>
+</tr>
+<tr>
+<td><code>compile_warn(msg)</code></td>
+<td>Emette un avviso al momento della compilazione (consente di continuare)</td>
+</tr>
+</table>
+
+**Esempio:**
+```zc
+comptime {
+    compile_warn("Generazione codice ottimizzato...");
+    
+    let ENABLE_FEATURE = 1;
+    if (ENABLE_FEATURE == 0) {
+        compile_error("La funzionalità deve essere abilitata!");
+    }
+    
+    // Usa code() con raw strings per generazione pulita
+    code(r"let FEATURE_ENABLED = 1;");
+}
+```
+</details>
+
+<details>
+<summary><b>Metadati di Build</b></summary>
+
+Accedi alle informazioni di build del compilatore al momento della compilazione:
+
+<table>
+<tr>
+<th>Costante</th>
+<th>Tipo</th>
+<th>Descrizione</th>
+</tr>
+<tr>
+<td><code>__COMPTIME_TARGET__</code></td>
+<td>string</td>
+<td>Piattaforma: <code>"linux"</code>, <code>"windows"</code> o <code>"macos"</code></td>
+</tr>
+<tr>
+<td><code>__COMPTIME_FILE__</code></td>
+<td>string</td>
+<td>Nome del file sorgente corrente in compilazione</td>
+</tr>
+</table>
+
+**Esempio:**
+```zc
+comptime {
+    // Generazione codice specifico per piattaforma
+    println "let PLATFORM = \"{__COMPTIME_TARGET__}\";";
+}
+
+println "In esecuzione su: {PLATFORM}";
+```
+</details>
+
+{% alert(type="tip") %}
+Usa raw strings (`r"..."`) in comptime per evitare di eseguire l'escape delle parentesi graffe: `code(r"fn test() { return 42; }")`. Altrimenti, usa `{{` e `}}` per l'escape nelle stringhe normali.
+{% end %}
+
 #### Incorporati
 Incorpora file come tipi specificati.
 ```zc
@@ -23,11 +116,20 @@ let wav   = embed "sound.wav" as u8[];        // Incorpora come Slice_u8
 ```
 
 #### Plugin
-Importa plugin del compilatore per estendere la sintassi.
+Zen C supporta plugin nativi in Zen C (`.zc`) che estendono la sintassi del linguaggio attraverso la generazione di codice al momento della compilazione. I plugin possono ora fornire documentazione interattiva al passaggio del mouse (tooltip) per il Language Server (LSP).
+
 ```zc
-import plugin "regex"
-let re = regex! { ^[a-z]+$ };
+import plugin "plugins/lisp" as lisp
+
+fn main() {
+    lisp! {
+        (defun quadrato (x) (* x x))
+        (print (quadrato 10))
+    }
+}
 ```
+
+Leggi la **[Guida al Sistema di Plugin](../PLUGINS.md)** completa per maggiori dettagli.
 
 #### Macro C Generiche
 Passa delle macro del preprocessore C.
@@ -91,6 +193,7 @@ Decora le funzioni e gli struct per modificare il comportamento del compilatore.
 | `@global` | Fn | CUDA: Entry point del Kernel (`__global__`). |
 | `@device` | Fn | CUDA: Funzione del Device (`__device__`). |
 | `@host` | Fn | CUDA: Funzione dell'Host (`__host__`). |
+| `@comptime` | Fn | Funzione di supporto disponibile per l'esecuzione al tempo di compilazione. |
 | `@cfg(NAME)` | Qualsiasi | Compilazione condizionale: includi solo se viene passato `-DNAME`. Supporta `not()`, `any()`, `all()`. |
 | `@derive(...)` | Struct | Implementa automaticamente i tratti. Supporta `Debug`, `Eq` (Derivazione Intelligente), `Copy`, `Clone`. |
 | `@<custom>` | Any | Passa gli attributi generici direttamente al C (e.g. `@flatten`, `@alias("nome")`) |
@@ -173,7 +276,7 @@ Quando si usa la sintassi Intel (via `-masm=intel`), dovrai assicurarti che la t
 
 Zen C fornisce un sistema di diagnostica categorizzato che può essere controllato tramite i flag `-W` e `-Wno-`. Questo è utile per gestire gli avvisi relativi alla sicurezza, al codice non utilizzato e all'interoperabilità C.
 
-[Maggiori informazioni sul Sistema di Diagnostica](@/tour/15-diagnostics.it.md#15-sistema-di-diagnostica)
+[Maggiori informazioni sul Sistema di Diagnostica](@/tour/16-diagnostics.it.md#15-sistema-di-diagnostica)
 
 #### 12.5 Direttive della Build
 

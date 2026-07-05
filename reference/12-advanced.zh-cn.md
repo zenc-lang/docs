@@ -10,6 +10,56 @@ weight = 12
 
 #### 12.1 元编程
 
+#### Comptime
+在编译时运行代码以生成源代码或打印消息。
+```zc
+comptime {
+    // 在编译时生成代码(写入 stdout)
+    println "let build_date = \"2024-01-01\";";
+}
+
+println "Build Date: {build_date}";
+```
+
+**辅助函数**
+
+`comptime` 块内可用的特殊函数:
+- **`yield(str)`** - 显式输出生成的代码(printf 的替代方案)
+- **`compile_error(msg)`** - 以致命错误消息停止编译
+- **`compile_warn(msg)`** - 发出编译时警告(允许继续编译)
+
+```zc
+comptime {
+    compile_warn("正在生成优化代码...");
+    
+    let ENABLE_FEATURE = 1;
+    if (ENABLE_FEATURE == 0) {
+        compile_error("必须启用功能!");
+    }
+    
+    println "let FEATURE_ENABLED = 1;";
+}
+```
+
+**构建元数据**
+
+在编译时访问编译器构建信息:
+- **`__COMPTIME_TARGET__`** - 平台字符串: `"linux"`, `"windows"` 或 `"macos"`
+- **`__COMPTIME_FILE__`** - 当前正在编译的源文件名
+
+```zc
+comptime {
+    // 平台特定的代码生成
+    println "let PLATFORM = \"{__COMPTIME_TARGET__}\";";
+}
+
+println "运行于: {PLATFORM}";
+```
+
+{% alert(type="tip") %}
+在 comptime 字符串内使用 `{{` 和 `}}` 来转义花括号。
+{% end %}
+
 #### Embed
 将文件嵌入为指定类型。
 ```zc
@@ -23,11 +73,20 @@ let wav  = embed "sound.wav" as u8[];        // 嵌入为 Slice_u8
 ```
 
 #### 插件
-导入编译器插件以扩展语法。
+Zen C 支持原生 Zen C (`.zc`) 插件，通过编译时代码生成来扩展语言语法。现在插件可以为语言服务器 (LSP) 提供交互式悬停文档（工具提示）。
+
 ```zc
-import plugin "regex"
-let re = regex! { ^[a-z]+$ };
+import plugin "plugins/lisp" as lisp
+
+fn main() {
+    lisp! {
+        (defun square (x) (* x x))
+        (print (square 10))
+    }
+}
 ```
+
+阅读完整的 **[插件系统指南](../PLUGINS.md)** 以了解更多详情。
 
 #### 泛型 C 宏
 将预处理器宏传递给 C。
@@ -91,6 +150,7 @@ fn fallback_init() { println "未选择后端"; }
 | `@global` | 函数 | CUDA: 内核入口点 (`__global__`)。 |
 | `@device` | 函数 | CUDA: 设备函数 (`__device__`)。 |
 | `@host` | 函数 | CUDA: 主机函数 (`__host__`)。 |
+| `@comptime` | 函数 | 用于编译时执行的辅助函数。 |
 | `@cfg(NAME)` | 任意 | 条件编译：仅在传递 `-DNAME` 时包含。支持 `not()`、`any()`、`all()`。 |
 | `@derive(...)` | 结构体 | 自动实现 Trait。支持 `Debug`, `Eq` (智能派生), `Copy`, `Clone`。 |
 | `@ctype("type")` | 函数参数 | 覆盖参数生成的 C 类型。 |
@@ -173,7 +233,7 @@ fn add_five(x: int) -> int {
 
 Zen C 提供了一个分类诊断系统，可以通过 `-W` 和 `-Wno-` 标记进行控制。这对于管理与安全、未使用代码和 C 互操作性相关的警告非常有用。
 
-[更多关于诊断系统的信息](@/tour/15-diagnostics.zh-cn.md#15-zhen-duan-xi-tong)
+[更多关于诊断系统的信息](@/tour/16-diagnostics.zh-cn.md#15-zhen-duan-xi-tong)
 
 #### 12.5 构建指令
 

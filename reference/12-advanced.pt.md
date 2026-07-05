@@ -10,6 +10,54 @@ weight = 12
 
 #### 12.1 Metaprogramação
 
+#### Comptime
+Execute código em tempo de compilação para gerar código ou imprimir mensagens.
+```zc
+comptime {
+    // Gera código em tempo de compilação (escrito em stdout)
+    println "let data_compilacao = \"2024-01-01\";";
+}
+
+println "Data de compilação: {data_compilacao}";
+```
+
+**Funções Auxiliares**
+
+Funções especiais disponíveis dentro de blocos `comptime`:
+- **`yield(str)`** - Emite explicitamente código gerado (alternativa a `printf`)
+- **`compile_error(msg)`** - Interrompe a compilação com uma mensagem de erro fatal
+- **`compile_warn(msg)`** - Emite um aviso em tempo de compilação (permite continuar a compilação)
+
+```zc
+comptime {
+    compile_warn("Gerando código otimizado...");
+    
+    let ENABLE_FEATURE = 1;
+    if (ENABLE_FEATURE == 0) {
+        compile_error("O recurso deve estar habilitado!");
+    }
+    
+    println "let FEATURE_ENABLED = 1;";
+}
+```
+
+**Metadados de Build**
+
+Acesse informações de build do compilador em tempo de compilação:
+- **`__COMPTIME_TARGET__`** - String da plataforma: `"linux"`, `"windows"` ou `"macos"`
+- **`__COMPTIME_FILE__`** - Nome do arquivo fonte atual sendo compilado
+
+```zc
+comptime {
+    // Geração de código específica da plataforma
+    println "let PLATFORM = \"{__COMPTIME_TARGET__}\";";
+}
+
+println "Executando em: {PLATFORM}";
+```
+
+> **Dica:** Use raw strings (`r"..."`) em comptime para evitar escapar chaves: `code(r"fn test() { return 42; }")`. De lo contrario, use `{{` e `}}` para escapar chaves em strings regulares.
+
 #### Embed
 Incorpore arquivos como tipos especificados.
 ```zc
@@ -23,11 +71,20 @@ let wav  = embed "sound.wav" as u8[];        // Incorporado como Slice_u8
 ```
 
 #### Plugins
-Importe plugins de compilação para sintaxe estendida
+O Zen C suporta plugins nativos do Zen C (`.zc`) que estendem a sintaxe da linguagem por meio da geração de código em tempo de compilação. Os plugins agora podem fornecer documentação interativa ao passar o mouse (tooltips) para o Language Server (LSP).
+
 ```zc
-import plugin "regex"
-let re = regex! { ^[a-z]+$ };
+import plugin "plugins/lisp" as lisp
+
+fn main() {
+    lisp! {
+        (defun square (x) (* x x))
+        (print (square 10))
+    }
+}
 ```
+
+Leia o **[Guia do Sistema de Plugins](../PLUGINS.md)** completo para mais detalhes.
 
 #### Macros Genéricos de C
 Passe macros pré-processamento para o C.
@@ -88,6 +145,7 @@ Decore funções e structs para modificar o comportamento do compilador.
 | `@global` | Fn | CUDA: Entry point do Kernel (`__global__`). |
 | `@device` | Fn | CUDA: Função de dispositivo (`__device__`). |
 | `@host` | Fn | CUDA: Função Host (`__host__`). |
+| `@comptime` | Fn | Função auxiliar disponível para execução em tempo de compilação. |
 | `@cfg(NAME)` | Qualquer | Compilação condicional: inclui apenas se `-DNAME` for passado. Suporta `not()`, `any()`, `all()`. |
 | `@derive(...)` | Struct | Auto-implementa traits. Supporta `Debug`, `Eq` (Smart Derive), `Copy`, `Clone`. |
 | `@ctype("type")` | Fn Param | Sobreescreve tipo C gerado para um parâmetro. |
@@ -166,7 +224,7 @@ fn add_five(x: int) -> int {
 
 Zen C fornece um sistema de diagnóstico categorizado que pode ser controlado através das flags `-W` e `-Wno-`. Isso é útil para gerenciar avisos relacionados à segurança, código não utilizado e interoperabilidade C.
 
-[Mais informações sobre o Sistema de Diagnóstico](@/tour/15-diagnostics.pt.md#15-sistema-de-diagnostico)
+[Mais informações sobre o Sistema de Diagnóstico](@/tour/16-diagnostics.pt.md#15-sistema-de-diagnostico)
 
 #### 12.5 Diretivas de Build
 

@@ -17,7 +17,7 @@ zc build app.zc --misra
 
 Le violazioni vengono segnalate come errori del compilatore in fase di compilazione:
 
-```text
+```
 error: MISRA Rule Zen 2.2: tuple with 3 or more fields shall be replaced
        with a named struct (use 'struct' instead of positional tuple)
   --> app.zc:5:1
