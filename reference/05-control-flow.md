@@ -3,7 +3,7 @@ title = "5. Control Flow"
 weight = 5
 +++
 
-# 5. Control Flow
+# 5. Control Flow {#5-control-flow}
 
 
 #### Conditionals

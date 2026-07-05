@@ -3,7 +3,7 @@ title = "4. 函数与 Lambda"
 weight = 4
 +++
 
-# 4. 函数与 Lambda
+# 4. 函数与 Lambda {#4-han-shu-yu-lambda}
 
 
 #### 函数

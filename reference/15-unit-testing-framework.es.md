@@ -3,7 +3,7 @@ title = "15. Marco de Pruebas Unitarias"
 weight = 15
 +++
 
-# 15. Marco de Pruebas Unitarias
+# 15. Marco de Pruebas Unitarias {#15-marco-de-pruebas-unitarias}
 
 
 Zen C incluye un marco de pruebas integrado que permite escribir pruebas unitarias directamente en los archivos fuente utilizando la palabra clave `test`.

@@ -3,7 +3,7 @@ title = "15. Framework de Testes Unitários"
 weight = 15
 +++
 
-# 15. Framework de Testes Unitários
+# 15. Framework de Testes Unitários {#15-framework-de-testes-unitarios}
 
 
 Zen C inclui um framework de testes integrado que permite que você escreva testes unitários diretamente em seus arquivos fonte usando a palavra-chave `test`.

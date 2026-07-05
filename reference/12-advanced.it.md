@@ -3,7 +3,7 @@ title = "12. Avanzate e Metaprogrammazione"
 weight = 12
 +++
 
-# 12. Avanzate e Metaprogrammazione
+# 12. Avanzate e Metaprogrammazione {#12-avanzate-e-metaprogrammazione}
 
 
 ### Avanzate e Metaprogrammazione

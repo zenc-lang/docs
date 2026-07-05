@@ -3,7 +3,7 @@ title = "9. 面向對象編程"
 weight = 9
 +++
 
-# 9. 面向對象編程
+# 9. 面向對象編程 {#9-mian-xiang-dui-xiang-bian-cheng}
 
 
 #### 方法

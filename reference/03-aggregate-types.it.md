@@ -3,7 +3,7 @@ title = "3. Tipi Aggregati"
 weight = 3
 +++
 
-# 3. Tipi Aggregati
+# 3. Tipi Aggregati {#3-tipi-aggregati}
 
 
 #### Array
@@ -68,7 +68,7 @@ struct Flags {
 ```
 
 {% alert(type="note") %}
-Gli struct usano le [Semantiche di Spostamento](@/tour/08-memory-management.it.md#semantiche-delle-risorse-move-by-default) di default. I campi di uno struct possono essere acceduti via `.` anche sui puntatori (Dereferenza-Automatica).
+Gli struct usano le [Semantiche di Spostamento](@/tour/08-memory-management.it.md#semantiche-delle-risorse-muovi-di-default) di default. I campi di uno struct possono essere acceduti via `.` anche sui puntatori (Dereferenza-Automatica).
 {% end %}
 
 #### Struct Opachi

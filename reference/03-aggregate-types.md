@@ -3,7 +3,7 @@ title = "3. Aggregate Types"
 weight = 3
 +++
 
-# 3. Aggregate Types
+# 3. Aggregate Types {#3-aggregate-types}
 
 
 #### Arrays

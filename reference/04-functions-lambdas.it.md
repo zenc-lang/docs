@@ -3,7 +3,7 @@ title = "4. Funzioni e Lambda"
 weight = 4
 +++
 
-# 4. Funzioni e Lambda
+# 4. Funzioni e Lambda {#4-funzioni-e-lambda}
 
 
 #### Funzioni

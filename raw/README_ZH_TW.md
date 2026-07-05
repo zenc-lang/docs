@@ -1536,7 +1536,7 @@ zc main.zc -Winterop
 ```
 
 啟用後，編譯器將為常見的 C 函數提供有用的建議：
-```text
+```
 warning: Undefined function 'abs'
   --> main.zc:5:13
    |

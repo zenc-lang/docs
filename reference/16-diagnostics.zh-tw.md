@@ -3,7 +3,7 @@ title = "16. 診斷系統"
 weight = 16
 +++
 
-# 16. 診斷系統
+# 16. 診斷系統 {#16-zhen-duan-xi-tong}
 
 
 Zen C 提供了一個分類診斷系統，可以對編譯器警告進行粒度控制。這有助於在保持高程式碼品質標準的同時，減少與外部 C 程式碼交互時的摩擦。
@@ -55,7 +55,7 @@ zc main.zc -Winterop
 ```
 
 啟用後，編譯器將為常見的 C 函數提供有用的建議：
-```text
+```
 warning: Undefined function 'abs'
   --> main.zc:5:13
    |

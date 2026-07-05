@@ -3,7 +3,7 @@ title = "1. 变量与常量"
 weight = 1
 +++
 
-# 1. 变量与常量
+# 1. 变量与常量 {#1-bian-liang-yu-chang-liang}
 
 
 Zen C 区分编译时常量和运行时变量。

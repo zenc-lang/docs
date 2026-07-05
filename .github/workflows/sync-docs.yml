@@ -26,10 +26,13 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install Python dependencies
+        run: pip install unidecode
+
       - name: Split Language Reference
         run: |
           cd docs-repo
-          python3 scripts/split_reference.py
+          python3 scripts/split_reference.py --force
 
       - name: Sync Files to Website Repo
         run: |

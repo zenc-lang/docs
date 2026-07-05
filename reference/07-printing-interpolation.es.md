@@ -3,7 +3,7 @@ title = "7. Impresión e Interpolación de Cadenas"
 weight = 7
 +++
 
-# 7. Impresión e Interpolación de Cadenas
+# 7. Impresión e Interpolación de Cadenas {#7-impresion-e-interpolacion-de-cadenas}
 
 
 Zen C proporciona opciones versátiles para imprimir en la consola, incluyendo palabras clave y abreviaturas concisas.

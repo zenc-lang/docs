@@ -3,7 +3,7 @@ title = "16. Sistema di Diagnostica"
 weight = 16
 +++
 
-# 16. Sistema di Diagnostica
+# 16. Sistema di Diagnostica {#16-sistema-di-diagnostica}
 
 
 Zen C presenta un sistema di diagnostica categorizzato che fornisce un controllo granulare sugli avvisi (warning) del compilatore. Ciò consente di mantenere elevati standard di qualità del codice riducendo al contempo l'attrito durante l'interazione con il codice C esterno.
@@ -55,7 +55,7 @@ zc main.zc -Winterop
 ```
 
 Quando abilitata, il compilatore fornirà suggerimenti utili per le comuni funzioni C:
-```text
+```
 warning: Undefined function 'abs'
   --> main.zc:5:13
    |

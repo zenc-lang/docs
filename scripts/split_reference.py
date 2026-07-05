@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import unicodedata
 
 SOURCE_DIR = "raw"
 TARGET_DIR = "reference"
@@ -76,42 +77,57 @@ DESCRIPTIVE_ANCHORS = {
     "move-semantics--copy-safety": ("08-memory-management", "resource-semantics-move-by-default"),
     "resource-semantics-move-by-default": ("08-memory-management", "resource-semantics-move-by-default"),
     "semantica-de-recursos-move-por-padrao": ("08-memory-management", "semantica-de-recursos-move-by-default"),
-    "semantiche-di-movimento--copia-sicura": ("08-memory-management", "semantiche-delle-risorse-move-by-default"),
-    "semantiche-delle-risorse": ("08-memory-management", "semantiche-delle-risorse-move-by-default"),
+    "semantiche-di-movimento--copia-sicura": ("08-memory-management", "semantiche-delle-risorse-muovi-di-default"),
+    "semantiche-delle-risorse": ("08-memory-management", "semantiche-delle-risorse-muovi-di-default"),
     "ressourcen-semantik-move-by-default": ("08-memory-management", "ressourcen-semantik-move-by-default"),
     "semantica-de-recursos-movimiento-por-defecto": ("08-memory-management", "semantica-de-recursos-movimiento-por-defecto"),
-    "семантика-ресурсов-move-по-умолчанию": ("08-memory-management", "semantika-resursov-move-po-umolchaniiu"),
-    "资源语义-默认移动": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
-    "資源語義-默認移動": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
+    "semantika-resursov-move-po-umolchaniiu": ("08-memory-management", "semantika-resursov-move-po-umolchaniiu"),
+    "zi-yuan-yu-yi-mo-ren-yi-dong": ("08-memory-management", "zi-yuan-yu-yi-mo-ren-yi-dong"),
+}
+
+RESOURCE_ANCHOR_OVERRIDES = {
+    "de": "ressourcen-semantik-move-by-default",
 }
 
 
+def slugify(text):
+    """Convert any text to a Zola-safe ASCII anchor slug."""
+    try:
+        from unidecode import unidecode as _unidecode
+        ascii_text = _unidecode(text)
+    except ImportError:
+        ascii_text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+
+    ascii_text = ascii_text.lower()
+    ascii_text = re.sub(r"[^\w\s-]", "", ascii_text)
+    ascii_text = re.sub(r"[-\s]+", "-", ascii_text)
+    return ascii_text.strip("-")
+
+
 def build_reverse_mapping():
-    """Build {target_filename: raw_section_number} from MAPPING."""
     rev = {}
     for raw_num, target in MAPPING.items():
         rev[target] = raw_num.rstrip(".")
     return rev
 
 
-RAW_SECTION_NUM = build_reverse_mapping()
-
-
 def rewrite_numbered_anchor(anchor):
     """Given a numbered anchor like '15-diagnostic-system', rewrite the numeric prefix
-    using MAPPING and WEIGHTS. Returns None if the anchor is not numbered."""
+    using MAPPING and WEIGHTS, and slugify the suffix for Zola compatibility.
+    Returns None if the anchor is not numbered."""
     m = re.match(r"^(\d+)-(.*)", anchor)
     if not m:
         return None
     raw_num = m.group(1)
-    suffix = m.group(2)
+    raw_suffix = m.group(2)
     target = MAPPING.get(raw_num + ".")
     if not target:
         return None
     weight = WEIGHTS.get(target)
     if weight is None:
         return None
-    return f"{weight}-{suffix}"
+    clean_suffix = slugify(raw_suffix)
+    return f"{weight}-{clean_suffix}"
 
 
 def convert_alerts(content):
@@ -133,9 +149,16 @@ def fix_links(content, lang):
         target_base = None
         new_anchor = None
 
+        normalized = slugify(anchor)
         desc = DESCRIPTIVE_ANCHORS.get(anchor)
+        if not desc and normalized != anchor:
+            desc = DESCRIPTIVE_ANCHORS.get(normalized)
+
         if desc:
             target_base, new_anchor = desc
+            override = RESOURCE_ANCHOR_OVERRIDES.get(lang)
+            if override and new_anchor == "resource-semantics-move-by-default":
+                new_anchor = override
         else:
             new_anchor = rewrite_numbered_anchor(anchor)
             if new_anchor is None:
@@ -159,7 +182,6 @@ def fix_links(content, lang):
 
 
 def make_title(raw_num, raw_title, target_filename):
-    """Replace the raw section number with the weight-based number."""
     weight = WEIGHTS.get(target_filename, 100)
     return f"{weight}. {raw_title}"
 
@@ -223,11 +245,13 @@ def process_file(filename, force=False):
         combined_body = fix_links(combined_body, lang)
 
         weight = WEIGHTS.get(target_filename, 100)
+        heading_anchor = slugify(main_title)
+        anchor_attr = f" {{#{heading_anchor}}}" if heading_anchor else ""
         final_content = (
             f"+++\ntitle = \"{main_title}\"\n"
             f"weight = {weight}\n"
             f"+++\n\n"
-            f"# {main_title}\n\n"
+            f"# {main_title}{anchor_attr}\n\n"
             f"{combined_body}"
         )
 

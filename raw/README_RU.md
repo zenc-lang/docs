@@ -1507,7 +1507,7 @@ zc main.zc -Winterop
 ```
 
 При включении компилятор будет давать полезные советы для общих функций C:
-```text
+```
 warning: Undefined function 'abs'
   --> main.zc:5:13
    |

@@ -3,7 +3,7 @@ title = "10. Genéricos"
 weight = 10
 +++
 
-# 10. Genéricos
+# 10. Genéricos {#10-genericos}
 
 
 Plantillas seguras para tipos para Structs y Funciones.

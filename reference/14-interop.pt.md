@@ -3,7 +3,7 @@ title = "14. Interoperabilidade com C"
 weight = 14
 +++
 
-# 14. Interoperabilidade com C
+# 14. Interoperabilidade com C {#14-interoperabilidade-com-c}
 
 
 Zen C oferece duas formas  de interagir com código C: **Trusted Imports** (Forma conveniente) e **Explicit FFI** (Forma segura/precisa).

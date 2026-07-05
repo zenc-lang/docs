@@ -3,7 +3,7 @@ title = "16. Diagnosesystem"
 weight = 16
 +++
 
-# 16. Diagnosesystem
+# 16. Diagnosesystem {#16-diagnosesystem}
 
 
 Zen C bietet ein kategorisiertes Diagnosesystem, das eine granulare Kontrolle über Compiler-Warnungen ermöglicht. Dies hilft dabei, hohe Standards für die Codequalität einzuhalten und gleichzeitig die Reibung bei der Interaktion mit externem C-Code zu verringern.
@@ -55,7 +55,7 @@ zc main.zc -Winterop
 ```
 
 Wenn aktiviert, liefert der Compiler hilfreiche Vorschläge für gängige C-Funktionen:
-```text
+```
 warning: Undefined function 'abs'
   --> main.zc:5:13
    |

@@ -3,7 +3,7 @@ title = "6. Operadores"
 weight = 6
 +++
 
-# 6. Operadores
+# 6. Operadores {#6-operadores}
 
 
 Zen C suporta sobrecarga de operadores para structs definidos pelo usuário através da implementação de nomes específicos de métodos.

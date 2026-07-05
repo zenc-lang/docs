@@ -3,7 +3,7 @@ title = "2. Primitive Types"
 weight = 2
 +++
 
-# 2. Primitive Types
+# 2. Primitive Types {#2-primitive-types}
 
 
 | Type | C Equivalent | Description |

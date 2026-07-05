@@ -3,7 +3,7 @@ title = "12. 高级与元编程"
 weight = 12
 +++
 
-# 12. 高级与元编程
+# 12. 高级与元编程 {#12-gao-ji-yu-yuan-bian-cheng}
 
 
 ### 高级与元编程
@@ -233,7 +233,7 @@ fn add_five(x: int) -> int {
 
 Zen C 提供了一个分类诊断系统，可以通过 `-W` 和 `-Wno-` 标记进行控制。这对于管理与安全、未使用代码和 C 互操作性相关的警告非常有用。
 
-[更多关于诊断系统的信息](@/tour/16-diagnostics.zh-cn.md#16-诊断系统)
+[更多关于诊断系统的信息](@/tour/16-diagnostics.zh-cn.md#16-zhen-duan-xi-tong)
 
 #### 12.5 构建指令
 

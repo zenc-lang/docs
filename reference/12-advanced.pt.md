@@ -3,7 +3,7 @@ title = "12. Avancado e Metaprogramacao"
 weight = 12
 +++
 
-# 12. Avancado e Metaprogramacao
+# 12. Avancado e Metaprogramacao {#12-avancado-e-metaprogramacao}
 
 
 ### Avançado e Metaprogramação
@@ -224,7 +224,7 @@ fn add_five(x: int) -> int {
 
 Zen C fornece um sistema de diagnóstico categorizado que pode ser controlado através das flags `-W` e `-Wno-`. Isso é útil para gerenciar avisos relacionados à segurança, código não utilizado e interoperabilidade C.
 
-[Mais informações sobre o Sistema de Diagnóstico](@/tour/16-diagnostics.pt.md#16-sistema-de-diagnóstico)
+[Mais informações sobre o Sistema de Diagnóstico](@/tour/16-diagnostics.pt.md#16-sistema-de-diagnostico)
 
 #### 12.5 Diretivas de Build
 

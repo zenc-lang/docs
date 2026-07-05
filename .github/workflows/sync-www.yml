@@ -22,8 +22,11 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install Python dependencies
+        run: pip install unidecode
+
       - name: Split Reference
-        run: python3 scripts/split_reference.py
+        run: python3 scripts/split_reference.py --force
 
       - name: Checkout www
         uses: actions/checkout@v4

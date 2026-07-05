@@ -3,7 +3,7 @@ title = "10. Genéricos"
 weight = 10
 +++
 
-# 10. Genéricos
+# 10. Genéricos {#10-genericos}
 
 
 Templates type-safe para Structs e Funções.

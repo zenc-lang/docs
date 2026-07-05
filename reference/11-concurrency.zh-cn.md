@@ -3,7 +3,7 @@ title = "11. 并发 (Async/Await)"
 weight = 11
 +++
 
-# 11. 并发 (Async/Await)
+# 11. 并发 (Async/Await) {#11-bing-fa-asyncawait}
 
 
 基于 pthreads 构建。

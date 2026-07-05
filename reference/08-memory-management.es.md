@@ -3,7 +3,7 @@ title = "8. Gestión de Memoria"
 weight = 8
 +++
 
-# 8. Gestión de Memoria
+# 8. Gestión de Memoria {#8-gestion-de-memoria}
 
 
 Zen C permite la gestión manual de memoria con ayudas ergonómicas.

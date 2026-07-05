@@ -3,7 +3,7 @@ title = "11. Concurrencia (Async/Await)"
 weight = 11
 +++
 
-# 11. Concurrencia (Async/Await)
+# 11. Concurrencia (Async/Await) {#11-concurrencia-asyncawait}
 
 
 Construido sobre pthreads.
