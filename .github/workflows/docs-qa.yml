@@ -39,3 +39,26 @@ jobs:
       - name: Check Translation Gaps
         run: |
           python3 docs/scripts/check_translations.py docs/reference docs/std
+
+  check-comparisons:
+    name: Verify C Comparisons
+    runs-on: ubuntu-latest
+    if: ${{ hashFiles('compare/**') != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Zen C Compiler
+        run: |
+          git clone --depth 1 https://github.com/zenc-lang/zenc.git /tmp/zenc-build
+          cd /tmp/zenc-build
+          sudo apt-get update && sudo apt-get install -y libtcc-dev
+          make -j$(nproc)
+          sudo make install
+          cd -
+
+      - name: Install Python dependencies
+        run: pip install unidecode
+
+      - name: Run Comparison Checker
+        run: |
+          python3 docs/compare/scripts/check_comparisons.py
