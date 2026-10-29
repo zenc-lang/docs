@@ -26,9 +26,9 @@ Alternatively, you can build the `.vsix` from source.
 
 ### Vim / Neovim
 
-Support for Vim and Neovim is provided via the `Zen-C.vim` plugin, which includes syntax highlighting and LSP configuration helpers.
+Support for Vim and Neovim is provided via the `zenc.vim` plugin, which includes syntax highlighting and LSP configuration helpers.
 
-- **Repository**: [davidscholberg/Zen-C.vim](https://github.com/davidscholberg/Zen-C.vim)
+- **Repository**: [zenc-lang/zenc.vim](https://github.com/zenc-lang/zenc.vim)
 
 #### Neovim (`lazy.nvim` example)
 
